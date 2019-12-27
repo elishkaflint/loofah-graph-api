@@ -1,0 +1,7 @@
+query {
+    allSkills {
+        id
+        title
+        description
+    }
+}

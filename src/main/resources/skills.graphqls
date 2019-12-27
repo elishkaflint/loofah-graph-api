@@ -4,6 +4,7 @@ schema {
 
 type Query {
   allSkills: [Skill!]!
+  skill(id: String): Skill
 }
 
 type Skill {

@@ -1,5 +1,7 @@
 package com.loofah.graph.api.services;
 
+import com.loofah.graph.api.queries.AllSkillsQuery;
+import com.loofah.graph.api.queries.SkillQuery;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
@@ -23,11 +25,13 @@ public class SkillsService {
 
     private GraphQL graphQL;
 
-    private AllSkillsDataFetcher allSkillsDataFetcher;
+    private AllSkillsQuery allSkillsQuery;
+    private SkillQuery skillQuery;
 
     @Autowired
-    public SkillsService(AllSkillsDataFetcher allSkillsDataFetcher){
-        this.allSkillsDataFetcher = allSkillsDataFetcher;
+    public SkillsService(AllSkillsQuery allSkillsQuery, SkillQuery skillQuery){
+        this.allSkillsQuery = allSkillsQuery;
+        this.skillQuery = skillQuery;
     }
 
     @PostConstruct
@@ -42,7 +46,8 @@ public class SkillsService {
     private RuntimeWiring buildRuntimeWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring -> typeWiring
-                .dataFetcher("allSkills", allSkillsDataFetcher))
+                .dataFetcher("allSkills", allSkillsQuery)
+                .dataFetcher("skill", skillQuery))
                 .build();
     }
 
