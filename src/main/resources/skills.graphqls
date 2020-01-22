@@ -1,0 +1,14 @@
+schema {
+  query: Query
+}
+
+type Query {
+  allSkills: [Skill!]!
+  skill(id: String): Skill
+}
+
+type Skill {
+  id: ID!
+  title: String!
+  description: String!
+}
