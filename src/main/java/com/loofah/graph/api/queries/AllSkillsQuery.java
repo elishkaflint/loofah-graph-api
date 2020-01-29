@@ -21,7 +21,7 @@ public class AllSkillsQuery implements DataFetcher<List<Skill>> {
 
     @Override
     public List<Skill> get(DataFetchingEnvironment dataFetchingEnvironment) {
-        return skillsRepository.getSkills();
+        return skillsRepository.findAll();
     }
 
 }

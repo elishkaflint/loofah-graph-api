@@ -20,7 +20,8 @@ public class SkillQuery implements DataFetcher<Skill> {
     @Override
     public Skill get(DataFetchingEnvironment dataFetchingEnvironment) {
         String id = dataFetchingEnvironment.getArgument("id");
-        return skillsRepository.getSkill(id);
+        return skillsRepository.findById(id).get();
+        // TODO: handle unhappy  path where optional is empty
     }
 
 }
