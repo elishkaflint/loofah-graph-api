@@ -1,5 +1,6 @@
 package com.loofah.graph.api.controllers;
 
+import com.loofah.graph.api.models.SkillsRequest;
 import com.loofah.graph.api.services.SkillsService;
 import graphql.ExecutionResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RequestMapping("/skills")
 @RestController
 public class SkillsController {
@@ -24,8 +25,9 @@ public class SkillsController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> getSkills(@RequestBody String query) {
-        ExecutionResult executionResult = graphQLService.execute(query);
+    public ResponseEntity<Object> getSkills(@RequestBody SkillsRequest skillsRequest) {
+        System.out.println(skillsRequest);
+        ExecutionResult executionResult = graphQLService.execute(skillsRequest.getQuery());
         return new ResponseEntity<>(executionResult, HttpStatus.OK);
     }
 
