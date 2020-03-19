@@ -16,18 +16,24 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<spring.boot.version>2.2.2.RELEASE</spring.boot.version>
 	</properties>
 
 	<dependencies>
+
+		<!--	Application Dependencies	-->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${spring.boot.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.graphql-java</groupId>
 			<artifactId>graphql-spring-boot-starter</artifactId>
 			<version>5.0.2</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.graphql-java</groupId>
 			<artifactId>graphql-java-tools</artifactId>
@@ -35,7 +41,19 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+
+		<!--	Test Dependencies	-->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.flapdoodle.embed</groupId>
+			<artifactId>de.flapdoodle.embed.mongo</artifactId>
 			<scope>test</scope>
 		</dependency>
     </dependencies>

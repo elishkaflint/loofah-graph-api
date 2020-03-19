@@ -2,6 +2,7 @@ package com.loofah.graph.api.integrationTests;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.loofah.graph.api.GraphAPIApplication;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +30,10 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {
+        GraphAPIApplication.class,
+        EmbeddedMongoConfig.class
+})
 public class IntegrationTest {
 
     @LocalServerPort
@@ -55,7 +59,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void returns_all_skills() throws IOException {
+    public void returns_all_seeded_skills() throws IOException {
 
         String query = getPayload(allSkillsQuery);
 
@@ -71,7 +75,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void returns_correct_skills_when_id_is_valid() throws IOException {
+    public void returns_correct_skill_when_id_is_valid() throws IOException {
 
         String query = getPayload(skillQueryValidID);
 
@@ -83,7 +87,7 @@ public class IntegrationTest {
         LinkedHashMap selectedSkill = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("testDescription1", selectedSkill.get("description"));
+        assertEquals("description1", selectedSkill.get("description"));
     }
 
     private String getPayload(Resource resource) throws IOException {
