@@ -12,7 +12,8 @@
 	<artifactId>graph-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>graph-api</name>
-	<description>Demo project for Spring Boot</description>
+	<description>A graph API for loofah</description>
+	<packaging>jar</packaging>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -59,6 +60,13 @@
     </dependencies>
 
 	<build>
+		<finalName>loofah-graph-api</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

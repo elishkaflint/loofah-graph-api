@@ -15,8 +15,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 @Component
 public class SkillsService {
@@ -37,8 +38,8 @@ public class SkillsService {
 
     @PostConstruct
     private void loadSchema() throws IOException {
-        File schemaFile = resource.getFile();
-        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(schemaFile);
+        InputStream schemaFile = resource.getInputStream();
+        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(new InputStreamReader(schemaFile));
         RuntimeWiring wiring = buildRuntimeWiring();
         GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeRegistry, wiring);
         graphQL = GraphQL.newGraphQL(schema).build();

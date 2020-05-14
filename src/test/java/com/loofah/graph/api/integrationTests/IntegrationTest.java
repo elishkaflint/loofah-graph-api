@@ -3,6 +3,7 @@ package com.loofah.graph.api.integrationTests;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loofah.graph.api.GraphAPIApplication;
+import com.loofah.graph.api.models.SkillRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,16 +55,16 @@ public class IntegrationTest {
     @Before
     public void setUp() {
         headers = new HttpHeaders();
-        headers.setContentType(MediaType.TEXT_PLAIN);
+        headers.setContentType(MediaType.APPLICATION_JSON);
         objectMapper = new ObjectMapper();
     }
 
     @Test
     public void returns_all_seeded_skills() throws IOException {
 
-        String query = getPayload(allSkillsQuery);
+        SkillRequest request = getRequest(allSkillsQuery);
 
-        final HttpEntity<Object> requestEntity = new HttpEntity<>(query, headers);
+        final HttpEntity<Object> requestEntity = new HttpEntity<>(request, headers);
 
         ResponseEntity<String> response = testRestTemplate.exchange(getURI(), HttpMethod.POST, requestEntity, String.class);
 
@@ -77,9 +78,9 @@ public class IntegrationTest {
     @Test
     public void returns_correct_skill_when_id_is_valid() throws IOException {
 
-        String query = getPayload(skillQueryValidID);
+        SkillRequest request = getRequest(skillQueryValidID);
 
-        final HttpEntity<Object> requestEntity = new HttpEntity<>(query, headers);
+        final HttpEntity<Object> requestEntity = new HttpEntity<>(request, headers);
 
         ResponseEntity<String> response = testRestTemplate.exchange(getURI(), HttpMethod.POST, requestEntity, String.class);
 
@@ -90,8 +91,9 @@ public class IntegrationTest {
         assertEquals("description1", selectedSkill.get("description"));
     }
 
-    private String getPayload(Resource resource) throws IOException {
-        return StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+    private SkillRequest getRequest(Resource resource) throws IOException {
+        String query = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+        return new SkillRequest(query);
     }
 
     private String getURI() {
