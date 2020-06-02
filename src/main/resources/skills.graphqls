@@ -5,10 +5,17 @@ schema {
 type Query {
   allSkills: [Skill!]!
   skill(id: String): Skill
+  allCategories: [Category!]!
 }
 
 type Skill {
   id: ID!
   title: String!
   description: String!
+}
+
+type Category {
+  id: ID!
+  title: String!
+  skills: [Skill!]!
 }

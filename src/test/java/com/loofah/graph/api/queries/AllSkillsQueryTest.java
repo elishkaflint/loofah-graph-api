@@ -1,7 +1,7 @@
 package com.loofah.graph.api.queries;
 
-import com.loofah.graph.api.models.Skill;
-import com.loofah.graph.api.repositories.SkillsRepository;
+import com.loofah.graph.api.models.database.Skill;
+import com.loofah.graph.api.repositories.SkillRepository;
 import graphql.schema.DataFetchingEnvironment;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 public class AllSkillsQueryTest {
 
     @Mock
-    private SkillsRepository skillsRepository;
+    private SkillRepository skillRepository;
 
     @Mock
     private DataFetchingEnvironment dataFetchingEnvironment;
@@ -29,7 +29,7 @@ public class AllSkillsQueryTest {
 
     @Before
     public void setUp() throws Exception {
-        allSkillsQuery = new AllSkillsQuery(skillsRepository);
+        allSkillsQuery = new AllSkillsQuery(skillRepository);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class AllSkillsQueryTest {
         List<Skill> expectedSkills = Arrays.asList(
                 getDefaultSkillBuilder().build()
         );
-        when(skillsRepository.findAll()).thenReturn(expectedSkills);
+        when(skillRepository.findAll()).thenReturn(expectedSkills);
 
         List<Skill> actualSkills = allSkillsQuery.get(dataFetchingEnvironment);
         assertEquals(expectedSkills, actualSkills);

@@ -3,7 +3,7 @@ package com.loofah.graph.api.integrationTests;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loofah.graph.api.GraphAPIApplication;
-import com.loofah.graph.api.models.SkillRequest;
+import com.loofah.graph.api.models.Request;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +28,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.ALL_CATEGORIES;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.ALL_SKILLS;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.DATA;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILL;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -49,6 +53,9 @@ public class IntegrationTest {
     @Value("classpath:testQueries/skillQueryValidID.txt")
     private Resource skillQueryValidID;
 
+    @Value("classpath:testQueries/allCategoriesQuery.txt")
+    private Resource allCategoriesQuery;
+
     private HttpHeaders headers;
     private ObjectMapper objectMapper;
 
@@ -62,13 +69,13 @@ public class IntegrationTest {
     @Test
     public void returns_all_seeded_skills() throws IOException {
 
-        SkillRequest request = getRequest(allSkillsQuery);
+        Request request = getRequest(allSkillsQuery);
 
         final HttpEntity<Object> requestEntity = new HttpEntity<>(request, headers);
 
         ResponseEntity<String> response = testRestTemplate.exchange(getURI(), HttpMethod.POST, requestEntity, String.class);
 
-        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get("data").get("allSkills");
+        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(ALL_SKILLS);
         List<LinkedHashMap> allSkills = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -76,27 +83,43 @@ public class IntegrationTest {
     }
 
     @Test
-    public void returns_correct_skill_when_id_is_valid() throws IOException {
+    public void returns_all_seeded_categories() throws IOException {
 
-        SkillRequest request = getRequest(skillQueryValidID);
+        Request request = getRequest(allCategoriesQuery);
 
         final HttpEntity<Object> requestEntity = new HttpEntity<>(request, headers);
 
         ResponseEntity<String> response = testRestTemplate.exchange(getURI(), HttpMethod.POST, requestEntity, String.class);
 
-        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get("data").get("skill");
+        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(ALL_CATEGORIES);
+        List<LinkedHashMap> allCategoriesResponse = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(2, allCategoriesResponse.size());
+    }
+
+    @Test
+    public void returns_correct_skill_when_id_is_valid() throws IOException {
+
+        Request request = getRequest(skillQueryValidID);
+
+        final HttpEntity<Object> requestEntity = new HttpEntity<>(request, headers);
+
+        ResponseEntity<String> response = testRestTemplate.exchange(getURI(), HttpMethod.POST, requestEntity, String.class);
+
+        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILL);
         LinkedHashMap selectedSkill = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("description1", selectedSkill.get("description"));
     }
 
-    private SkillRequest getRequest(Resource resource) throws IOException {
+    private Request getRequest(Resource resource) throws IOException {
         String query = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
-        return new SkillRequest(query);
+        return new Request(query);
     }
 
     private String getURI() {
-        return "http://localhost:" + port + "/skills";
+        return "http://localhost:" + port;
     }
 }

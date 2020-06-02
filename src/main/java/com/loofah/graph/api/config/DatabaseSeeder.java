@@ -1,7 +1,9 @@
 package com.loofah.graph.api.config;
 
-import com.loofah.graph.api.models.Skill;
-import com.loofah.graph.api.repositories.SkillsRepository;
+import com.loofah.graph.api.models.database.Category;
+import com.loofah.graph.api.models.database.Skill;
+import com.loofah.graph.api.repositories.CategoryRepository;
+import com.loofah.graph.api.repositories.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -9,18 +11,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class DatabaseSeeder implements CommandLineRunner {
 
-    private SkillsRepository skillsRepository;
+    private SkillRepository skillRepository;
+    private CategoryRepository categoryRepository;
 
     @Autowired
-    public DatabaseSeeder(SkillsRepository skillsRepository) {
-        this.skillsRepository = skillsRepository;
+    public DatabaseSeeder(SkillRepository skillRepository, CategoryRepository categoryRepository) {
+        this.skillRepository = skillRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
     public void run(String... args) {
-        skillsRepository.save(Skill.builder().withId("1").withTitle("title1").withDescription( "description1").build());
-        skillsRepository.save(Skill.builder().withId("2").withTitle("title2").withDescription( "description2").build());
-        skillsRepository.save(Skill.builder().withId("3").withTitle("title3").withDescription( "description3").build());
+        skillRepository.save(Skill.builder().withId("1").withTitle("title1").withDescription( "description1").withCategoryId(1).build());
+        skillRepository.save(Skill.builder().withId("2").withTitle("title2").withDescription( "description2").withCategoryId(1).build());
+        skillRepository.save(Skill.builder().withId("3").withTitle("title3").withDescription( "description3").withCategoryId(2).build());
+
+        categoryRepository.save(Category.builder().withId(1).withTitle("CategoryTitle1").build());
+        categoryRepository.save(Category.builder().withId(2).withTitle("CategoryTitle2").build());
+
     }
 
 }
