@@ -1,7 +1,7 @@
 package com.loofah.graph.api.queries;
 
-import com.loofah.graph.api.models.Skill;
-import com.loofah.graph.api.repositories.SkillsRepository;
+import com.loofah.graph.api.models.database.Skill;
+import com.loofah.graph.api.repositories.SkillRepository;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +12,16 @@ import java.util.List;
 @Component
 public class AllSkillsQuery implements DataFetcher<List<Skill>> {
 
-    private SkillsRepository skillsRepository;
+    private SkillRepository skillRepository;
 
     @Autowired
-    public AllSkillsQuery(SkillsRepository skillsRepository) {
-        this.skillsRepository = skillsRepository;
+    public AllSkillsQuery(SkillRepository skillRepository) {
+        this.skillRepository = skillRepository;
     }
 
     @Override
     public List<Skill> get(DataFetchingEnvironment dataFetchingEnvironment) {
-        return skillsRepository.findAll();
+        return skillRepository.findAll();
     }
 
 }

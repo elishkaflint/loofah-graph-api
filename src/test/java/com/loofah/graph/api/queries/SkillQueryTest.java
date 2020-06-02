@@ -1,7 +1,7 @@
 package com.loofah.graph.api.queries;
 
-import com.loofah.graph.api.models.Skill;
-import com.loofah.graph.api.repositories.SkillsRepository;
+import com.loofah.graph.api.models.database.Skill;
+import com.loofah.graph.api.repositories.SkillRepository;
 import graphql.schema.DataFetchingEnvironment;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 
-import static com.loofah.graph.api.helpers.TestHelpers.ID;
+import static com.loofah.graph.api.helpers.TestHelpers.SKILL_ID;
 import static com.loofah.graph.api.helpers.TestHelpers.getDefaultSkillBuilder;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 public class SkillQueryTest {
 
     @Mock
-    private SkillsRepository skillsRepository;
+    private SkillRepository skillRepository;
 
     @Mock
     private DataFetchingEnvironment dataFetchingEnvironment;
@@ -29,15 +29,15 @@ public class SkillQueryTest {
 
     @Before
     public void setUp() throws Exception {
-        skillQuery = new SkillQuery(skillsRepository);
+        skillQuery = new SkillQuery(skillRepository);
     }
 
     @Test
     public void get_findSkillFromRepositoryWithIdFromDataFetchingEnvironment() {
         Skill expectedSkill = getDefaultSkillBuilder().build();
 
-        when(dataFetchingEnvironment.getArgument("id")).thenReturn(ID);
-        when(skillsRepository.findById(ID)).thenReturn(Optional.of(expectedSkill));
+        when(dataFetchingEnvironment.getArgument("id")).thenReturn(SKILL_ID);
+        when(skillRepository.findById(SKILL_ID)).thenReturn(Optional.of(expectedSkill));
 
         Skill actualSkill = skillQuery.get(dataFetchingEnvironment);
         assertEquals(expectedSkill, actualSkill);

@@ -1,4 +1,4 @@
-package com.loofah.graph.api.models;
+package com.loofah.graph.api.models.database;
 
 import org.springframework.data.annotation.Id;
 
@@ -11,11 +11,13 @@ public class Skill {
 
     private String description;
 
+    private int categoryId;
 
-    public Skill(String id, String title, String description) {
+    public Skill(String id, String title, String description, int categoryId) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.categoryId = categoryId;
     }
 
     public String getId() {
@@ -46,11 +48,20 @@ public class Skill {
         return new SkillBuilder();
     }
 
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
     public static class SkillBuilder {
 
         private String id;
         private String title;
         private String description;
+        private int categoryId;
 
 
         public SkillBuilder withId(String id) {
@@ -68,8 +79,13 @@ public class Skill {
             return this;
         }
 
+        public SkillBuilder withCategoryId(int categoryId) {
+            this.categoryId = categoryId;
+            return this;
+        }
+
         public Skill build() {
-            return new Skill(this.id, this.title, this.description);
+            return new Skill(this.id, this.title, this.description, this.categoryId);
         }
 
     }

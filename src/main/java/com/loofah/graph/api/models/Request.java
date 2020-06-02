@@ -1,13 +1,13 @@
 package com.loofah.graph.api.models;
 
-public class SkillRequest {
+public class Request {
 
     private String query;
 
-    public SkillRequest() {
+    public Request() {
     }
 
-    public SkillRequest(String query) {
+    public Request(String query) {
         this.query = query;
     }
 

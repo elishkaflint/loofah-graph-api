@@ -1,0 +1,11 @@
+query {
+    allCategories {
+        id
+        title
+        skills {
+            id
+            title
+            description
+        }
+    }
+}
