@@ -28,10 +28,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.ALL_CATEGORIES;
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.ALL_SKILLS;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.CATEGORIES;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.CATEGORY;
 import static com.loofah.graph.api.helpers.IntegrationTestConstants.DATA;
 import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILL;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILLS;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILLS_BY_CATEGORY;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -47,14 +49,20 @@ public class IntegrationTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-    @Value("classpath:testQueries/allSkillsQuery.txt")
-    private Resource allSkillsQuery;
+    @Value("classpath:testQueries/skillQuery.txt")
+    private Resource skillQuery;
 
-    @Value("classpath:testQueries/skillQueryValidID.txt")
-    private Resource skillQueryValidID;
+    @Value("classpath:testQueries/skillsQuery.txt")
+    private Resource skillsQuery;
 
-    @Value("classpath:testQueries/allCategoriesQuery.txt")
-    private Resource allCategoriesQuery;
+    @Value("classpath:testQueries/CategoryQuery.txt")
+    private Resource categoryQuery;
+
+    @Value("classpath:testQueries/categoriesQuery.txt")
+    private Resource categoriesQuery;
+
+    @Value("classpath:testQueries/skillsByCategoryQuery.txt")
+    private Resource skillsByCategoryQuery;
 
     private HttpHeaders headers;
     private ObjectMapper objectMapper;
@@ -67,15 +75,23 @@ public class IntegrationTest {
     }
 
     @Test
+    public void returns_correct_skill_when_id_is_valid() throws IOException {
+
+        ResponseEntity<String> response = callAPI(skillQuery);
+
+        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILL);
+        LinkedHashMap selectedSkill = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("description1", selectedSkill.get("description"));
+    }
+
+    @Test
     public void returns_all_seeded_skills() throws IOException {
 
-        Request request = getRequest(allSkillsQuery);
+        ResponseEntity<String> response = callAPI(skillsQuery);
 
-        final HttpEntity<Object> requestEntity = new HttpEntity<>(request, headers);
-
-        ResponseEntity<String> response = testRestTemplate.exchange(getURI(), HttpMethod.POST, requestEntity, String.class);
-
-        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(ALL_SKILLS);
+        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
         List<LinkedHashMap> allSkills = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -83,15 +99,23 @@ public class IntegrationTest {
     }
 
     @Test
+    public void returns_correct_category_when_id_is_valid() throws IOException {
+
+        ResponseEntity<String> response = callAPI(categoryQuery);
+
+        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(CATEGORY);
+        LinkedHashMap selectedSkill = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("categoryDescription1", selectedSkill.get("description"));
+    }
+
+    @Test
     public void returns_all_seeded_categories() throws IOException {
 
-        Request request = getRequest(allCategoriesQuery);
+        ResponseEntity<String> response = callAPI(categoriesQuery);
 
-        final HttpEntity<Object> requestEntity = new HttpEntity<>(request, headers);
-
-        ResponseEntity<String> response = testRestTemplate.exchange(getURI(), HttpMethod.POST, requestEntity, String.class);
-
-        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(ALL_CATEGORIES);
+        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(CATEGORIES);
         List<LinkedHashMap> allCategoriesResponse = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -99,19 +123,23 @@ public class IntegrationTest {
     }
 
     @Test
-    public void returns_correct_skill_when_id_is_valid() throws IOException {
+    public void returns_correct_skills_for_category_id() throws IOException {
 
-        Request request = getRequest(skillQueryValidID);
+        ResponseEntity<String> response = callAPI(skillsByCategoryQuery);
 
-        final HttpEntity<Object> requestEntity = new HttpEntity<>(request, headers);
-
-        ResponseEntity<String> response = testRestTemplate.exchange(getURI(), HttpMethod.POST, requestEntity, String.class);
-
-        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILL);
-        LinkedHashMap selectedSkill = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
+        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS_BY_CATEGORY);
+        List<LinkedHashMap> selectedSkillsForCategory = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("description1", selectedSkill.get("description"));
+        assertEquals(2, selectedSkillsForCategory.size());
+        assertEquals("1", selectedSkillsForCategory.get(0).get("categoryId"));
+        assertEquals("1", selectedSkillsForCategory.get(1).get("categoryId"));
+    }
+
+    private ResponseEntity<String> callAPI(Resource query) throws IOException {
+        Request request = getRequest(query);
+        final HttpEntity<Object> requestEntity = new HttpEntity<>(request, headers);
+        return testRestTemplate.exchange(getURI(), HttpMethod.POST, requestEntity, String.class);
     }
 
     private Request getRequest(Resource resource) throws IOException {

@@ -6,30 +6,21 @@ A Graph QL API which returns a list of skills
 
 ## Usage
 
-**Endpoint**: `localhost:8080/skills`
+**Endpoint**: `localhost:8080`
 
 **Method**: `POST`
 
 **Example request body:**
 
-Get a list of all skills
+Get a list of skills
 ```
 {
-    allSkills {
+    skills {
         id
         title
         description
-    }
-}
-```
-
-Get a skill by id
-```
-{
-    skill(id:"1") {
-        id
-        title
-        description
+        examples
+        categoryId
     }
 }
 ```
@@ -38,30 +29,41 @@ Get a skill by id
 
 ```
 {
-   "data" : {
-      "allSkills" : [
-         {
-            "title" : "title1",
-            "id" : "1",
-            "description" : "description1"
-         },
-         {
-            "description" : "description2",
-            "id" : "2",
-            "title" : "title2"
-         },
-         {
-            "title" : "title3",
-            "id" : "3",
-            "description" : "description3"
-         }
-      ]
-   },
-   "dataPresent" : true,
-   "extensions" : null,
-   "errors" : []
+    "data": {
+        "skills": [
+            {
+                "id": "1",
+                "title": "title1",
+                "description": "description1",
+                "examples": null,
+                "categoryId": "1"
+            },
+            {
+                "id": "2",
+                "title": "title2",
+                "description": "description2",
+                "examples": null,
+                "categoryId": "1"
+            },
+            {
+                "id": "3",
+                "title": "title3",
+                "description": "description3",
+                "examples": null,
+                "categoryId": "2"
+            }
+        ]
+    },
+    "errors": [],
+    "dataPresent": true,
+    "extensions": null
 }
 ```
+
+**Other examples:**
+
+Please refer to the queries in test/resources/testQueries to see examples of 
+all the queries supported by the API
 
 **Error responses:**
 
@@ -73,9 +75,7 @@ Custom error handling to follow.
 
 ## Run
 
-Run using Intellij. 
-
-Dockerisation to follow.
+Run using the ./runLoofah.sh script in loofah-tooling.
 
 ## Contributors
 - Harriet Barsham

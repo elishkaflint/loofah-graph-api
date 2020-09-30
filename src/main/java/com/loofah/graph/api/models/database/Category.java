@@ -5,19 +5,21 @@ import org.springframework.data.annotation.Id;
 public class Category {
 
     @Id
-    private int id;
+    private String id;
     private String title;
+    private String description;
 
-    public Category(int id, String title) {
+    public Category(String id, String title, String description) {
         this.id = id;
         this.title = title;
+        this.description = description;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -29,16 +31,25 @@ public class Category {
         this.title = title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public static CategoryBuilder builder() {
         return new CategoryBuilder();
     }
 
     public static class CategoryBuilder {
 
-        private int id;
+        private String id;
         private String title;
+        private String description;
 
-        public CategoryBuilder withId(int id) {
+        public CategoryBuilder withId(String id) {
             this.id = id;
             return this;
         }
@@ -48,8 +59,13 @@ public class Category {
             return this;
         }
 
+        public CategoryBuilder withDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
         public Category build() {
-            return new Category(this.id, this.title);
+            return new Category(this.id, this.title, this.description);
         }
 
     }

@@ -1,0 +1,6 @@
+query {
+	skillsByCategory(categoryId: "1") {
+	    categoryId
+		description
+	}
+}
