@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+
 @Component
 public class DatabaseSeeder implements CommandLineRunner {
 
@@ -22,13 +24,13 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        skillRepository.save(Skill.builder().withId("1").withTitle("title1").withDescription( "description1").withCategoryId(1).build());
-        skillRepository.save(Skill.builder().withId("2").withTitle("title2").withDescription( "description2").withCategoryId(1).build());
-        skillRepository.save(Skill.builder().withId("3").withTitle("title3").withDescription( "description3").withCategoryId(2).build());
 
-        categoryRepository.save(Category.builder().withId(1).withTitle("CategoryTitle1").build());
-        categoryRepository.save(Category.builder().withId(2).withTitle("CategoryTitle2").build());
+        skillRepository.save(Skill.builder().withId("1").withTitle("title1").withDescription( "description1").withCategoryId("1").withExamples(Collections.EMPTY_LIST).build());
+        skillRepository.save(Skill.builder().withId("2").withTitle("title2").withDescription( "description2").withCategoryId("1").withExamples(Collections.EMPTY_LIST).build());
+        skillRepository.save(Skill.builder().withId("3").withTitle("title3").withDescription( "description3").withCategoryId("2").withExamples(Collections.EMPTY_LIST).build());
 
+        categoryRepository.save(Category.builder().withId("1").withTitle("categoryTitle1").withDescription("categoryDescription1").build());
+        categoryRepository.save(Category.builder().withId("2").withTitle("categoryTitle2").withDescription("categoryDescription1").build());
     }
 
 }

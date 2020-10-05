@@ -1,8 +1,10 @@
 package com.loofah.graph.api.services;
 
-import com.loofah.graph.api.queries.AllCategoriesQuery;
-import com.loofah.graph.api.queries.AllSkillsQuery;
+import com.loofah.graph.api.queries.CategoriesQuery;
+import com.loofah.graph.api.queries.CategoryQuery;
 import com.loofah.graph.api.queries.SkillQuery;
+import com.loofah.graph.api.queries.SkillsByCategoryQuery;
+import com.loofah.graph.api.queries.SkillsQuery;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import graphql.schema.DataFetcher;
@@ -31,15 +33,23 @@ public class GraphQLProvider {
 
     private GraphQL graphQL;
 
-    private AllSkillsQuery allSkillsQuery;
+    private SkillsQuery skillsQuery;
     private SkillQuery skillQuery;
-    private AllCategoriesQuery allCategoriesQuery;
+    private CategoryQuery categoryQuery;
+    private CategoriesQuery categoriesQuery;
+    private SkillsByCategoryQuery skillsByCategoryQuery;
 
     @Autowired
-    public GraphQLProvider(AllSkillsQuery allSkillsQuery, SkillQuery skillQuery, AllCategoriesQuery allCategoriesQuery){
-        this.allSkillsQuery = allSkillsQuery;
+    public GraphQLProvider(SkillsQuery skillsQuery,
+                           SkillQuery skillQuery,
+                           CategoryQuery categoryQuery,
+                           CategoriesQuery categoriesQuery,
+                           SkillsByCategoryQuery skillsByCategoryQuery){
+        this.skillsQuery = skillsQuery;
         this.skillQuery = skillQuery;
-        this.allCategoriesQuery = allCategoriesQuery;
+        this.categoryQuery = categoryQuery;
+        this.categoriesQuery = categoriesQuery;
+        this.skillsByCategoryQuery = skillsByCategoryQuery;
     }
 
     @PostConstruct
@@ -53,9 +63,11 @@ public class GraphQLProvider {
 
     private RuntimeWiring buildRuntimeWiring() {
         Map<String, DataFetcher> dataFetchers = new HashMap<>();
-        dataFetchers.put("allSkills", allSkillsQuery);
         dataFetchers.put("skill", skillQuery);
-        dataFetchers.put("allCategories", allCategoriesQuery);
+        dataFetchers.put("skills", skillsQuery);
+        dataFetchers.put("skillsByCategory", skillsByCategoryQuery);
+        dataFetchers.put("category", categoryQuery);
+        dataFetchers.put("categories", categoriesQuery);
 
         return RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring -> typeWiring.dataFetchers(dataFetchers))

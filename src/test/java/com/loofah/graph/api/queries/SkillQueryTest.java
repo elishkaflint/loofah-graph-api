@@ -28,12 +28,12 @@ public class SkillQueryTest {
     private SkillQuery skillQuery;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         skillQuery = new SkillQuery(skillRepository);
     }
 
     @Test
-    public void get_findSkillFromRepositoryWithIdFromDataFetchingEnvironment() {
+    public void get_findsSkillFromRepositoryWithGivenId() {
         Skill expectedSkill = getDefaultSkillBuilder().build();
 
         when(dataFetchingEnvironment.getArgument("id")).thenReturn(SKILL_ID);

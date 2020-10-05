@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AllSkillsQueryTest {
+public class SkillsQueryTest {
 
     @Mock
     private SkillRepository skillRepository;
@@ -25,21 +25,23 @@ public class AllSkillsQueryTest {
     @Mock
     private DataFetchingEnvironment dataFetchingEnvironment;
 
-    private AllSkillsQuery allSkillsQuery;
+    private SkillsQuery allSkillsQuery;
 
     @Before
-    public void setUp() throws Exception {
-        allSkillsQuery = new AllSkillsQuery(skillRepository);
+    public void setUp() {
+        allSkillsQuery = new SkillsQuery(skillRepository);
     }
 
     @Test
     public void get_findsAllSkillsFromRepository() {
+
         List<Skill> expectedSkills = Arrays.asList(
                 getDefaultSkillBuilder().build()
         );
         when(skillRepository.findAll()).thenReturn(expectedSkills);
 
         List<Skill> actualSkills = allSkillsQuery.get(dataFetchingEnvironment);
+
         assertEquals(expectedSkills, actualSkills);
     }
 }

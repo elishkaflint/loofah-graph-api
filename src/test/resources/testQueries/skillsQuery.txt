@@ -1,0 +1,9 @@
+query {
+    skills {
+        id
+        title
+        description
+        examples
+        categoryId
+    }
+}

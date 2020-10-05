@@ -10,18 +10,22 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class AllSkillsQuery implements DataFetcher<List<Skill>> {
+public class SkillsByCategoryQuery implements DataFetcher<List<Skill>> {
 
     private SkillRepository skillRepository;
 
     @Autowired
-    public AllSkillsQuery(SkillRepository skillRepository) {
+    public SkillsByCategoryQuery(SkillRepository skillRepository) {
         this.skillRepository = skillRepository;
     }
 
     @Override
     public List<Skill> get(DataFetchingEnvironment dataFetchingEnvironment) {
-        return skillRepository.findAll();
+
+        String categoryId = dataFetchingEnvironment.getArgument("categoryId");
+
+        return skillRepository.findByCategoryId(categoryId);
+
     }
 
 }
