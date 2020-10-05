@@ -1,10 +1,6 @@
 package com.loofah.graph.api.services;
 
-import com.loofah.graph.api.queries.CategoriesQuery;
-import com.loofah.graph.api.queries.CategoryQuery;
-import com.loofah.graph.api.queries.SkillQuery;
-import com.loofah.graph.api.queries.SkillsByCategoryQuery;
-import com.loofah.graph.api.queries.SkillsQuery;
+import com.loofah.graph.api.queries.*;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import graphql.schema.DataFetcher;
@@ -38,18 +34,22 @@ public class GraphQLProvider {
     private CategoryQuery categoryQuery;
     private CategoriesQuery categoriesQuery;
     private SkillsByCategoryQuery skillsByCategoryQuery;
+    private CraftsQuery craftsQuery;
+    private CraftQuery craftQuery;
 
     @Autowired
     public GraphQLProvider(SkillsQuery skillsQuery,
                            SkillQuery skillQuery,
                            CategoryQuery categoryQuery,
                            CategoriesQuery categoriesQuery,
-                           SkillsByCategoryQuery skillsByCategoryQuery){
+                           SkillsByCategoryQuery skillsByCategoryQuery, final CraftsQuery craftsQuery, final CraftQuery craftQuery){
         this.skillsQuery = skillsQuery;
         this.skillQuery = skillQuery;
         this.categoryQuery = categoryQuery;
         this.categoriesQuery = categoriesQuery;
         this.skillsByCategoryQuery = skillsByCategoryQuery;
+        this.craftsQuery = craftsQuery;
+        this.craftQuery = craftQuery;
     }
 
     @PostConstruct
@@ -68,6 +68,8 @@ public class GraphQLProvider {
         dataFetchers.put("skillsByCategory", skillsByCategoryQuery);
         dataFetchers.put("category", categoryQuery);
         dataFetchers.put("categories", categoriesQuery);
+        dataFetchers.put("crafts", craftsQuery);
+        dataFetchers.put("craft", craftQuery);
 
         return RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring -> typeWiring.dataFetchers(dataFetchers))

@@ -3,6 +3,7 @@ package com.loofah.graph.api.integrationTests;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loofah.graph.api.GraphAPIApplication;
+import com.loofah.graph.api.config.DatabaseSeeder;
 import com.loofah.graph.api.models.Request;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,12 +29,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.CATEGORIES;
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.CATEGORY;
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.DATA;
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILL;
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILLS;
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILLS_BY_CATEGORY;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -55,7 +51,7 @@ public class IntegrationTest {
     @Value("classpath:testQueries/skillsQuery.txt")
     private Resource skillsQuery;
 
-    @Value("classpath:testQueries/CategoryQuery.txt")
+    @Value("classpath:testQueries/categoryQuery.txt")
     private Resource categoryQuery;
 
     @Value("classpath:testQueries/categoriesQuery.txt")
@@ -63,6 +59,12 @@ public class IntegrationTest {
 
     @Value("classpath:testQueries/skillsByCategoryQuery.txt")
     private Resource skillsByCategoryQuery;
+
+    @Value("classpath:testQueries/craftsQuery.txt")
+    private Resource craftsQuery;
+
+    @Value("classpath:testQueries/craftQuery.txt")
+    private Resource craftQuery;
 
     private HttpHeaders headers;
     private ObjectMapper objectMapper;
@@ -95,7 +97,7 @@ public class IntegrationTest {
         List<LinkedHashMap> allSkills = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(3, allSkills.size());
+        assertEquals(DatabaseSeeder.SKILLS.size(), allSkills.size());
     }
 
     @Test
@@ -119,7 +121,7 @@ public class IntegrationTest {
         List<LinkedHashMap> allCategoriesResponse = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(2, allCategoriesResponse.size());
+        assertEquals(DatabaseSeeder.CATEGORIES.size(), allCategoriesResponse.size());
     }
 
     @Test
@@ -131,9 +133,33 @@ public class IntegrationTest {
         List<LinkedHashMap> selectedSkillsForCategory = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(2, selectedSkillsForCategory.size());
-        assertEquals("1", selectedSkillsForCategory.get(0).get("categoryId"));
-        assertEquals("1", selectedSkillsForCategory.get(1).get("categoryId"));
+        selectedSkillsForCategory.forEach( skill -> {
+            assertEquals("1", skill.get("categoryId"));
+        });
+    }
+
+    @Test
+    public void returns_all_seeded_crafts() throws IOException {
+
+        final ResponseEntity<String> response = callAPI(craftsQuery);
+
+        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(CRAFTS);
+        final List<LinkedHashMap> allCraftsResponse = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(DatabaseSeeder.CRAFTS.size(), allCraftsResponse.size());
+    }
+
+    @Test
+    public void returns_correct_craft_when_id_is_valid() throws IOException {
+
+        final ResponseEntity<String> response = callAPI(craftQuery);
+
+        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(CRAFT);
+        final LinkedHashMap selectedCraft = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("craftDescription1", selectedCraft.get("description"));
     }
 
     private ResponseEntity<String> callAPI(Resource query) throws IOException {

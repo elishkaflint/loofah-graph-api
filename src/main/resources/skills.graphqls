@@ -8,6 +8,8 @@ type Query {
   category(id: String): Category
   categories: [Category!]!
   skillsByCategory(categoryId: String): [Skill!]!
+  craft(id: String): Craft!
+  crafts: [Craft!]!
 }
 
 type Skill {
@@ -22,4 +24,13 @@ type Category {
   id: ID!
   title: String!
   description: String!
+}
+
+type Craft {
+  id: ID!
+  title: String!
+  description: String!
+  leads: [String!]!
+  slackChannels: [String!]!
+  devServicesPage: String!
 }
