@@ -1,10 +1,6 @@
 package com.loofah.graph.api.services;
 
-import com.loofah.graph.api.queries.CategoriesQuery;
-import com.loofah.graph.api.queries.CategoryQuery;
-import com.loofah.graph.api.queries.SkillQuery;
-import com.loofah.graph.api.queries.SkillsByCategoryQuery;
-import com.loofah.graph.api.queries.SkillsQuery;
+import com.loofah.graph.api.queries.*;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import graphql.schema.DataFetcher;
@@ -28,53 +24,59 @@ import java.util.Map;
 @Component
 public class GraphQLProvider {
 
+    private final SkillsQuery skillsQuery;
+    private final SkillQuery skillQuery;
+    private final CategoryQuery categoryQuery;
+    private final CategoriesQuery categoriesQuery;
+    private final SkillsByCategoryQuery skillsByCategoryQuery;
+    private final CraftsQuery craftsQuery;
+    private final CraftQuery craftQuery;
     @Value("classpath:skills.graphqls")
     Resource resource;
-
     private GraphQL graphQL;
 
-    private SkillsQuery skillsQuery;
-    private SkillQuery skillQuery;
-    private CategoryQuery categoryQuery;
-    private CategoriesQuery categoriesQuery;
-    private SkillsByCategoryQuery skillsByCategoryQuery;
-
     @Autowired
-    public GraphQLProvider(SkillsQuery skillsQuery,
-                           SkillQuery skillQuery,
-                           CategoryQuery categoryQuery,
-                           CategoriesQuery categoriesQuery,
-                           SkillsByCategoryQuery skillsByCategoryQuery){
+    public GraphQLProvider(final SkillsQuery skillsQuery,
+                           final SkillQuery skillQuery,
+                           final CategoryQuery categoryQuery,
+                           final CategoriesQuery categoriesQuery,
+                           final SkillsByCategoryQuery skillsByCategoryQuery,
+                           final CraftsQuery craftsQuery,
+                           final CraftQuery craftQuery) {
         this.skillsQuery = skillsQuery;
         this.skillQuery = skillQuery;
         this.categoryQuery = categoryQuery;
         this.categoriesQuery = categoriesQuery;
         this.skillsByCategoryQuery = skillsByCategoryQuery;
+        this.craftsQuery = craftsQuery;
+        this.craftQuery = craftQuery;
     }
 
     @PostConstruct
     private void loadSchema() throws IOException {
-        InputStream schemaFile = resource.getInputStream();
-        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(new InputStreamReader(schemaFile));
-        RuntimeWiring wiring = buildRuntimeWiring();
-        GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeRegistry, wiring);
+        final InputStream schemaFile = resource.getInputStream();
+        final TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(new InputStreamReader(schemaFile));
+        final RuntimeWiring wiring = buildRuntimeWiring();
+        final GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeRegistry, wiring);
         graphQL = GraphQL.newGraphQL(schema).build();
     }
 
     private RuntimeWiring buildRuntimeWiring() {
-        Map<String, DataFetcher> dataFetchers = new HashMap<>();
+        final Map<String, DataFetcher> dataFetchers = new HashMap<>();
         dataFetchers.put("skill", skillQuery);
         dataFetchers.put("skills", skillsQuery);
         dataFetchers.put("skillsByCategory", skillsByCategoryQuery);
         dataFetchers.put("category", categoryQuery);
         dataFetchers.put("categories", categoriesQuery);
+        dataFetchers.put("crafts", craftsQuery);
+        dataFetchers.put("craft", craftQuery);
 
         return RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring -> typeWiring.dataFetchers(dataFetchers))
                 .build();
     }
 
-    public ExecutionResult execute(String query) {
+    public ExecutionResult execute(final String query) {
         return graphQL.execute(query);
     }
 

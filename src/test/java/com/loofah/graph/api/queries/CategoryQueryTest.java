@@ -34,12 +34,12 @@ public class CategoryQueryTest {
 
     @Test
     public void get_findsCategoryFromRepositoryWithGivenId() {
-        Category expectedCategory = getDefaultCategoryBuilder().build();
+        final Category expectedCategory = getDefaultCategoryBuilder().build();
 
         when(dataFetchingEnvironment.getArgument("id")).thenReturn(CATEGORY_ID);
         when(categoryRepository.findById(CATEGORY_ID)).thenReturn(Optional.of(expectedCategory));
 
-        Category actualCategory = categoryQuery.get(dataFetchingEnvironment);
+        final Category actualCategory = categoryQuery.get(dataFetchingEnvironment);
         assertEquals(expectedCategory, actualCategory);
     }
 }

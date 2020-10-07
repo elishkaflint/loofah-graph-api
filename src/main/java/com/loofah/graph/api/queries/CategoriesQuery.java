@@ -12,15 +12,15 @@ import java.util.List;
 @Component
 public class CategoriesQuery implements DataFetcher<List<Category>> {
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public CategoriesQuery(CategoryRepository categoryRepository) {
+    public CategoriesQuery(final CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
 
     @Override
-    public List<Category> get(DataFetchingEnvironment dataFetchingEnvironment) {
+    public List<Category> get(final DataFetchingEnvironment dataFetchingEnvironment) {
         return categoryRepository.findAll();
     }
 

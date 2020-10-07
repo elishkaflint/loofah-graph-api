@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.loofah</groupId>
 	<artifactId>graph-api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<name>graph-api</name>
 	<description>A graph API for loofah</description>
 	<packaging>jar</packaging>

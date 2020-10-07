@@ -1,0 +1,10 @@
+query {
+    crafts {
+        id
+        title
+        description
+        leads
+        slackChannels
+        devServicesPage
+    }
+}

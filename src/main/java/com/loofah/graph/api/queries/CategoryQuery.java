@@ -10,16 +10,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class CategoryQuery implements DataFetcher<Category> {
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public CategoryQuery(CategoryRepository categoryRepository) {
+    public CategoryQuery(final CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
 
     @Override
-    public Category get(DataFetchingEnvironment dataFetchingEnvironment) {
-        String id = dataFetchingEnvironment.getArgument("id");
+    public Category get(final DataFetchingEnvironment dataFetchingEnvironment) {
+        final String id = dataFetchingEnvironment.getArgument("id");
         return categoryRepository.findById(id).get();
         // TODO: handle unhappy  path where optional is empty
     }

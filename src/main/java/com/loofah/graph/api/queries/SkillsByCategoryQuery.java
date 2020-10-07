@@ -12,17 +12,17 @@ import java.util.List;
 @Component
 public class SkillsByCategoryQuery implements DataFetcher<List<Skill>> {
 
-    private SkillRepository skillRepository;
+    private final SkillRepository skillRepository;
 
     @Autowired
-    public SkillsByCategoryQuery(SkillRepository skillRepository) {
+    public SkillsByCategoryQuery(final SkillRepository skillRepository) {
         this.skillRepository = skillRepository;
     }
 
     @Override
-    public List<Skill> get(DataFetchingEnvironment dataFetchingEnvironment) {
+    public List<Skill> get(final DataFetchingEnvironment dataFetchingEnvironment) {
 
-        String categoryId = dataFetchingEnvironment.getArgument("categoryId");
+        final String categoryId = dataFetchingEnvironment.getArgument("categoryId");
 
         return skillRepository.findByCategoryId(categoryId);
 
