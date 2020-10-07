@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.loofah.graph.api.helpers.TestHelpers.getDefaultCategoryBuilder;
@@ -35,12 +35,12 @@ public class CategoriesQueryTest {
     @Test
     public void get_findsAllCategoriesFromRepository() {
 
-        List<Category> expectedCategories = Arrays.asList(
+        final List<Category> expectedCategories = Collections.singletonList(
                 getDefaultCategoryBuilder().build()
         );
         when(categoryRepository.findAll()).thenReturn(expectedCategories);
 
-        List<Category> actualCategories = categoriesQuery.get(dataFetchingEnvironment);
+        final List<Category> actualCategories = categoriesQuery.get(dataFetchingEnvironment);
 
         assertEquals(expectedCategories, actualCategories);
     }

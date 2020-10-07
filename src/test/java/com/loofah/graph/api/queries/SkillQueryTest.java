@@ -34,12 +34,12 @@ public class SkillQueryTest {
 
     @Test
     public void get_findsSkillFromRepositoryWithGivenId() {
-        Skill expectedSkill = getDefaultSkillBuilder().build();
+        final Skill expectedSkill = getDefaultSkillBuilder().build();
 
         when(dataFetchingEnvironment.getArgument("id")).thenReturn(SKILL_ID);
         when(skillRepository.findById(SKILL_ID)).thenReturn(Optional.of(expectedSkill));
 
-        Skill actualSkill = skillQuery.get(dataFetchingEnvironment);
+        final Skill actualSkill = skillQuery.get(dataFetchingEnvironment);
         assertEquals(expectedSkill, actualSkill);
     }
 }

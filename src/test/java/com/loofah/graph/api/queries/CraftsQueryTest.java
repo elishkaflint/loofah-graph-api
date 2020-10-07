@@ -2,7 +2,6 @@ package com.loofah.graph.api.queries;
 
 import com.loofah.graph.api.models.database.Craft;
 import com.loofah.graph.api.repositories.CraftRepository;
-import com.loofah.graph.api.repositories.CraftRepository;
 import graphql.schema.DataFetchingEnvironment;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.loofah.graph.api.helpers.TestHelpers.getDefaultCraftBuilder;
@@ -36,12 +35,12 @@ public class CraftsQueryTest {
     @Test
     public void get_findsAllCraftsFromRepository() {
 
-        List<Craft> expectedCrafts = Arrays.asList(
+        final List<Craft> expectedCrafts = Collections.singletonList(
                 getDefaultCraftBuilder().build()
         );
         when(craftRepository.findAll()).thenReturn(expectedCrafts);
 
-        List<Craft> actualCrafts = craftsQuery.get(dataFetchingEnvironment);
+        final List<Craft> actualCrafts = craftsQuery.get(dataFetchingEnvironment);
 
         assertEquals(expectedCrafts, actualCrafts);
     }

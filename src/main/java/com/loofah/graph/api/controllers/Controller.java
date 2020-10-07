@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Controller {
 
-    private GraphQLProvider graphQLProvider;
+    private final GraphQLProvider graphQLProvider;
 
     @Autowired
-    public Controller(GraphQLProvider graphQLProvider) {
+    public Controller(final GraphQLProvider graphQLProvider) {
         this.graphQLProvider = graphQLProvider;
     }
 
     @PostMapping
-    public ResponseEntity<Object> getSkills(@RequestBody Request request) {
-        ExecutionResult executionResult = graphQLProvider.execute(request.getQuery());
+    public ResponseEntity<Object> getSkills(@RequestBody final Request request) {
+        final ExecutionResult executionResult = graphQLProvider.execute(request.getQuery());
         return new ResponseEntity<>(executionResult, HttpStatus.OK);
     }
 

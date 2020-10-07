@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.loofah.graph.api.helpers.TestHelpers.getDefaultSkillBuilder;
@@ -35,12 +35,12 @@ public class SkillsQueryTest {
     @Test
     public void get_findsAllSkillsFromRepository() {
 
-        List<Skill> expectedSkills = Arrays.asList(
+        final List<Skill> expectedSkills = Collections.singletonList(
                 getDefaultSkillBuilder().build()
         );
         when(skillRepository.findAll()).thenReturn(expectedSkills);
 
-        List<Skill> actualSkills = allSkillsQuery.get(dataFetchingEnvironment);
+        final List<Skill> actualSkills = allSkillsQuery.get(dataFetchingEnvironment);
 
         assertEquals(expectedSkills, actualSkills);
     }

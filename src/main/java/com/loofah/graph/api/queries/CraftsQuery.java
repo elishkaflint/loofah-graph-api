@@ -1,8 +1,6 @@
 package com.loofah.graph.api.queries;
 
 import com.loofah.graph.api.models.database.Craft;
-import com.loofah.graph.api.models.database.Craft;
-import com.loofah.graph.api.repositories.CraftRepository;
 import com.loofah.graph.api.repositories.CraftRepository;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
@@ -14,15 +12,15 @@ import java.util.List;
 @Component
 public class CraftsQuery implements DataFetcher<List<Craft>> {
 
-    private CraftRepository craftRepository;
+    private final CraftRepository craftRepository;
 
     @Autowired
-    public CraftsQuery(CraftRepository craftRepository) {
+    public CraftsQuery(final CraftRepository craftRepository) {
         this.craftRepository = craftRepository;
     }
 
     @Override
-    public List<Craft> get(DataFetchingEnvironment dataFetchingEnvironment) {
+    public List<Craft> get(final DataFetchingEnvironment dataFetchingEnvironment) {
         return craftRepository.findAll();
     }
 }

@@ -14,12 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StreamUtils;
 
@@ -79,10 +74,10 @@ public class IntegrationTest {
     @Test
     public void returns_correct_skill_when_id_is_valid() throws IOException {
 
-        ResponseEntity<String> response = callAPI(skillQuery);
+        final ResponseEntity<String> response = callAPI(skillQuery);
 
-        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILL);
-        LinkedHashMap selectedSkill = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
+        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILL);
+        final LinkedHashMap selectedSkill = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("description1", selectedSkill.get("description"));
@@ -91,10 +86,10 @@ public class IntegrationTest {
     @Test
     public void returns_all_seeded_skills() throws IOException {
 
-        ResponseEntity<String> response = callAPI(skillsQuery);
+        final ResponseEntity<String> response = callAPI(skillsQuery);
 
-        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
-        List<LinkedHashMap> allSkills = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
+        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
+        final List<LinkedHashMap> allSkills = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(DatabaseSeeder.SKILLS.size(), allSkills.size());
@@ -103,10 +98,10 @@ public class IntegrationTest {
     @Test
     public void returns_correct_category_when_id_is_valid() throws IOException {
 
-        ResponseEntity<String> response = callAPI(categoryQuery);
+        final ResponseEntity<String> response = callAPI(categoryQuery);
 
-        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(CATEGORY);
-        LinkedHashMap selectedSkill = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
+        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(CATEGORY);
+        final LinkedHashMap selectedSkill = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("categoryDescription1", selectedSkill.get("description"));
@@ -115,10 +110,10 @@ public class IntegrationTest {
     @Test
     public void returns_all_seeded_categories() throws IOException {
 
-        ResponseEntity<String> response = callAPI(categoriesQuery);
+        final ResponseEntity<String> response = callAPI(categoriesQuery);
 
-        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(CATEGORIES);
-        List<LinkedHashMap> allCategoriesResponse = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
+        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(CATEGORIES);
+        final List<LinkedHashMap> allCategoriesResponse = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(DatabaseSeeder.CATEGORIES.size(), allCategoriesResponse.size());
@@ -127,13 +122,13 @@ public class IntegrationTest {
     @Test
     public void returns_correct_skills_for_category_id() throws IOException {
 
-        ResponseEntity<String> response = callAPI(skillsByCategoryQuery);
+        final ResponseEntity<String> response = callAPI(skillsByCategoryQuery);
 
-        JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS_BY_CATEGORY);
-        List<LinkedHashMap> selectedSkillsForCategory = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
+        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS_BY_CATEGORY);
+        final List<LinkedHashMap> selectedSkillsForCategory = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        selectedSkillsForCategory.forEach( skill -> {
+        selectedSkillsForCategory.forEach(skill -> {
             assertEquals("1", skill.get("categoryId"));
         });
     }
@@ -162,14 +157,14 @@ public class IntegrationTest {
         assertEquals("craftDescription1", selectedCraft.get("description"));
     }
 
-    private ResponseEntity<String> callAPI(Resource query) throws IOException {
-        Request request = getRequest(query);
+    private ResponseEntity<String> callAPI(final Resource query) throws IOException {
+        final Request request = getRequest(query);
         final HttpEntity<Object> requestEntity = new HttpEntity<>(request, headers);
         return testRestTemplate.exchange(getURI(), HttpMethod.POST, requestEntity, String.class);
     }
 
-    private Request getRequest(Resource resource) throws IOException {
-        String query = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+    private Request getRequest(final Resource resource) throws IOException {
+        final String query = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
         return new Request(query);
     }
 

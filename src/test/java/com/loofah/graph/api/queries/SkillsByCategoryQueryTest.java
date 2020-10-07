@@ -9,12 +9,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.loofah.graph.api.helpers.TestHelpers.CATEGORY_ID;
 import static com.loofah.graph.api.helpers.TestHelpers.getDefaultSkillBuilder;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -37,13 +36,13 @@ public class SkillsByCategoryQueryTest {
     @Test
     public void get_findsSkillsFromRepositoryWithGivenCategoryId() {
 
-        List<Skill> expectedSkills = Arrays.asList(
+        final List<Skill> expectedSkills = Collections.singletonList(
                 getDefaultSkillBuilder().build()
         );
         when(dataFetchingEnvironment.getArgument("categoryId")).thenReturn(CATEGORY_ID);
         when(skillRepository.findByCategoryId(CATEGORY_ID)).thenReturn(expectedSkills);
 
-        List<Skill> actualSkills = skillsByCategoryQuery.get(dataFetchingEnvironment);
+        final List<Skill> actualSkills = skillsByCategoryQuery.get(dataFetchingEnvironment);
 
         assertEquals(expectedSkills, actualSkills);
     }

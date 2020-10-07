@@ -18,7 +18,7 @@ public class CraftQuery implements DataFetcher<Craft> {
     }
 
     @Override
-    public Craft get(DataFetchingEnvironment dataFetchingEnvironment) {
+    public Craft get(final DataFetchingEnvironment dataFetchingEnvironment) {
         final String id = dataFetchingEnvironment.getArgument("id");
         return craftRepository.findById(id).get();
         // TODO: handle unhappy  path where optional is empty

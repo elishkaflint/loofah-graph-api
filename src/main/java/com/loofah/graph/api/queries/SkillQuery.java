@@ -10,16 +10,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class SkillQuery implements DataFetcher<Skill> {
 
-    private SkillRepository skillRepository;
+    private final SkillRepository skillRepository;
 
     @Autowired
-    public SkillQuery(SkillRepository skillRepository) {
+    public SkillQuery(final SkillRepository skillRepository) {
         this.skillRepository = skillRepository;
     }
 
     @Override
-    public Skill get(DataFetchingEnvironment dataFetchingEnvironment) {
-        String id = dataFetchingEnvironment.getArgument("id");
+    public Skill get(final DataFetchingEnvironment dataFetchingEnvironment) {
+        final String id = dataFetchingEnvironment.getArgument("id");
         return skillRepository.findById(id).get();
         // TODO: handle unhappy  path where optional is empty
     }
