@@ -61,6 +61,12 @@ public class IntegrationTest {
     @Value("classpath:testQueries/craftQuery.txt")
     private Resource craftQuery;
 
+    @Value("classpath:testQueries/gradesQuery.txt")
+    private Resource gradesQuery;
+
+    @Value("classpath:testQueries/gradeQuery.txt")
+    private Resource gradeQuery;
+
     private HttpHeaders headers;
     private ObjectMapper objectMapper;
 
@@ -155,6 +161,28 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("craftDescription1", selectedCraft.get("description"));
+    }
+
+    @Test
+    public void returns_all_seeded_grades() throws IOException {
+        final ResponseEntity<String> response = callAPI(gradesQuery);
+
+        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(GRADES);
+        final List<LinkedHashMap> allGrades = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(DatabaseSeeder.GRADES.size(), allGrades.size());
+    }
+
+    @Test
+    public void returns_correct_grade_when_id_valid() throws IOException {
+        final ResponseEntity<String> response = callAPI(gradeQuery);
+
+        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(GRADE);
+        final LinkedHashMap selectedGrade = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("gradeDescription1", selectedGrade.get("description"));
     }
 
     private ResponseEntity<String> callAPI(final Resource query) throws IOException {

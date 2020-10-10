@@ -1,0 +1,8 @@
+query {
+    grades {
+        id
+        title
+        description
+        hrCode
+    }
+}

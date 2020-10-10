@@ -2,9 +2,12 @@ package com.loofah.graph.api.config;
 
 import com.loofah.graph.api.models.database.Category;
 import com.loofah.graph.api.models.database.Craft;
+import com.loofah.graph.api.models.database.Grade;
 import com.loofah.graph.api.models.database.Skill;
 import com.loofah.graph.api.repositories.CategoryRepository;
 import com.loofah.graph.api.repositories.CraftRepository;
+import com.loofah.graph.api.repositories.GradeRepository;
+import com.loofah.graph.api.repositories.GradeRepository;
 import com.loofah.graph.api.repositories.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -32,16 +35,28 @@ public class DatabaseSeeder implements CommandLineRunner {
             Category.builder().withId("2").withTitle("categoryTitle2").withDescription("categoryDescription1").build()
     ));
 
+    public static final List<Grade> GRADES = Collections.unmodifiableList(Arrays.asList(
+            Grade.builder().withId("1").withTitle("GradeTitle1").withDescription("gradeDescription1").withHrCode("M1").build(),
+            Grade.builder().withId("2").withTitle("GradeTitle2").withDescription("gradeDescription2").withHrCode("M2").build()
+    ));
+
 
     private final SkillRepository skillRepository;
     private final CategoryRepository categoryRepository;
     private final CraftRepository craftRepository;
+    private GradeRepository gradeRepository;
+
 
     @Autowired
-    public DatabaseSeeder(final SkillRepository skillRepository, final CategoryRepository categoryRepository, final CraftRepository craftRepository) {
+    public DatabaseSeeder(final SkillRepository skillRepository,
+                          final CategoryRepository categoryRepository,
+                          final CraftRepository craftRepository,
+                          final GradeRepository gradeRepository) {
         this.skillRepository = skillRepository;
         this.categoryRepository = categoryRepository;
         this.craftRepository = craftRepository;
+        this.gradeRepository = gradeRepository;
+
     }
 
     @Override
@@ -49,6 +64,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         SKILLS.forEach(skillRepository::save);
         CATEGORIES.forEach(categoryRepository::save);
         CRAFTS.forEach(craftRepository::save);
+        GRADES.forEach(gradeRepository::save);
     }
 
 }
