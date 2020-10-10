@@ -9,5 +9,7 @@ public class IntegrationTestConstants {
     public static final String SKILLS_BY_CATEGORY = "skillsByCategory";
     public static final String CRAFTS = "crafts";
     public static final String CRAFT = "craft";
+    public static final String GRADES = "grades";
+    public static final String GRADE = "grade";
     public static final String DATA = "data";
 }

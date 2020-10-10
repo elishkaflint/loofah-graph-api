@@ -31,6 +31,9 @@ public class GraphQLProvider {
     private final SkillsByCategoryQuery skillsByCategoryQuery;
     private final CraftsQuery craftsQuery;
     private final CraftQuery craftQuery;
+    private GradeQuery gradeQuery;
+    private GradesQuery gradesQuery;
+
     @Value("classpath:skills.graphqls")
     Resource resource;
     private GraphQL graphQL;
@@ -42,7 +45,9 @@ public class GraphQLProvider {
                            final CategoriesQuery categoriesQuery,
                            final SkillsByCategoryQuery skillsByCategoryQuery,
                            final CraftsQuery craftsQuery,
-                           final CraftQuery craftQuery) {
+                           final CraftQuery craftQuery,
+                           final GradeQuery gradeQuery,
+                           final GradesQuery gradesQuery) {
         this.skillsQuery = skillsQuery;
         this.skillQuery = skillQuery;
         this.categoryQuery = categoryQuery;
@@ -50,6 +55,8 @@ public class GraphQLProvider {
         this.skillsByCategoryQuery = skillsByCategoryQuery;
         this.craftsQuery = craftsQuery;
         this.craftQuery = craftQuery;
+        this.gradeQuery = gradeQuery;
+        this.gradesQuery = gradesQuery;
     }
 
     @PostConstruct
@@ -70,6 +77,8 @@ public class GraphQLProvider {
         dataFetchers.put("categories", categoriesQuery);
         dataFetchers.put("crafts", craftsQuery);
         dataFetchers.put("craft", craftQuery);
+        dataFetchers.put("grade", gradeQuery);
+        dataFetchers.put("grades", gradesQuery);
 
         return RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring -> typeWiring.dataFetchers(dataFetchers))

@@ -10,6 +10,8 @@ type Query {
   skillsByCategory(categoryId: String): [Skill!]!
   craft(id: String): Craft!
   crafts: [Craft!]!
+  grade(id: String): Grade!
+  grades: [Grade!]!
 }
 
 type Skill {
@@ -33,4 +35,11 @@ type Craft {
   leads: [String!]!
   slackChannels: [String!]!
   devServicesPage: String!
+}
+
+type Grade {
+  id: ID!
+  title: String!
+  description: String!
+  hrCode: String!
 }
