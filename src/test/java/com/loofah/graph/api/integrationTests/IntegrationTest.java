@@ -3,7 +3,6 @@ package com.loofah.graph.api.integrationTests;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loofah.graph.api.GraphAPIApplication;
-import com.loofah.graph.api.config.DatabaseSeeder;
 import com.loofah.graph.api.models.Request;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,6 +38,9 @@ public class IntegrationTest {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
+
+    @Autowired
+    private DatabaseSeeder databaseSeeder;
 
     @Value("classpath:testQueries/skillQuery.txt")
     private Resource skillQuery;
@@ -78,6 +80,7 @@ public class IntegrationTest {
         headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         objectMapper = new ObjectMapper();
+        databaseSeeder.setUp();
     }
 
     @Test
