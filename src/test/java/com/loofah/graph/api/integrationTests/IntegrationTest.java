@@ -55,6 +55,9 @@ public class IntegrationTest {
     @Value("classpath:testQueries/skillsByCategoryQuery.txt")
     private Resource skillsByCategoryQuery;
 
+    @Value("classpath:testQueries/skillsByGradeQuery.txt")
+    private Resource skillsByGradeQuery;
+
     @Value("classpath:testQueries/craftsQuery.txt")
     private Resource craftsQuery;
 
@@ -136,6 +139,20 @@ public class IntegrationTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForCategory.forEach(skill -> {
             assertEquals("1", skill.get("categoryId"));
+        });
+    }
+
+    @Test
+    public void returns_correct_skills_for_grade_id() throws IOException {
+
+        final ResponseEntity<String> response = callAPI(skillsByGradeQuery);
+
+        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS_BY_GRADE);
+        final List<LinkedHashMap> selectedSkillsForCategory = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        selectedSkillsForCategory.forEach(skill -> {
+            assertEquals("1", skill.get("gradeId"));
         });
     }
 

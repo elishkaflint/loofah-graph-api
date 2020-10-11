@@ -31,7 +31,7 @@ public class TestHelpers {
 
 
     public static Skill.SkillBuilder getDefaultSkillBuilder() {
-        return Skill.builder().withId(SKILL_ID).withTitle(SKILL_TITLE).withDescription(SKILL_DESCRIPTION).withCategoryId(CATEGORY_ID);
+        return Skill.builder().withId(SKILL_ID).withTitle(SKILL_TITLE).withDescription(SKILL_DESCRIPTION).withCategoryId(CATEGORY_ID).withGradeId(GRADE_ID);
     }
 
     public static Category.CategoryBuilder getDefaultCategoryBuilder() {
