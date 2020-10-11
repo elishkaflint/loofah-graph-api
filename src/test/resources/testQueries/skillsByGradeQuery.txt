@@ -1,0 +1,8 @@
+query {
+	skillsByGrade(gradeId: "1") {
+	    id
+	    gradeId
+	    title
+		description
+	}
+}

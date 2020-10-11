@@ -27,9 +27,10 @@ public class GraphQLProvider {
 
     private final SkillsQuery skillsQuery;
     private final SkillQuery skillQuery;
+    private final SkillsByCategoryQuery skillsByCategoryQuery;
+    private final SkillsByGradeQuery skillsByGradeQuery;
     private final CategoryQuery categoryQuery;
     private final CategoriesQuery categoriesQuery;
-    private final SkillsByCategoryQuery skillsByCategoryQuery;
     private final CraftsQuery craftsQuery;
     private final CraftQuery craftQuery;
     private GradeQuery gradeQuery;
@@ -42,18 +43,20 @@ public class GraphQLProvider {
     @Autowired
     public GraphQLProvider(final SkillsQuery skillsQuery,
                            final SkillQuery skillQuery,
+                           final SkillsByCategoryQuery skillsByCategoryQuery,
+                           final SkillsByGradeQuery skillsByGradeQuery,
                            final CategoryQuery categoryQuery,
                            final CategoriesQuery categoriesQuery,
-                           final SkillsByCategoryQuery skillsByCategoryQuery,
                            final CraftsQuery craftsQuery,
                            final CraftQuery craftQuery,
                            final GradeQuery gradeQuery,
                            final GradesQuery gradesQuery) {
         this.skillsQuery = skillsQuery;
         this.skillQuery = skillQuery;
+        this.skillsByCategoryQuery = skillsByCategoryQuery;
+        this.skillsByGradeQuery = skillsByGradeQuery;
         this.categoryQuery = categoryQuery;
         this.categoriesQuery = categoriesQuery;
-        this.skillsByCategoryQuery = skillsByCategoryQuery;
         this.craftsQuery = craftsQuery;
         this.craftQuery = craftQuery;
         this.gradeQuery = gradeQuery;
@@ -74,6 +77,7 @@ public class GraphQLProvider {
         dataFetchers.put("skill", skillQuery);
         dataFetchers.put("skills", skillsQuery);
         dataFetchers.put("skillsByCategory", skillsByCategoryQuery);
+        dataFetchers.put("skillsByGrade", skillsByGradeQuery);
         dataFetchers.put("category", categoryQuery);
         dataFetchers.put("categories", categoriesQuery);
         dataFetchers.put("crafts", craftsQuery);

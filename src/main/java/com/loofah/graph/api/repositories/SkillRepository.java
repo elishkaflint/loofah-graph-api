@@ -9,4 +9,6 @@ public interface SkillRepository extends MongoRepository<Skill, String> {
 
     List<Skill> findByCategoryId(String categoryId);
 
+    List<Skill> findByGradeId(String gradeId);
+
 }

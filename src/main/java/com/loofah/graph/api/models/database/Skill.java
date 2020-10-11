@@ -11,13 +11,20 @@ public class Skill {
     private final String title;
     private final String description;
     private final String categoryId;
+    private final String gradeId;
     private final List<String> examples;
 
-    public Skill(final String id, final String title, final String description, final String categoryId, final List<String> examples) {
+    public Skill(final String id,
+                 final String title,
+                 final String description,
+                 final String categoryId,
+                 final String gradeId,
+                 final List<String> examples) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.categoryId = categoryId;
+        this.gradeId = gradeId;
         this.examples = examples;
     }
 
@@ -45,12 +52,15 @@ public class Skill {
         return categoryId;
     }
 
+    public String getGradeId() { return gradeId; }
+
     public static class SkillBuilder {
 
         private String id;
         private String title;
         private String description;
         private String categoryId;
+        private String gradeId;
         private List<String> examples;
 
         public SkillBuilder withId(final String id) {
@@ -73,13 +83,18 @@ public class Skill {
             return this;
         }
 
+        public SkillBuilder withGradeId(final String gradeId) {
+            this.gradeId = gradeId;
+            return this;
+        }
+
         public SkillBuilder withExamples(final List<String> examples) {
             this.examples = examples;
             return this;
         }
 
         public Skill build() {
-            return new Skill(this.id, this.title, this.description, this.categoryId, this.examples);
+            return new Skill(this.id, this.title, this.description, this.categoryId, this.gradeId, this.examples);
         }
 
     }
