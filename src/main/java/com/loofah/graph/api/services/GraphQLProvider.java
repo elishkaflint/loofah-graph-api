@@ -1,6 +1,7 @@
 package com.loofah.graph.api.services;
 
 import com.loofah.graph.api.queries.*;
+import graphql.ExecutionInput;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import graphql.schema.DataFetcher;
@@ -76,8 +77,12 @@ public class GraphQLProvider {
                 .build();
     }
 
-    public ExecutionResult execute(final String query) {
-        return graphQL.execute(query);
+    public ExecutionResult execute(final String query, Map<String, Object> variables) {
+        ExecutionInput executionInput = ExecutionInput.newExecutionInput()
+                .query(query)
+                .variables(variables)
+                .build();
+        return graphQL.execute(executionInput);
     }
 
 }
