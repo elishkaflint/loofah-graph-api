@@ -24,7 +24,8 @@ public class Controller {
 
     @PostMapping
     public ResponseEntity<Object> getSkills(@RequestBody final Request request) {
-        final ExecutionResult executionResult = graphQLProvider.execute(request.getQuery());
+        final ExecutionResult executionResult = graphQLProvider.execute(request.getQuery(), request.getVariables());
+
         return new ResponseEntity<>(executionResult, HttpStatus.OK);
     }
 

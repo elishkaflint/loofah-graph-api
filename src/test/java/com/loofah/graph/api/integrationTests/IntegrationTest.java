@@ -193,7 +193,7 @@ public class IntegrationTest {
 
     private Request getRequest(final Resource resource) throws IOException {
         final String query = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
-        return new Request(query);
+        return new Request(query, null);
     }
 
     private String getURI() {
