@@ -45,20 +45,23 @@ public class IntegrationTest {
     @Value("classpath:testQueries/skillQuery.txt")
     private Resource skillQuery;
 
-    @Value("classpath:testQueries/skillsQuery.txt")
-    private Resource skillsQuery;
+    @Value("classpath:testQueries/skillsQueryNoFilter.txt")
+    private Resource skillsQueryNoFilter;
+
+    @Value("classpath:testQueries/skillsQueryCategoryFilter.txt")
+    private Resource skillsByCategoryQuery;
+
+    @Value("classpath:testQueries/skillsQueryGradeFilter.txt")
+    private Resource skillsByGradeQuery;
+
+    @Value("classpath:testQueries/skillsQueryCategoryAndGradeFilter.txt")
+    private Resource skillsByCategoryAndGradeQuery;
 
     @Value("classpath:testQueries/categoryQuery.txt")
     private Resource categoryQuery;
 
     @Value("classpath:testQueries/categoriesQuery.txt")
     private Resource categoriesQuery;
-
-    @Value("classpath:testQueries/skillsByCategoryQuery.txt")
-    private Resource skillsByCategoryQuery;
-
-    @Value("classpath:testQueries/skillsByGradeQuery.txt")
-    private Resource skillsByGradeQuery;
 
     @Value("classpath:testQueries/craftsQuery.txt")
     private Resource craftsQuery;
@@ -98,13 +101,56 @@ public class IntegrationTest {
     @Test
     public void returns_all_seeded_skills() throws IOException {
 
-        final ResponseEntity<String> response = callAPI(skillsQuery);
+        final ResponseEntity<String> response = callAPI(skillsQueryNoFilter);
 
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
         final List<LinkedHashMap> allSkills = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(DatabaseSeeder.SKILLS.size(), allSkills.size());
+    }
+
+    @Test
+    public void returns_correct_skills_for_category_id() throws IOException {
+
+        final ResponseEntity<String> response = callAPI(skillsByCategoryQuery);
+
+        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
+        final List<LinkedHashMap> selectedSkillsForCategory = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        selectedSkillsForCategory.forEach(skill -> {
+            assertEquals("1", skill.get("categoryId"));
+        });
+    }
+
+    @Test
+    public void returns_correct_skills_for_grade_id() throws IOException {
+
+        final ResponseEntity<String> response = callAPI(skillsByGradeQuery);
+
+        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
+        final List<LinkedHashMap> selectedSkillsForGrade = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        selectedSkillsForGrade.forEach(skill -> {
+            assertEquals("2", skill.get("gradeId"));
+        });
+    }
+
+    @Test
+    public void returns_correct_skills_for_grade_id_and_category_id() throws IOException {
+
+        final ResponseEntity<String> response = callAPI(skillsByCategoryAndGradeQuery);
+
+        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
+        final List<LinkedHashMap> selectedSkillsForCategoryAndGrade = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        selectedSkillsForCategoryAndGrade.forEach(skill -> {
+            assertEquals("1", skill.get("categoryId"));
+            assertEquals("2", skill.get("gradeId"));
+        });
     }
 
     @Test
@@ -129,34 +175,6 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(DatabaseSeeder.CATEGORIES.size(), allCategoriesResponse.size());
-    }
-
-    @Test
-    public void returns_correct_skills_for_category_id() throws IOException {
-
-        final ResponseEntity<String> response = callAPI(skillsByCategoryQuery);
-
-        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS_BY_CATEGORY);
-        final List<LinkedHashMap> selectedSkillsForCategory = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        selectedSkillsForCategory.forEach(skill -> {
-            assertEquals("1", skill.get("categoryId"));
-        });
-    }
-
-    @Test
-    public void returns_correct_skills_for_grade_id() throws IOException {
-
-        final ResponseEntity<String> response = callAPI(skillsByGradeQuery);
-
-        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS_BY_GRADE);
-        final List<LinkedHashMap> selectedSkillsForCategory = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        selectedSkillsForCategory.forEach(skill -> {
-            assertEquals("1", skill.get("gradeId"));
-        });
     }
 
     @Test

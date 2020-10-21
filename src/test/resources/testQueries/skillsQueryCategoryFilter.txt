@@ -1,0 +1,10 @@
+query {
+    skills(filter: {categoryId: "1"}) {
+        id
+        title
+        description
+        examples
+        categoryId
+        gradeId
+    }
+}
