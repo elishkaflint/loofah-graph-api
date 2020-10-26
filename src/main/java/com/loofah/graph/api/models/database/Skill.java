@@ -2,8 +2,6 @@ package com.loofah.graph.api.models.database;
 
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
-
 public class Skill {
 
     @Id
@@ -12,14 +10,14 @@ public class Skill {
     private final String description;
     private final String categoryId;
     private final String gradeId;
-    private final List<String> examples;
+    private final String examples;
 
     public Skill(final String id,
                  final String title,
                  final String description,
                  final String categoryId,
                  final String gradeId,
-                 final List<String> examples) {
+                 final String examples) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -44,7 +42,7 @@ public class Skill {
         return description;
     }
 
-    public List<String> getExamples() {
+    public String getExamples() {
         return examples;
     }
 
@@ -61,7 +59,7 @@ public class Skill {
         private String description;
         private String categoryId;
         private String gradeId;
-        private List<String> examples;
+        private String examples;
 
         public SkillBuilder withId(final String id) {
             this.id = id;
@@ -88,7 +86,7 @@ public class Skill {
             return this;
         }
 
-        public SkillBuilder withExamples(final List<String> examples) {
+        public SkillBuilder withExamples(final String examples) {
             this.examples = examples;
             return this;
         }

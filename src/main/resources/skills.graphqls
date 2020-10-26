@@ -3,11 +3,11 @@ schema {
 }
 
 type Query {
-  skill(id: String): Skill
+  skill(id: String!): Skill!
   skills: [Skill!]!
   skillsByCategory(categoryId: String): [Skill!]!
   skillsByGrade(gradeId: String): [Skill!]!
-  category(id: String): Category
+  category(id: String!): Category!
   categories: [Category!]!
   craft(id: String): Craft!
   crafts: [Craft!]!
@@ -19,7 +19,7 @@ type Skill {
   id: ID!
   title: String!
   description: String!
-  examples: [String!]!
+  examples: String!
   categoryId: String!
   gradeId: String!
 }
