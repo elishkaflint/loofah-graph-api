@@ -1,7 +1,7 @@
 package com.loofah.graph.api.controllers;
 
 import com.loofah.graph.api.models.Request;
-import com.loofah.graph.api.services.GraphQLProvider;
+import com.loofah.graph.api.providers.GraphQLProvider;
 import graphql.ExecutionResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
 package com.loofah.graph.api.queries;
 
 import com.loofah.graph.api.models.database.Grade;
-import com.loofah.graph.api.repositories.GradeRepository;
+import com.loofah.graph.api.services.GradeService;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +12,16 @@ import java.util.List;
 @Component
 public class GradesQuery implements DataFetcher<List<Grade>> {
 
-    private GradeRepository gradeRepository;
+    private GradeService gradeService;
 
     @Autowired
-    public GradesQuery(GradeRepository gradeRepository) {
-        this.gradeRepository = gradeRepository;
+    public GradesQuery(GradeService gradeService) {
+        this.gradeService = gradeService;
     }
 
     @Override
     public List<Grade> get(DataFetchingEnvironment dataFetchingEnvironment) {
-        return gradeRepository.findAll();
+        return gradeService.getAll();
     }
 
 }

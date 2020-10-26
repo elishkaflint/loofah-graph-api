@@ -1,11 +1,11 @@
 package com.loofah.graph.api.queries;
 
 import com.loofah.graph.api.models.database.Category;
-import com.loofah.graph.api.repositories.CategoryRepository;
+import com.loofah.graph.api.services.CategoryService;
 import graphql.schema.DataFetchingEnvironment;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -20,17 +20,13 @@ import static org.mockito.Mockito.when;
 public class CategoriesQueryTest {
 
     @Mock
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
     @Mock
     private DataFetchingEnvironment dataFetchingEnvironment;
 
+    @InjectMocks
     private CategoriesQuery categoriesQuery;
-
-    @Before
-    public void setUp() throws Exception {
-        categoriesQuery = new CategoriesQuery(categoryRepository);
-    }
 
     @Test
     public void get_findsAllCategoriesFromRepository() {
@@ -38,7 +34,7 @@ public class CategoriesQueryTest {
         final List<Category> expectedCategories = Collections.singletonList(
                 getDefaultCategoryBuilder().build()
         );
-        when(categoryRepository.findAll()).thenReturn(expectedCategories);
+        when(categoryService.getAll()).thenReturn(expectedCategories);
 
         final List<Category> actualCategories = categoriesQuery.get(dataFetchingEnvironment);
 

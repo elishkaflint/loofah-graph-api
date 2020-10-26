@@ -13,17 +13,34 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.io.Resource;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.*;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.CATEGORIES;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.CATEGORY;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.CRAFT;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.CRAFTS;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.DATA;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.GRADE;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.GRADES;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILL;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILLS;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.in;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -49,13 +66,16 @@ public class IntegrationTest {
     private Resource skillsQueryNoFilter;
 
     @Value("classpath:testQueries/skillsQueryCategoryFilter.txt")
-    private Resource skillsByCategoryQuery;
+    private Resource skillsQueryCategoryFilter;
 
     @Value("classpath:testQueries/skillsQueryGradeFilter.txt")
-    private Resource skillsByGradeQuery;
+    private Resource skillsQueryGradeFilter;
 
-    @Value("classpath:testQueries/skillsQueryCategoryAndGradeFilter.txt")
-    private Resource skillsByCategoryAndGradeQuery;
+    @Value("classpath:testQueries/skillsQueryCraftFilter.txt")
+    private Resource skillsQueryCraftFilter;
+
+    @Value("classpath:testQueries/skillsQueryAllFilters.txt")
+    private Resource skillsQueryAllFilters;
 
     @Value("classpath:testQueries/categoryQuery.txt")
     private Resource categoryQuery;
@@ -113,7 +133,7 @@ public class IntegrationTest {
     @Test
     public void returns_correct_skills_for_category_id() throws IOException {
 
-        final ResponseEntity<String> response = callAPI(skillsByCategoryQuery);
+        final ResponseEntity<String> response = callAPI(skillsQueryCategoryFilter);
 
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
         final List<LinkedHashMap> selectedSkillsForCategory = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
@@ -127,7 +147,7 @@ public class IntegrationTest {
     @Test
     public void returns_correct_skills_for_grade_id() throws IOException {
 
-        final ResponseEntity<String> response = callAPI(skillsByGradeQuery);
+        final ResponseEntity<String> response = callAPI(skillsQueryGradeFilter);
 
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
         final List<LinkedHashMap> selectedSkillsForGrade = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
@@ -139,17 +159,32 @@ public class IntegrationTest {
     }
 
     @Test
-    public void returns_correct_skills_for_grade_id_and_category_id() throws IOException {
+    public void returns_correct_skills_for_craft_ids() throws IOException {
 
-        final ResponseEntity<String> response = callAPI(skillsByCategoryAndGradeQuery);
+        final ResponseEntity<String> response = callAPI(skillsQueryCraftFilter);
+
+        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
+        final List<LinkedHashMap> selectedSkillsForCraft = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        selectedSkillsForCraft.forEach(skill -> {
+            assertThat((List<String>) skill.get("craftIds"), hasItem(in(Arrays.asList("1", "2"))));
+        });
+    }
+
+    @Test
+    public void returns_correct_skills_for_grade_id_and_category_id_and_craft_ids() throws IOException {
+
+        final ResponseEntity<String> response = callAPI(skillsQueryAllFilters);
 
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
         final List<LinkedHashMap> selectedSkillsForCategoryAndGrade = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForCategoryAndGrade.forEach(skill -> {
-            assertEquals("1", skill.get("categoryId"));
+            assertEquals("2", skill.get("categoryId"));
             assertEquals("2", skill.get("gradeId"));
+            assertThat((List<String>) skill.get("craftIds"), hasItem(in(Arrays.asList("2", "3"))));
         });
     }
 

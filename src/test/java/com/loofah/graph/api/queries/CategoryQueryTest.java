@@ -1,15 +1,13 @@
 package com.loofah.graph.api.queries;
 
 import com.loofah.graph.api.models.database.Category;
-import com.loofah.graph.api.repositories.CategoryRepository;
+import com.loofah.graph.api.services.CategoryService;
 import graphql.schema.DataFetchingEnvironment;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.util.Optional;
 
 import static com.loofah.graph.api.helpers.TestHelpers.CATEGORY_ID;
 import static com.loofah.graph.api.helpers.TestHelpers.getDefaultCategoryBuilder;
@@ -20,24 +18,20 @@ import static org.mockito.Mockito.when;
 public class CategoryQueryTest {
 
     @Mock
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
     @Mock
     private DataFetchingEnvironment dataFetchingEnvironment;
 
+    @InjectMocks
     private CategoryQuery categoryQuery;
-
-    @Before
-    public void setUp() {
-        categoryQuery = new CategoryQuery(categoryRepository);
-    }
 
     @Test
     public void get_findsCategoryFromRepositoryWithGivenId() {
         final Category expectedCategory = getDefaultCategoryBuilder().build();
 
         when(dataFetchingEnvironment.getArgument("id")).thenReturn(CATEGORY_ID);
-        when(categoryRepository.findById(CATEGORY_ID)).thenReturn(Optional.of(expectedCategory));
+        when(categoryService.getById(CATEGORY_ID)).thenReturn(expectedCategory);
 
         final Category actualCategory = categoryQuery.get(dataFetchingEnvironment);
         assertEquals(expectedCategory, actualCategory);

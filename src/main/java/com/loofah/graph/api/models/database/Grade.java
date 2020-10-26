@@ -2,8 +2,6 @@ package com.loofah.graph.api.models.database;
 
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
-
 public class Grade {
 
     @Id

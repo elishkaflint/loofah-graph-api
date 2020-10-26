@@ -1,7 +1,7 @@
 package com.loofah.graph.api.queries;
 
 import com.loofah.graph.api.models.database.Category;
-import com.loofah.graph.api.repositories.CategoryRepository;
+import com.loofah.graph.api.services.CategoryService;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +10,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class CategoryQuery implements DataFetcher<Category> {
 
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
     @Autowired
-    public CategoryQuery(final CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
+    public CategoryQuery(final CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     @Override
     public Category get(final DataFetchingEnvironment dataFetchingEnvironment) {
         final String id = dataFetchingEnvironment.getArgument("id");
-        return categoryRepository.findById(id).get();
+        return categoryService.getById(id);
         // TODO: handle unhappy  path where optional is empty
     }
 }

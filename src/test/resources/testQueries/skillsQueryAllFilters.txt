@@ -1,10 +1,11 @@
 query {
-    skills(filter: {categoryId: "1", gradeId: "2"}) {
+    skills(filter: {categoryId: "2", gradeId: "2", craftIds: ["2","3"]}) {
         id
         title
         description
         examples
         categoryId
         gradeId
+        craftIds
     }
 }

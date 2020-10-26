@@ -1,11 +1,11 @@
 package com.loofah.graph.api.queries;
 
 import com.loofah.graph.api.models.database.Craft;
-import com.loofah.graph.api.repositories.CraftRepository;
+import com.loofah.graph.api.services.CraftService;
 import graphql.schema.DataFetchingEnvironment;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -20,17 +20,13 @@ import static org.mockito.Mockito.when;
 public class CraftsQueryTest {
 
     @Mock
-    private CraftRepository craftRepository;
+    private CraftService craftService;
 
     @Mock
     private DataFetchingEnvironment dataFetchingEnvironment;
 
+    @InjectMocks
     private CraftsQuery craftsQuery;
-
-    @Before
-    public void setUp() throws Exception {
-        craftsQuery = new CraftsQuery(craftRepository);
-    }
 
     @Test
     public void get_findsAllCraftsFromRepository() {
@@ -38,7 +34,7 @@ public class CraftsQueryTest {
         final List<Craft> expectedCrafts = Collections.singletonList(
                 getDefaultCraftBuilder().build()
         );
-        when(craftRepository.findAll()).thenReturn(expectedCrafts);
+        when(craftService.getAll()).thenReturn(expectedCrafts);
 
         final List<Craft> actualCrafts = craftsQuery.get(dataFetchingEnvironment);
 
