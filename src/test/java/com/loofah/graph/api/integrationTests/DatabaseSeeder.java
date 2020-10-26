@@ -25,7 +25,7 @@ public class DatabaseSeeder {
     public static final List<Skill> SKILLS = Collections.unmodifiableList(Arrays.asList(
             Skill.builder().withId("1").withTitle("title1").withDescription("description1").withCategoryId("1").withGradeId("1").withExamples("example").build(),
             Skill.builder().withId("2").withTitle("title2").withDescription("description2").withCategoryId("1").withGradeId("2").withExamples("example").build(),
-            Skill.builder().withId("3").withTitle("title3").withDescription("description3").withCategoryId("2").withGradeId("2").withGradeId("2").withExamples("example").build()
+            Skill.builder().withId("3").withTitle("title3").withDescription("description3").withCategoryId("2").withGradeId("2").withExamples("example").build()
     ));
 
     public static final List<Category> CATEGORIES = Collections.unmodifiableList(Arrays.asList(

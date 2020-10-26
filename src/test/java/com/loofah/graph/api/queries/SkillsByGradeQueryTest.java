@@ -12,7 +12,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Collections;
 import java.util.List;
 
-import static com.loofah.graph.api.helpers.TestHelpers.CATEGORY_ID;
 import static com.loofah.graph.api.helpers.TestHelpers.GRADE_ID;
 import static com.loofah.graph.api.helpers.TestHelpers.getDefaultSkillBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;

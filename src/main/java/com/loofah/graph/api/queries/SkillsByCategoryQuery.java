@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@Deprecated
 public class SkillsByCategoryQuery implements DataFetcher<List<Skill>> {
 
     private final SkillRepository skillRepository;

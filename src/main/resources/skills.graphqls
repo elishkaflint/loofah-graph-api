@@ -4,9 +4,9 @@ schema {
 
 type Query {
   skill(id: String!): Skill!
-  skills: [Skill!]!
-  skillsByCategory(categoryId: String): [Skill!]!
-  skillsByGrade(gradeId: String): [Skill!]!
+  skills(filter: SkillFilter): [Skill!]!
+  skillsByCategory(categoryId: String): [Skill!]! @deprecated(reason: "Replaced by skills(filter: SkillFilter): [Skill!]!")
+  skillsByGrade(gradeId: String): [Skill!]! @deprecated(reason: "Replaced by skills(filter: SkillFilter): [Skill!]!")
   category(id: String!): Category!
   categories: [Category!]!
   craft(id: String): Craft!
@@ -44,4 +44,9 @@ type Grade {
   title: String!
   description: String!
   hrCode: String!
+}
+
+input SkillFilter {
+  categoryId: String
+  gradeId: String
 }
