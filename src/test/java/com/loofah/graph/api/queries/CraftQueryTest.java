@@ -1,17 +1,16 @@
 package com.loofah.graph.api.queries;
 
 import com.loofah.graph.api.models.database.Craft;
-import com.loofah.graph.api.repositories.CraftRepository;
+import com.loofah.graph.api.services.CraftService;
 import graphql.schema.DataFetchingEnvironment;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Optional;
-
-import static com.loofah.graph.api.helpers.TestHelpers.*;
+import static com.loofah.graph.api.helpers.TestHelpers.CRAFT_ID;
+import static com.loofah.graph.api.helpers.TestHelpers.getDefaultCraftBuilder;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -19,24 +18,20 @@ import static org.mockito.Mockito.when;
 public class CraftQueryTest {
 
     @Mock
-    private CraftRepository craftRepository;
+    private CraftService craftService;
 
     @Mock
     private DataFetchingEnvironment dataFetchingEnvironment;
 
+    @InjectMocks
     private CraftQuery craftQuery;
-
-    @Before
-    public void setUp() {
-        craftQuery = new CraftQuery(craftRepository);
-    }
 
     @Test
     public void get_findsCraftFromRepositoryWithGivenId() {
         final Craft expectedCraft = getDefaultCraftBuilder().build();
 
         when(dataFetchingEnvironment.getArgument("id")).thenReturn(CRAFT_ID);
-        when(craftRepository.findById(CRAFT_ID)).thenReturn(Optional.of(expectedCraft));
+        when(craftService.getById(CRAFT_ID)).thenReturn(expectedCraft);
 
         final Craft actualCraft = craftQuery.get(dataFetchingEnvironment);
         assertEquals(expectedCraft, actualCraft);

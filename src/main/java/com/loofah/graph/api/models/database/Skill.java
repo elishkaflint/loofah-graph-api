@@ -2,6 +2,8 @@ package com.loofah.graph.api.models.database;
 
 import org.springframework.data.annotation.Id;
 
+import java.util.List;
+
 public class Skill {
 
     @Id
@@ -10,6 +12,7 @@ public class Skill {
     private final String description;
     private final String categoryId;
     private final String gradeId;
+    private final List<String> craftIds;
     private final String examples;
 
     public Skill(final String id,
@@ -17,12 +20,14 @@ public class Skill {
                  final String description,
                  final String categoryId,
                  final String gradeId,
+                 final List<String> craftIds,
                  final String examples) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.categoryId = categoryId;
         this.gradeId = gradeId;
+        this.craftIds = craftIds;
         this.examples = examples;
     }
 
@@ -50,7 +55,13 @@ public class Skill {
         return categoryId;
     }
 
-    public String getGradeId() { return gradeId; }
+    public String getGradeId() {
+        return gradeId;
+    }
+
+    public List<String> getCraftIds() {
+        return craftIds;
+    }
 
     public static class SkillBuilder {
 
@@ -59,6 +70,7 @@ public class Skill {
         private String description;
         private String categoryId;
         private String gradeId;
+        private List<String> craftIds;
         private String examples;
 
         public SkillBuilder withId(final String id) {
@@ -86,13 +98,18 @@ public class Skill {
             return this;
         }
 
+        public SkillBuilder withCraftIds(final List<String> craftIds) {
+            this.craftIds = craftIds;
+            return this;
+        }
+
         public SkillBuilder withExamples(final String examples) {
             this.examples = examples;
             return this;
         }
 
         public Skill build() {
-            return new Skill(this.id, this.title, this.description, this.categoryId, this.gradeId, this.examples);
+            return new Skill(this.id, this.title, this.description, this.categoryId, this.gradeId, this.craftIds, this.examples);
         }
 
     }

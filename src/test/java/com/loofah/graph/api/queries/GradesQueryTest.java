@@ -1,20 +1,17 @@
 package com.loofah.graph.api.queries;
 
-import com.loofah.graph.api.models.database.Craft;
 import com.loofah.graph.api.models.database.Grade;
-import com.loofah.graph.api.repositories.CraftRepository;
-import com.loofah.graph.api.repositories.GradeRepository;
+import com.loofah.graph.api.services.GradeService;
 import graphql.schema.DataFetchingEnvironment;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Collections;
 import java.util.List;
 
-import static com.loofah.graph.api.helpers.TestHelpers.getDefaultCraftBuilder;
 import static com.loofah.graph.api.helpers.TestHelpers.getDefaultGradeBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -23,17 +20,13 @@ import static org.mockito.Mockito.when;
 public class GradesQueryTest {
 
     @Mock
-    private GradeRepository gradeRepository;
+    private GradeService gradeService;
 
     @Mock
     private DataFetchingEnvironment dataFetchingEnvironment;
 
+    @InjectMocks
     private GradesQuery gradesQuery;
-
-    @Before
-    public void setUp() throws Exception {
-        gradesQuery = new GradesQuery(gradeRepository);
-    }
 
     @Test
     public void get_findsAllCraftsFromRepository() {
@@ -41,7 +34,7 @@ public class GradesQueryTest {
         final List<Grade> expectedGrades = Collections.singletonList(
                 getDefaultGradeBuilder().build()
         );
-        when(gradeRepository.findAll()).thenReturn(expectedGrades);
+        when(gradeService.getAll()).thenReturn(expectedGrades);
 
         final List<Grade> actualGrades = gradesQuery.get(dataFetchingEnvironment);
 

@@ -1,4 +1,4 @@
-package com.loofah.graph.api.services;
+package com.loofah.graph.api.providers;
 
 import com.loofah.graph.api.queries.*;
 import graphql.ExecutionInput;

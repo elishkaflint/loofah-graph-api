@@ -1,0 +1,11 @@
+query {
+    skills(filter: {craftIds: ["1", "2"]}) {
+        id
+        title
+        description
+        examples
+        categoryId
+        gradeId
+        craftIds
+    }
+}

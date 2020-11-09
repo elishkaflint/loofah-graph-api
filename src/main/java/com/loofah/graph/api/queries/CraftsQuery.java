@@ -1,7 +1,7 @@
 package com.loofah.graph.api.queries;
 
 import com.loofah.graph.api.models.database.Craft;
-import com.loofah.graph.api.repositories.CraftRepository;
+import com.loofah.graph.api.services.CraftService;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +12,15 @@ import java.util.List;
 @Component
 public class CraftsQuery implements DataFetcher<List<Craft>> {
 
-    private final CraftRepository craftRepository;
+    private final CraftService craftService;
 
     @Autowired
-    public CraftsQuery(final CraftRepository craftRepository) {
-        this.craftRepository = craftRepository;
+    public CraftsQuery(final CraftService craftService) {
+        this.craftService = craftService;
     }
 
     @Override
     public List<Craft> get(final DataFetchingEnvironment dataFetchingEnvironment) {
-        return craftRepository.findAll();
+        return craftService.getAll();
     }
 }
