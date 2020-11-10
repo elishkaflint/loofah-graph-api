@@ -1,0 +1,5 @@
+query {
+	category(id: "0") {
+		description
+	}
+}

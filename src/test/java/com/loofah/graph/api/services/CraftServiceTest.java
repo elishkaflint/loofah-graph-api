@@ -1,5 +1,6 @@
 package com.loofah.graph.api.services;
 
+import com.loofah.graph.api.exceptions.DataNotFoundException;
 import com.loofah.graph.api.models.database.Craft;
 import com.loofah.graph.api.retrievers.DataRetriever;
 import org.junit.Test;
@@ -25,14 +26,21 @@ public class CraftServiceTest {
     private CraftService craftService;
 
     @Test
-    public void getById() {
+    public void getById_whenCraftExists_thenReturnCraft() {
 
         Craft expectedCraft = Craft.builder().build();
-        when(dataRetriever.getCraftById("id")).thenReturn(expectedCraft);
+        when(dataRetriever.getCraftById("id")).thenReturn(Optional.of(expectedCraft));
 
         Craft actualCraft = craftService.getById("id");
 
         assertEquals(expectedCraft, actualCraft);
+    }
+
+    @Test(expected = DataNotFoundException.class)
+    public void getById_whenCraftDoesNotExist_thenThrowDataNotFoundException() {
+
+        when(dataRetriever.getCraftById("0")).thenReturn(Optional.empty());
+        craftService.getById("0");
     }
 
     @Test

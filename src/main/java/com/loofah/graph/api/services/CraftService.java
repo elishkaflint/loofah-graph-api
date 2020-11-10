@@ -1,5 +1,6 @@
 package com.loofah.graph.api.services;
 
+import com.loofah.graph.api.exceptions.DataNotFoundException;
 import com.loofah.graph.api.models.database.Craft;
 import com.loofah.graph.api.retrievers.DataRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class CraftService {
     }
 
     public Craft getById(String id) {
-        return dataRetriever.getCraftById(id);
+        return dataRetriever.getCraftById(id).orElseThrow(() -> new DataNotFoundException("No Craft found with id ["+id+"]"));
     }
 
     public List<Craft> getAll() {

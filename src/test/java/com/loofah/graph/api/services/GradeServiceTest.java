@@ -1,5 +1,6 @@
 package com.loofah.graph.api.services;
 
+import com.loofah.graph.api.exceptions.DataNotFoundException;
 import com.loofah.graph.api.models.database.Grade;
 import com.loofah.graph.api.retrievers.DataRetriever;
 import org.junit.Test;
@@ -25,14 +26,21 @@ public class GradeServiceTest {
     private GradeService gradeService;
 
     @Test
-    public void getById() {
+    public void getById_whenGradeExists_thenReturnGrade() {
 
         Grade expectedGrade = Grade.builder().build();
-        when(dataRetriever.getGradeById("id")).thenReturn(expectedGrade);
+        when(dataRetriever.getGradeById("id")).thenReturn(Optional.of(expectedGrade));
 
         Grade actualGrade = gradeService.getById("id");
 
         assertEquals(expectedGrade, actualGrade);
+    }
+
+    @Test(expected = DataNotFoundException.class)
+    public void getById_whenGradeDoesNotExist_thenThrowDataNotFoundException() {
+
+        when(dataRetriever.getGradeById("0")).thenReturn(Optional.empty());
+        gradeService.getById("0");
     }
 
     @Test

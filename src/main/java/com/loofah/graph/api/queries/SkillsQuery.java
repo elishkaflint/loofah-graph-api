@@ -1,6 +1,7 @@
 package com.loofah.graph.api.queries;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.loofah.graph.api.models.DTO.SkillDTO;
 import com.loofah.graph.api.models.database.Skill;
 import com.loofah.graph.api.models.filters.SkillFilter;
 import com.loofah.graph.api.services.SkillService;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class SkillsQuery implements DataFetcher<List<Skill>> {
+public class SkillsQuery implements DataFetcher<List<SkillDTO>> {
 
     private final SkillService skillService;
     private final ObjectMapper objectMapper;
@@ -25,7 +26,7 @@ public class SkillsQuery implements DataFetcher<List<Skill>> {
     }
 
     @Override
-    public List<Skill> get(final DataFetchingEnvironment dataFetchingEnvironment) {
+    public List<SkillDTO> get(final DataFetchingEnvironment dataFetchingEnvironment) {
         SkillFilter skillFilter = objectMapper.convertValue(dataFetchingEnvironment.getArgument("filter"), SkillFilter.class);
         return skillService.getWithFilter(skillFilter);
     }

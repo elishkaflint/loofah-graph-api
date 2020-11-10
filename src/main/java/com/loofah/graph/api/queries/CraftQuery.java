@@ -21,7 +21,6 @@ public class CraftQuery implements DataFetcher<Craft> {
     public Craft get(final DataFetchingEnvironment dataFetchingEnvironment) {
         final String id = dataFetchingEnvironment.getArgument("id");
         return craftService.getById(id);
-        // TODO: handle unhappy  path where optional is empty
     }
 
 }

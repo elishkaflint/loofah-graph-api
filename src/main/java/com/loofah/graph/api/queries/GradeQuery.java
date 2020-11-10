@@ -21,7 +21,6 @@ public class GradeQuery implements DataFetcher<Grade> {
     public Grade get(DataFetchingEnvironment dataFetchingEnvironment) {
         String id = dataFetchingEnvironment.getArgument("id");
         return gradeService.getById(id);
-        // TODO: handle unhappy  path where optional is empty
     }
 
 }

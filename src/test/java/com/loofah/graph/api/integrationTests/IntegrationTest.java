@@ -3,7 +3,11 @@ package com.loofah.graph.api.integrationTests;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loofah.graph.api.GraphAPIApplication;
+import com.loofah.graph.api.models.DTO.SkillDTO;
 import com.loofah.graph.api.models.Request;
+import com.loofah.graph.api.models.database.Category;
+import com.loofah.graph.api.models.database.Craft;
+import com.loofah.graph.api.models.database.Grade;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +42,12 @@ import static com.loofah.graph.api.helpers.IntegrationTestConstants.GRADE;
 import static com.loofah.graph.api.helpers.IntegrationTestConstants.GRADES;
 import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILL;
 import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILLS;
+import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertResponseHasErrorMessage;
+import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertResponseHasNullData;
+import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasCategoryWithId;
+import static com.loofah.graph.api.models.DTO.SkillDTO.SkillDTOFields.CRAFT_IDS;
+import static com.loofah.graph.api.models.DTO.SkillDTO.SkillDTOFields.GRADE_ID;
+import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.in;
@@ -62,6 +72,9 @@ public class IntegrationTest {
     @Value("classpath:testQueries/skillQuery.txt")
     private Resource skillQuery;
 
+    @Value("classpath:testQueries/skillQueryIdNotFound.txt")
+    private Resource skillQueryIdNotFound;
+
     @Value("classpath:testQueries/skillsQueryNoFilter.txt")
     private Resource skillsQueryNoFilter;
 
@@ -80,6 +93,9 @@ public class IntegrationTest {
     @Value("classpath:testQueries/categoryQuery.txt")
     private Resource categoryQuery;
 
+    @Value("classpath:testQueries/categoryQueryIdNotFound.txt")
+    private Resource categoryQueryIdNotFound;
+
     @Value("classpath:testQueries/categoriesQuery.txt")
     private Resource categoriesQuery;
 
@@ -89,11 +105,17 @@ public class IntegrationTest {
     @Value("classpath:testQueries/craftQuery.txt")
     private Resource craftQuery;
 
+    @Value("classpath:testQueries/craftQueryIdNotFound.txt")
+    private Resource craftQueryIdNotFound;
+
     @Value("classpath:testQueries/gradesQuery.txt")
     private Resource gradesQuery;
 
     @Value("classpath:testQueries/gradeQuery.txt")
     private Resource gradeQuery;
+
+    @Value("classpath:testQueries/gradeQueryIdNotFound.txt")
+    private Resource gradeQueryIdNotFound;
 
     private HttpHeaders headers;
     private ObjectMapper objectMapper;
@@ -111,11 +133,23 @@ public class IntegrationTest {
 
         final ResponseEntity<String> response = callAPI(skillQuery);
 
+        assertNotNull("response body should not be null", response.getBody());
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILL);
         final LinkedHashMap selectedSkill = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("description1", selectedSkill.get("description"));
+        assertEquals("description1", selectedSkill.get(SkillDTO.SkillDTOFields.DESCRIPTION.key()));
+    }
+
+    @Test
+    public void returns_200_with_error_in_response_when_skill_is_not_found_for_given_id() throws IOException {
+
+        final ResponseEntity<String> response = callAPI(skillQueryIdNotFound);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        assertResponseHasNullData(objectMapper, response);
+        assertResponseHasErrorMessage(objectMapper, response, "Exception while fetching data (/skill) : No skill found with id [0]");
     }
 
     @Test
@@ -123,6 +157,7 @@ public class IntegrationTest {
 
         final ResponseEntity<String> response = callAPI(skillsQueryNoFilter);
 
+        assertNotNull("response body should not be null", response.getBody());
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
         final List<LinkedHashMap> allSkills = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
@@ -135,12 +170,13 @@ public class IntegrationTest {
 
         final ResponseEntity<String> response = callAPI(skillsQueryCategoryFilter);
 
+        assertNotNull("response body should not be null", response.getBody());
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
         final List<LinkedHashMap> selectedSkillsForCategory = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForCategory.forEach(skill -> {
-            assertEquals("1", skill.get("categoryId"));
+            assertSkillHasCategoryWithId(skill, "1");
         });
     }
 
@@ -149,12 +185,13 @@ public class IntegrationTest {
 
         final ResponseEntity<String> response = callAPI(skillsQueryGradeFilter);
 
+        assertNotNull("response body should not be null", response.getBody());
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
         final List<LinkedHashMap> selectedSkillsForGrade = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForGrade.forEach(skill -> {
-            assertEquals("2", skill.get("gradeId"));
+            assertEquals("2", skill.get(GRADE_ID.key()));
         });
     }
 
@@ -163,12 +200,13 @@ public class IntegrationTest {
 
         final ResponseEntity<String> response = callAPI(skillsQueryCraftFilter);
 
+        assertNotNull("response body should not be null", response.getBody());
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
         final List<LinkedHashMap> selectedSkillsForCraft = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForCraft.forEach(skill -> {
-            assertThat((List<String>) skill.get("craftIds"), hasItem(in(Arrays.asList("1", "2"))));
+            assertThat((List<String>) skill.get(CRAFT_IDS.key()), hasItem(in(Arrays.asList("1", "2"))));
         });
     }
 
@@ -177,27 +215,43 @@ public class IntegrationTest {
 
         final ResponseEntity<String> response = callAPI(skillsQueryAllFilters);
 
+        assertNotNull("response body should not be null", response.getBody());
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(SKILLS);
         final List<LinkedHashMap> selectedSkillsForCategoryAndGrade = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForCategoryAndGrade.forEach(skill -> {
-            assertEquals("2", skill.get("categoryId"));
-            assertEquals("2", skill.get("gradeId"));
-            assertThat((List<String>) skill.get("craftIds"), hasItem(in(Arrays.asList("2", "3"))));
+            assertSkillHasCategoryWithId(skill, "2");
+            assertEquals("2", skill.get(GRADE_ID.key()));
+            assertThat((List<String>) skill.get(CRAFT_IDS.key()), hasItem(in(Arrays.asList("2", "3"))));
         });
     }
+
+
 
     @Test
     public void returns_correct_category_when_id_is_valid() throws IOException {
 
         final ResponseEntity<String> response = callAPI(categoryQuery);
 
+        assertNotNull("response body should not be null", response.getBody());
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(CATEGORY);
-        final LinkedHashMap selectedSkill = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
+        final LinkedHashMap selectedCategory = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("categoryDescription1", selectedSkill.get("description"));
+        assertEquals("categoryDescription1", selectedCategory.get(Category.CategoryFields.DESCRIPTION.key()));
+    }
+
+    @Test
+    public void returns_200_with_error_in_response_when_category_is_not_found_for_given_id() throws IOException {
+
+        final ResponseEntity<String> response = callAPI(categoryQueryIdNotFound);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        assertResponseHasNullData(objectMapper, response);
+        assertResponseHasErrorMessage(objectMapper, response, "Exception while fetching data (/category) : No Category found with id [0]");
+
     }
 
     @Test
@@ -205,6 +259,7 @@ public class IntegrationTest {
 
         final ResponseEntity<String> response = callAPI(categoriesQuery);
 
+        assertNotNull("response body should not be null", response.getBody());
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(CATEGORIES);
         final List<LinkedHashMap> allCategoriesResponse = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
@@ -217,6 +272,7 @@ public class IntegrationTest {
 
         final ResponseEntity<String> response = callAPI(craftsQuery);
 
+        assertNotNull("response body should not be null", response.getBody());
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(CRAFTS);
         final List<LinkedHashMap> allCraftsResponse = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
@@ -229,17 +285,31 @@ public class IntegrationTest {
 
         final ResponseEntity<String> response = callAPI(craftQuery);
 
+        assertNotNull("response body should not be null", response.getBody());
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(CRAFT);
         final LinkedHashMap selectedCraft = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("craftDescription1", selectedCraft.get("description"));
+        assertEquals("craftDescription1", selectedCraft.get(Craft.CraftFields.DESCRIPTION.key()));
+    }
+
+    @Test
+    public void returns_200_with_error_in_response_when_craft_is_not_found_for_given_id() throws IOException {
+
+        final ResponseEntity<String> response = callAPI(craftQueryIdNotFound);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        assertResponseHasNullData(objectMapper, response);
+        assertResponseHasErrorMessage(objectMapper, response, "Exception while fetching data (/craft) : No Craft found with id [0]");
+
     }
 
     @Test
     public void returns_all_seeded_grades() throws IOException {
         final ResponseEntity<String> response = callAPI(gradesQuery);
 
+        assertNotNull("response body should not be null", response.getBody());
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(GRADES);
         final List<LinkedHashMap> allGrades = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
 
@@ -251,12 +321,26 @@ public class IntegrationTest {
     public void returns_correct_grade_when_id_valid() throws IOException {
         final ResponseEntity<String> response = callAPI(gradeQuery);
 
+        assertNotNull("response body should not be null", response.getBody());
         final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(GRADE);
         final LinkedHashMap selectedGrade = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("gradeDescription1", selectedGrade.get("description"));
+        assertEquals("gradeDescription1", selectedGrade.get(Grade.GradeFields.DESCRIPTION.key()));
     }
+
+    @Test
+    public void returns_200_with_error_in_response_when_grade_is_not_found_for_given_id() throws IOException {
+
+        final ResponseEntity<String> response = callAPI(gradeQueryIdNotFound);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        assertResponseHasNullData(objectMapper, response);
+        assertResponseHasErrorMessage(objectMapper, response, "Exception while fetching data (/grade) : No Grade found with id [0]");
+
+    }
+
 
     private ResponseEntity<String> callAPI(final Resource query) throws IOException {
         final Request request = getRequest(query);

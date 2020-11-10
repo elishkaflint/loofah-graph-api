@@ -1,5 +1,6 @@
 package com.loofah.graph.api.services;
 
+import com.loofah.graph.api.exceptions.DataNotFoundException;
 import com.loofah.graph.api.models.database.Category;
 import com.loofah.graph.api.retrievers.DataRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class CategoryService {
     }
 
     public Category getById(String id) {
-        return dataRetriever.getCategoryById(id);
+        return dataRetriever.getCategoryById(id).orElseThrow(() -> new DataNotFoundException("No Category found with id ["+id+"]"));
     }
 
     public List<Category> getAll() {

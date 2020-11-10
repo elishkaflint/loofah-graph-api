@@ -46,14 +46,24 @@ public class MongoBackedDataRetrieverTest {
     private MongoBackedDataRetriever mongoBackedDataRetriever;
 
     @Test
-    public void getSkillById_getsSkillViaSkillRepository() {
+    public void getSkillById_whenSkillRepositoryReturnsASkillOptional_thenReturnThatSkillOptional() {
 
         Skill expectedSkill = Skill.builder().build();
         when(skillRepository.findById("id")).thenReturn(Optional.of(expectedSkill));
 
-        Skill actualSkill = mongoBackedDataRetriever.getSkillById("id");
+        Optional<Skill> actualSkill = mongoBackedDataRetriever.getSkillById("id");
 
-        assertEquals(expectedSkill, actualSkill);
+        assertEquals(Optional.of(expectedSkill), actualSkill);
+    }
+
+    @Test
+    public void getSkillById_whenSkillRepositoryReturnsEmptyOptional_thenReturnEmptyOptional() {
+
+        when(skillRepository.findById("id")).thenReturn(Optional.empty());
+
+        Optional<Skill> actualSkill = mongoBackedDataRetriever.getSkillById("id");
+
+        assertEquals(Optional.empty(), actualSkill);
     }
 
     @Test
@@ -72,14 +82,24 @@ public class MongoBackedDataRetrieverTest {
     }
 
     @Test
-    public void getCategoryById_getsCategoryViaCategoryRepository() {
+    public void getCategoryById_whenCategoryRepositoryReturnCategoryOptional_thenReturnThatCategoryOptional() {
 
         Category expectedCategory = Category.builder().build();
         when(categoryRepository.findById("id")).thenReturn(Optional.of(expectedCategory));
 
-        Category actualCategory = mongoBackedDataRetriever.getCategoryById("id");
+        Optional<Category> actualCategory = mongoBackedDataRetriever.getCategoryById("id");
 
-        assertEquals(expectedCategory, actualCategory);
+        assertEquals(Optional.of(expectedCategory), actualCategory);
+    }
+
+    @Test
+    public void getCategoryById_whenCategoryRepositoryReturnsEmptyOptional_thenReturnEmptyOptional() {
+
+        when(categoryRepository.findById("id")).thenReturn(Optional.empty());
+
+        Optional<Category> actualCategory = mongoBackedDataRetriever.getCategoryById("id");
+
+        assertEquals(Optional.empty(), actualCategory);
     }
 
     @Test
@@ -94,14 +114,14 @@ public class MongoBackedDataRetrieverTest {
     }
 
     @Test
-    public void getGradeById_getsGradeViaGradeRepository() {
+    public void getGradeById_whenGradeRepositoryReturnsGradeOptional_thenReturnThatGradeOptional() {
 
         Grade expectedGrade = Grade.builder().build();
-        when(gradeRepository.findById("id")).thenReturn(Optional.of(expectedGrade));
+        when(gradeRepository.findById("id")).thenReturn(Optional.empty());
 
-        Grade actualGrade = mongoBackedDataRetriever.getGradeById("id");
+        Optional<Grade> actualGrade = mongoBackedDataRetriever.getGradeById("id");
 
-        assertEquals(expectedGrade, actualGrade);
+        assertEquals(Optional.empty(), actualGrade);
     }
 
     @Test
@@ -116,14 +136,25 @@ public class MongoBackedDataRetrieverTest {
     }
 
     @Test
-    public void getCraftById_getsCraftViaCraftRepository() {
+    public void getCraftById_whenCraftRepositoryReturnCraftOptional_thenReturnThatCraftOptional() {
 
         Craft expectedCraft = Craft.builder().build();
         when(craftRepository.findById("id")).thenReturn(Optional.of(expectedCraft));
 
-        Craft actualCraft = mongoBackedDataRetriever.getCraftById("id");
+        Optional<Craft> actualCraft = mongoBackedDataRetriever.getCraftById("id");
 
-        assertEquals(expectedCraft, actualCraft);
+        assertEquals(Optional.of(expectedCraft), actualCraft);
+    }
+
+    @Test
+    public void getCraftById_whenCraftRepositoryReturnsEmptyOptional_thenReturnEmptyOptional() {
+
+        Craft expectedCraft = Craft.builder().build();
+        when(craftRepository.findById("id")).thenReturn(Optional.empty());
+
+        Optional<Craft> actualCraft = mongoBackedDataRetriever.getCraftById("id");
+
+        assertEquals(Optional.empty(), actualCraft);
     }
 
     @Test

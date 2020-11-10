@@ -1,5 +1,7 @@
 package com.loofah.graph.api.services;
 
+import com.loofah.graph.api.exceptions.DataNotFoundException;
+import com.loofah.graph.api.models.DTO.SkillDTO;
 import com.loofah.graph.api.models.database.Skill;
 import com.loofah.graph.api.models.filters.SkillFilter;
 import com.loofah.graph.api.retrievers.DataRetriever;
@@ -11,9 +13,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-import static com.loofah.graph.api.helpers.TestHelpers.GRADE_ID;
+import static com.loofah.graph.api.helpers.TestHelpers.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -21,32 +25,48 @@ import static org.mockito.Mockito.when;
 public class SkillServiceTest {
 
     @Mock
-    private DataRetriever skillRetriever;
+    private DataRetriever dataRetriever;
 
     @InjectMocks
     private SkillService skillService;
 
     @Test
-    public void getById() {
+    public void getById_whenSkillExists_thenReturnSkill() {
 
-        Skill expectedSkill = Skill.builder().build();
-        when(skillRetriever.getSkillById("id")).thenReturn(expectedSkill);
+        Skill expectedSkillInDb = getDefaultSkillBuilder().build();
+        SkillDTO expectedSkillDTO = getDefaultSkillDTO();
+        when(dataRetriever.getSkillById("id")).thenReturn(Optional.of(expectedSkillInDb));
+        when(dataRetriever.getCategoryById(expectedSkillInDb.getCategoryId())).thenReturn(Optional.of(expectedSkillDTO.getCategory()));
 
-        Skill actualSkill = skillService.getById("id");
+        SkillDTO actualSkill = skillService.getById("id");
 
-        assertEquals(expectedSkill, actualSkill);
+        assertEquals(expectedSkillDTO, actualSkill);
+    }
+
+    @Test(expected = DataNotFoundException.class)
+    public void getById_whenSkillDoesNotExist_thenThrowDataNotFoundException() {
+
+        when(dataRetriever.getSkillById("0")).thenReturn(Optional.empty());
+        skillService.getById("0");
     }
 
     @Test
     public void getWithFilter() {
 
-        SkillFilter skillFilter = SkillFilter.builder().withGradeId(GRADE_ID).build();
-        List<Skill> expectedSkills = Collections.singletonList(Skill.builder().build());
-        when(skillRetriever.getSkillWithFilter(skillFilter)).thenReturn(expectedSkills);
+        SkillFilter skillFilter = SkillFilter.builder().withGradeId(GRADE_ID_VALUE_1).build();
+        Skill expectedSkillInDb = getDefaultSkillBuilder().build();
+        SkillDTO expectedSkillDTO = getDefaultSkillDTO();
 
-        List<Skill> actualSkills = skillService.getWithFilter(skillFilter);
+        List<Skill> expectedSkills = Collections.singletonList(expectedSkillInDb);
+        List<SkillDTO> expectedSkillDTOs = Collections.singletonList(expectedSkillDTO);
 
-        assertEquals(expectedSkills, actualSkills);
+        when(dataRetriever.getSkillWithFilter(skillFilter)).thenReturn(expectedSkills);
+        when(dataRetriever.getCategoryById(expectedSkillInDb.getCategoryId())).thenReturn(Optional.of(expectedSkillDTO.getCategory()));
+
+
+        List<SkillDTO> actualSkills = skillService.getWithFilter(skillFilter);
+
+        assertEquals(expectedSkillDTOs, actualSkills);
     }
 
 }

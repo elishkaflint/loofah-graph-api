@@ -1,0 +1,5 @@
+query {
+	craft(id: "0") {
+		description
+	}
+}
