@@ -1,5 +1,6 @@
 package com.loofah.graph.api.retrievers;
 
+import com.loofah.graph.api.models.DTO.SkillDTO;
 import com.loofah.graph.api.models.database.Category;
 import com.loofah.graph.api.models.database.Craft;
 import com.loofah.graph.api.models.database.Grade;
@@ -15,6 +16,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class MongoBackedDataRetriever implements DataRetriever {
@@ -39,8 +41,8 @@ public class MongoBackedDataRetriever implements DataRetriever {
     }
 
     @Override
-    public Skill getSkillById(String id) {
-        return skillRepository.findById(id).get();
+    public Optional<Skill> getSkillById(String id) {
+        return skillRepository.findById(id);
     }
 
     @Override
@@ -50,8 +52,8 @@ public class MongoBackedDataRetriever implements DataRetriever {
     }
 
     @Override
-    public Grade getGradeById(String id) {
-        return gradeRepository.findById(id).get();
+    public Optional<Grade> getGradeById(String id) {
+        return gradeRepository.findById(id);
     }
 
     @Override
@@ -60,8 +62,8 @@ public class MongoBackedDataRetriever implements DataRetriever {
     }
 
     @Override
-    public Craft getCraftById(String id) {
-        return craftRepository.findById(id).get();
+    public Optional<Craft> getCraftById(String id) {
+        return craftRepository.findById(id);
     }
 
     @Override
@@ -70,8 +72,8 @@ public class MongoBackedDataRetriever implements DataRetriever {
     }
 
     @Override
-    public Category getCategoryById(String id) {
-        return categoryRepository.findById(id).get();
+    public Optional<Category> getCategoryById(String id) {
+        return categoryRepository.findById(id);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.loofah.graph.api.services;
 
+import com.loofah.graph.api.exceptions.DataNotFoundException;
 import com.loofah.graph.api.models.database.Category;
 import com.loofah.graph.api.retrievers.DataRetriever;
 import org.junit.Test;
@@ -25,14 +26,21 @@ public class CategoryServiceTest {
     private CategoryService categoryService;
 
     @Test
-    public void getById() {
+    public void getById_whenCategoryExists_thenReturnCategory() {
 
         Category expectedCategory = Category.builder().build();
-        when(dataRetriever.getCategoryById("id")).thenReturn(expectedCategory);
+        when(dataRetriever.getCategoryById("1")).thenReturn(Optional.of(expectedCategory));
 
-        Category actualCategory = categoryService.getById("id");
+        Category actualCategory = categoryService.getById("1");
 
         assertEquals(expectedCategory, actualCategory);
+    }
+
+    @Test(expected = DataNotFoundException.class)
+    public void getById_whenCategoryDoesNotExist_thenThrowException() {
+
+        when(dataRetriever.getCategoryById("0")).thenReturn(Optional.empty());
+        categoryService.getById("0");
     }
 
     @Test

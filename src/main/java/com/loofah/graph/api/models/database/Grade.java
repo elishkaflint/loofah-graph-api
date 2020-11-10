@@ -17,6 +17,30 @@ public class Grade {
         this.hrCode = hrCode;
     }
 
+    /**
+     * This enum contains the string representation
+     * of the fields in this class. Therefore it also
+     * represents the fields as they are stored in the database.
+     */
+    public enum GradeFields {
+
+        ID("id"),
+        TITLE("title"),
+        DESCRIPTION("description"),
+        HR_CODE("hrCode");
+
+        String key;
+
+        GradeFields(String key) {
+            this.key = key;
+        }
+
+        public String key() {
+            return this.key;
+        }
+    }
+
+
     public String getId() {
         return id;
     }

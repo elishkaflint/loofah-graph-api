@@ -63,6 +63,19 @@ public class Skill {
         return craftIds;
     }
 
+    @Override
+    public String toString() {
+        return "Skill{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", categoryId='" + categoryId + '\'' +
+                ", gradeId='" + gradeId + '\'' +
+                ", craftIds=" + craftIds +
+                ", examples='" + examples + '\'' +
+                '}';
+    }
+
     public static class SkillBuilder {
 
         private String id;

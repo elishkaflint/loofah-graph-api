@@ -1,5 +1,6 @@
 package com.loofah.graph.api.queries;
 
+import com.loofah.graph.api.models.DTO.SkillDTO;
 import com.loofah.graph.api.models.database.Skill;
 import com.loofah.graph.api.services.SkillService;
 import graphql.schema.DataFetcher;
@@ -8,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SkillQuery implements DataFetcher<Skill> {
+public class SkillQuery implements DataFetcher<SkillDTO> {
 
     private final SkillService skillService;
 
@@ -18,10 +19,9 @@ public class SkillQuery implements DataFetcher<Skill> {
     }
 
     @Override
-    public Skill get(final DataFetchingEnvironment dataFetchingEnvironment) {
+    public SkillDTO get(final DataFetchingEnvironment dataFetchingEnvironment) {
         final String id = dataFetchingEnvironment.getArgument("id");
         return skillService.getById(id);
-        // TODO: handle unhappy  path where optional is empty
     }
 
 }

@@ -24,6 +24,31 @@ public class Craft {
         this.devServicesPage = devServicesPage;
     }
 
+    /**
+     * This enum contains the string representation
+     * of the fields in this class. Therefore it also
+     * represents the fields as they are stored in the database.
+     */
+    public enum CraftFields {
+
+        ID("id"),
+        TITLE("title"),
+        DESCRIPTION("description"),
+        LEADS("leads"),
+        SLACK_CHANNELS("slackChannels"),
+        DEV_SERVICES_PAGE("devServicesPage");
+
+        String key;
+
+        CraftFields(String key) {
+            this.key = key;
+        }
+
+        public String key() {
+            return this.key;
+        }
+    }
+
     public static Builder builder() {
         return new Builder();
     }

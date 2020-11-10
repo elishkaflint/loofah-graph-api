@@ -1,6 +1,7 @@
 package com.loofah.graph.api.queries;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.loofah.graph.api.models.DTO.SkillDTO;
 import com.loofah.graph.api.models.database.Skill;
 import com.loofah.graph.api.models.filters.SkillFilter;
 import com.loofah.graph.api.services.SkillService;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.loofah.graph.api.helpers.TestHelpers.getDefaultSkillBuilder;
+import static com.loofah.graph.api.helpers.TestHelpers.getDefaultSkillDTO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -44,10 +46,10 @@ public class SkillsQueryTest {
         SkillFilter skillFilter = SkillFilter.builder().build();
         when(objectMapper.convertValue(map, SkillFilter.class)).thenReturn(skillFilter);
 
-        final List<Skill> expectedSkills = Collections.singletonList(getDefaultSkillBuilder().build());
+        final List<SkillDTO> expectedSkills = Collections.singletonList(getDefaultSkillDTO());
         when(skillService.getWithFilter(skillFilter)).thenReturn(expectedSkills);
 
-        final List<Skill> actualSkills = skillsQuery.get(dataFetchingEnvironment);
+        final List<SkillDTO> actualSkills = skillsQuery.get(dataFetchingEnvironment);
 
         assertEquals(expectedSkills, actualSkills);
     }

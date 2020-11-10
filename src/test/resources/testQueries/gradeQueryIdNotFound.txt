@@ -1,0 +1,7 @@
+query {
+	grade(id: "0") {
+	    title
+		description
+		hrCode
+	}
+}

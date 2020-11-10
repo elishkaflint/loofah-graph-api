@@ -21,6 +21,5 @@ public class CategoryQuery implements DataFetcher<Category> {
     public Category get(final DataFetchingEnvironment dataFetchingEnvironment) {
         final String id = dataFetchingEnvironment.getArgument("id");
         return categoryService.getById(id);
-        // TODO: handle unhappy  path where optional is empty
     }
 }

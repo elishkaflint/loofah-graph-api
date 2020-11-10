@@ -4,7 +4,7 @@ query {
         title
         description
         examples
-        categoryId
+        category{id}
         gradeId
     }
 }

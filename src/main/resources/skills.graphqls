@@ -3,8 +3,8 @@ schema {
 }
 
 type Query {
-  skill(id: String!): Skill!
-  skills(filter: SkillFilter): [Skill!]!
+  skill(id: String!): SkillDTO!
+  skills(filter: SkillFilter): [SkillDTO!]!
   category(id: String!): Category!
   categories: [Category!]!
   craft(id: String): Craft!
@@ -13,14 +13,14 @@ type Query {
   grades: [Grade!]!
 }
 
-type Skill {
+type SkillDTO {
   id: ID!
   title: String!
   description: String!
-  examples: String!
-  categoryId: String!
+  examples: String
+  category: Category
   gradeId: String!
-  craftIds: [String!]!
+  craftIds: [String!]
 }
 
 type Category {

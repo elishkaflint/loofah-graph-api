@@ -2,6 +2,8 @@ package com.loofah.graph.api.models.database;
 
 import org.springframework.data.annotation.Id;
 
+import java.util.Objects;
+
 
 public class Category {
 
@@ -14,6 +16,28 @@ public class Category {
         this.id = id;
         this.title = title;
         this.description = description;
+    }
+
+    /**
+     * This enum contains the string representation
+     * of the fields in this class. Therefore it also
+     * represents the fields as they are stored in the database.
+     */
+    public enum CategoryFields {
+
+        ID("id"),
+        TITLE("title"),
+        DESCRIPTION("description");
+
+        String key;
+
+        CategoryFields(String key) {
+            this.key = key;
+        }
+
+        public String key() {
+            return this.key;
+        }
     }
 
     public static CategoryBuilder builder() {
@@ -31,6 +55,7 @@ public class Category {
     public String getDescription() {
         return description;
     }
+
 
     public static class CategoryBuilder {
 
