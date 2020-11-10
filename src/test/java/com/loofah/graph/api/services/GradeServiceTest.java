@@ -1,7 +1,7 @@
 package com.loofah.graph.api.services;
 
 import com.loofah.graph.api.models.database.Grade;
-import com.loofah.graph.api.repositories.GradeRepository;
+import com.loofah.graph.api.retrievers.DataRetriever;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 public class GradeServiceTest {
 
     @Mock
-    private GradeRepository gradeRepository;
+    private DataRetriever dataRetriever;
 
     @InjectMocks
     private GradeService gradeService;
@@ -28,7 +28,7 @@ public class GradeServiceTest {
     public void getById() {
 
         Grade expectedGrade = Grade.builder().build();
-        when(gradeRepository.findById("id")).thenReturn(Optional.of(expectedGrade));
+        when(dataRetriever.getGradeById("id")).thenReturn(expectedGrade);
 
         Grade actualGrade = gradeService.getById("id");
 
@@ -39,7 +39,7 @@ public class GradeServiceTest {
     public void getAll() {
 
         List<Grade> expectedGrades = Collections.singletonList(Grade.builder().build());
-        when(gradeRepository.findAll()).thenReturn(expectedGrades);
+        when(dataRetriever.getAllGrades()).thenReturn(expectedGrades);
 
         List<Grade> actualGrades = gradeService.getAll();
 

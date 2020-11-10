@@ -1,7 +1,7 @@
 package com.loofah.graph.api.services;
 
 import com.loofah.graph.api.models.database.Craft;
-import com.loofah.graph.api.repositories.CraftRepository;
+import com.loofah.graph.api.retrievers.DataRetriever;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 public class CraftServiceTest {
 
     @Mock
-    private CraftRepository craftRepository;
+    private DataRetriever dataRetriever;
 
     @InjectMocks
     private CraftService craftService;
@@ -28,7 +28,7 @@ public class CraftServiceTest {
     public void getById() {
 
         Craft expectedCraft = Craft.builder().build();
-        when(craftRepository.findById("id")).thenReturn(Optional.of(expectedCraft));
+        when(dataRetriever.getCraftById("id")).thenReturn(expectedCraft);
 
         Craft actualCraft = craftService.getById("id");
 
@@ -39,7 +39,7 @@ public class CraftServiceTest {
     public void getAll() {
 
         List<Craft> expectedCrafts = Collections.singletonList(Craft.builder().build());
-        when(craftRepository.findAll()).thenReturn(expectedCrafts);
+        when(dataRetriever.getAllCrafts()).thenReturn(expectedCrafts);
 
         List<Craft> actualCrafts = craftService.getAll();
 

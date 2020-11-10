@@ -1,7 +1,7 @@
 package com.loofah.graph.api.services;
 
 import com.loofah.graph.api.models.database.Grade;
-import com.loofah.graph.api.repositories.GradeRepository;
+import com.loofah.graph.api.retrievers.DataRetriever;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,18 +10,18 @@ import java.util.List;
 @Component
 public class GradeService {
 
-    private GradeRepository gradeRepository;
+    private DataRetriever dataRetriever;
 
     @Autowired
-    public GradeService(GradeRepository gradeRepository) {
-        this.gradeRepository = gradeRepository;
+    public GradeService(DataRetriever dataRetriever) {
+        this.dataRetriever = dataRetriever;
     }
 
     public Grade getById(String id) {
-        return gradeRepository.findById(id).get();
+        return dataRetriever.getGradeById(id);
     }
 
     public List<Grade> getAll() {
-        return gradeRepository.findAll();
+        return dataRetriever.getAllGrades();
     }
 }
