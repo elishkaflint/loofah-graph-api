@@ -1,7 +1,7 @@
 package com.loofah.graph.api.services;
 
 import com.loofah.graph.api.models.database.Category;
-import com.loofah.graph.api.repositories.CategoryRepository;
+import com.loofah.graph.api.retrievers.DataRetriever;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 public class CategoryServiceTest {
 
     @Mock
-    private CategoryRepository categoryRepository;
+    private DataRetriever dataRetriever;
 
     @InjectMocks
     private CategoryService categoryService;
@@ -28,7 +28,7 @@ public class CategoryServiceTest {
     public void getById() {
 
         Category expectedCategory = Category.builder().build();
-        when(categoryRepository.findById("id")).thenReturn(Optional.of(expectedCategory));
+        when(dataRetriever.getCategoryById("id")).thenReturn(expectedCategory);
 
         Category actualCategory = categoryService.getById("id");
 
@@ -39,7 +39,7 @@ public class CategoryServiceTest {
     public void getAll() {
 
         List<Category> expectedCategories = Collections.singletonList(Category.builder().build());
-        when(categoryRepository.findAll()).thenReturn(expectedCategories);
+        when(dataRetriever.getAllCategories()).thenReturn(expectedCategories);
 
         List<Category> actualCategory = categoryService.getAll();
 
