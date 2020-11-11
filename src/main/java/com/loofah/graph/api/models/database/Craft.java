@@ -1,11 +1,17 @@
 package com.loofah.graph.api.models.database;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.annotation.Id;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+
+import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.nullsLast;
 
 
-public class Craft {
+public class Craft implements Comparable<Craft> {
 
     @Id
     private final String id;
@@ -50,6 +56,38 @@ public class Craft {
 
     public String getDevServicesPage() {
         return devServicesPage;
+    }
+
+    @Override
+    public String toString() {
+        return "Craft{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Craft craft = (Craft) o;
+        return Objects.equals(id, craft.id) &&
+                Objects.equals(title, craft.title) &&
+                Objects.equals(description, craft.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description);
+    }
+
+    @Override
+    public int compareTo(@NotNull final Craft otherCraft) {
+        final Comparator<Craft> titleComparator = nullsLast(
+                Comparator.comparing(Craft::getTitle, nullsLast(naturalOrder()))
+        );
+        return titleComparator.compare(this, otherCraft);
     }
 
     public static final class Builder {
