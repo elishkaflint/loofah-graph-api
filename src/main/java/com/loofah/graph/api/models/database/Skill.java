@@ -1,10 +1,16 @@
 package com.loofah.graph.api.models.database;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.annotation.Id;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
-public class Skill {
+import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.nullsLast;
+
+public class Skill implements Comparable<Skill> {
 
     @Id
     private final String id;
@@ -65,6 +71,43 @@ public class Skill {
 
     public List<String> getCraftIds() {
         return craftIds;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public Grade getGrade() {
+        return grade;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Skill skill = (Skill) o;
+        return Objects.equals(id, skill.id) &&
+                Objects.equals(title, skill.title) &&
+                Objects.equals(description, skill.description) &&
+                Objects.equals(categoryId, skill.categoryId) &&
+                Objects.equals(gradeId, skill.gradeId) &&
+                Objects.equals(craftIds, skill.craftIds) &&
+                Objects.equals(examples, skill.examples) &&
+                Objects.equals(category, skill.category) &&
+                Objects.equals(grade, skill.grade);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, categoryId, gradeId, craftIds, examples, category, grade);
+    }
+
+    @Override
+    public int compareTo(@NotNull final Skill otherSkill) {
+        return Comparator.comparing(Skill::getGrade, nullsLast(naturalOrder()))
+                .thenComparing(Skill::getCategory, nullsLast(naturalOrder()))
+                .thenComparing(Skill::getTitle, nullsLast(naturalOrder()))
+                .compare(this, otherSkill);
     }
 
     public static class SkillBuilder {

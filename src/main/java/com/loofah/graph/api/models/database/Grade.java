@@ -85,12 +85,13 @@ public class Grade implements Comparable<Grade> {
         final Grade grade = (Grade) o;
         return Objects.equals(id, grade.id) &&
                 Objects.equals(title, grade.title) &&
-                Objects.equals(description, grade.description);
+                Objects.equals(description, grade.description) &&
+                Objects.equals(hrCode, grade.hrCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description);
+        return Objects.hash(id, title, description, hrCode);
     }
 
     @Override

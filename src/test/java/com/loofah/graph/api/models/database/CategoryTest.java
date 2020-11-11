@@ -15,14 +15,14 @@ class CategoryTest {
     void testSorting() {
         // Given
 
-        final Category apple = getDefaultCategoryBuilder().withTitle("apple").build();
-        final Category blackberry = getDefaultCategoryBuilder().withTitle("blackberry").build();
-        final Category blackcurrant = getDefaultCategoryBuilder().withTitle("blackcurrant").build();
-        final Category clementine = getDefaultCategoryBuilder().withTitle("clementine").build();
-        final Category nullberry = getDefaultCategoryBuilder().withTitle(null).build();
+        final Category aardvark = getDefaultCategoryBuilder().withTitle("aardvark").build();
+        final Category bear = getDefaultCategoryBuilder().withTitle("bear").build();
+        final Category butterfly = getDefaultCategoryBuilder().withTitle("butterfly").build();
+        final Category cat = getDefaultCategoryBuilder().withTitle("cat").build();
+        final Category nullosaurus = getDefaultCategoryBuilder().withTitle(null).build();
 
-        final List<Category> categories = Arrays.asList(clementine, blackberry, apple, nullberry, blackcurrant);
-        final List<Category> expectedSort = Arrays.asList(apple, blackberry, blackcurrant, clementine, nullberry);
+        final List<Category> categories = Arrays.asList(cat, bear, aardvark, nullosaurus, butterfly);
+        final List<Category> expectedSort = Arrays.asList(aardvark, bear, butterfly, cat, nullosaurus);
 
         // When
         final List<Category> actualSort = categories.stream().sorted().collect(Collectors.toList());

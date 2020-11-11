@@ -74,12 +74,15 @@ public class Craft implements Comparable<Craft> {
         final Craft craft = (Craft) o;
         return Objects.equals(id, craft.id) &&
                 Objects.equals(title, craft.title) &&
-                Objects.equals(description, craft.description);
+                Objects.equals(description, craft.description) &&
+                Objects.equals(leads, craft.leads) &&
+                Objects.equals(slackChannels, craft.slackChannels) &&
+                Objects.equals(devServicesPage, craft.devServicesPage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description);
+        return Objects.hash(id, title, description, leads, slackChannels, devServicesPage);
     }
 
     @Override
