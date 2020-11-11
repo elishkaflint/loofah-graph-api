@@ -1,15 +1,13 @@
 package com.loofah.graph.api.helpers;
 
-import com.loofah.graph.api.models.dto.SkillDTO;
 import com.loofah.graph.api.models.database.Category;
 import com.loofah.graph.api.models.database.Craft;
 import com.loofah.graph.api.models.database.Grade;
 import com.loofah.graph.api.models.database.Skill;
+import com.loofah.graph.api.models.dto.SkillDTO;
 
 import java.util.Collections;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class TestHelpers {
 
@@ -35,7 +33,16 @@ public class TestHelpers {
 
 
     public static SkillDTO getDefaultSkillDTO() {
-        return new SkillDTO(getDefaultSkillBuilder().build(), getDefaultCategoryBuilder().build(), getDefaultGradeBuilder().build());
+        return getDefaultSkillDTOBuilder().build();
+    }
+
+    public static SkillDTO.SkillDTOBuilder getDefaultSkillDTOBuilder() {
+        return SkillDTO.builder()
+                .withId(SKILL_ID_VALUE_1)
+                .withTitle(SKILL_TITLE_VALUE_1)
+                .withDescription(SKILL_DESCRIPTION_VALUE_1)
+                .withCategory(getDefaultCategoryBuilder().build())
+                .withGrade(getDefaultGradeBuilder().build());
     }
 
     public static Skill.SkillBuilder getDefaultSkillBuilder() {

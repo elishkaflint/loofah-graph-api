@@ -3,12 +3,17 @@ package com.loofah.graph.api.models.dto;
 import com.loofah.graph.api.models.database.Category;
 import com.loofah.graph.api.models.database.Grade;
 import com.loofah.graph.api.models.database.Skill;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.annotation.Id;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-public class SkillDTO {
+import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.nullsLast;
+
+public class SkillDTO implements Comparable<SkillDTO> {
 
     @Id
     private final String id;
@@ -20,12 +25,12 @@ public class SkillDTO {
     private final String examples;
 
     public SkillDTO(final String id,
-                 final String title,
-                 final String description,
-                 final Category category,
-                 final Grade grade,
-                 final List<String> craftTitles,
-                 final String examples) {
+                    final String title,
+                    final String description,
+                    final Category category,
+                    final Grade grade,
+                    final List<String> craftTitles,
+                    final String examples) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -35,7 +40,7 @@ public class SkillDTO {
         this.examples = examples;
     }
 
-    public SkillDTO(final Skill skill, Category category, Grade grade) {
+    public SkillDTO(final Skill skill, final Category category, final Grade grade) {
         this.id = skill.getId();
         this.title = skill.getTitle();
         this.description = skill.getDescription();
@@ -45,33 +50,8 @@ public class SkillDTO {
         this.examples = skill.getExamples();
     }
 
-    /**
-     * This enum contains the string representation
-     * of the fields in this class.
-     */
-    public enum SkillDTOFields {
-
-        ID("id"),
-        TITLE("title"),
-        DESCRIPTION("description"),
-        CATEGORY("category"),
-        GRADE("grade"),
-        CRAFT_IDS("craftTitles"),
-        EXAMPLES("examples");
-
-        String key;
-
-        SkillDTOFields(String key) {
-            this.key = key;
-        }
-
-        public String key() {
-            return this.key;
-        }
-    }
-
-    public static Skill.SkillBuilder builder() {
-        return new Skill.SkillBuilder();
+    public static SkillDTO.SkillDTOBuilder builder() {
+        return new SkillDTO.SkillDTOBuilder();
     }
 
     public String getId() {
@@ -94,25 +74,12 @@ public class SkillDTO {
         return category;
     }
 
-    public Grade getGrade() { return grade; }
+    public Grade getGrade() {
+        return grade;
+    }
 
     public List<String> getCraftTitles() {
         return craftTitles;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SkillDTO skillDTO = (SkillDTO) o;
-        return Objects.equals(id, skillDTO.id) &&
-                Objects.equals(title, skillDTO.title) &&
-                Objects.equals(description, skillDTO.description) &&
-                Objects.equals(category, skillDTO.category) &&
-                Objects.equals(grade, skillDTO.grade) &&
-                Objects.equals(craftTitles, skillDTO.craftTitles) &&
-                Objects.equals(examples, skillDTO.examples);
     }
 
     @Override
@@ -126,6 +93,61 @@ public class SkillDTO {
                 ", craftTitles=" + craftTitles +
                 ", examples='" + examples + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final SkillDTO skillDTO = (SkillDTO) o;
+        return Objects.equals(id, skillDTO.id) &&
+                Objects.equals(title, skillDTO.title) &&
+                Objects.equals(description, skillDTO.description) &&
+                Objects.equals(category, skillDTO.category) &&
+                Objects.equals(grade, skillDTO.grade) &&
+                Objects.equals(craftTitles, skillDTO.craftTitles) &&
+                Objects.equals(examples, skillDTO.examples);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, category, grade, craftTitles, examples);
+    }
+
+    // Compares two SkillDTOs first by grade, then by category, then by title (alphabetical order). See the Grade and
+    // Category classes for details of how objects of these types are compared. At each stage, objects with a null value
+    // for the field being compared will be placed last in that comparison.
+    @Override
+    public int compareTo(@NotNull final SkillDTO otherSkill) {
+        return Comparator.comparing(SkillDTO::getGrade, nullsLast(naturalOrder()))
+                .thenComparing(SkillDTO::getCategory, nullsLast(naturalOrder()))
+                .thenComparing(SkillDTO::getTitle, nullsLast(naturalOrder()))
+                .compare(this, otherSkill);
+    }
+
+    /**
+     * This enum contains the string representation
+     * of the fields in this class.
+     */
+    public enum SkillDTOFields {
+
+        ID("id"),
+        TITLE("title"),
+        DESCRIPTION("description"),
+        CATEGORY("category"),
+        GRADE("grade"),
+        CRAFT_TITLES("craftTitles"),
+        EXAMPLES("examples");
+
+        String key;
+
+        SkillDTOFields(final String key) {
+            this.key = key;
+        }
+
+        public String key() {
+            return this.key;
+        }
     }
 
     public static class SkillDTOBuilder {
@@ -168,7 +190,7 @@ public class SkillDTO {
             return this;
         }
 
-        public  SkillDTOBuilder withExamples(final String examples) {
+        public SkillDTOBuilder withExamples(final String examples) {
             this.examples = examples;
             return this;
         }
