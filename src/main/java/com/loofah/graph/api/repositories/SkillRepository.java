@@ -6,11 +6,4 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface SkillRepository extends MongoRepository<Skill, String>, CustomRepository {
-
-    @Deprecated
-    List<Skill> findByCategoryId(String categoryId);
-
-    @Deprecated
-    List<Skill> findByGradeId(String gradeId);
-
 }

@@ -5,8 +5,6 @@ schema {
 type Query {
   skill(id: String!): Skill!
   skills(filter: SkillFilter): [Skill!]!
-  skillsByCategory(categoryId: String): [Skill!]! @deprecated(reason: "Replaced by skills(filter: SkillFilter): [Skill!]!")
-  skillsByGrade(gradeId: String): [Skill!]! @deprecated(reason: "Replaced by skills(filter: SkillFilter): [Skill!]!")
   category(id: String!): Category!
   categories: [Category!]!
   craft(id: String): Craft!

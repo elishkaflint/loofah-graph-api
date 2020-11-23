@@ -6,8 +6,6 @@ public class IntegrationTestConstants {
     public static final String SKILLS = "skills";
     public static final String CATEGORY = "category";
     public static final String CATEGORIES = "categories";
-    public static final String SKILLS_BY_CATEGORY = "skillsByCategory";
-    public static final String SKILLS_BY_GRADE = "skillsByGrade";
     public static final String CRAFTS = "crafts";
     public static final String CRAFT = "craft";
     public static final String GRADES = "grades";
