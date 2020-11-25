@@ -36,23 +36,40 @@ public class TestHelpers {
 
 
     public static SkillDTO getDefaultSkillDTO() {
-        return new SkillDTO(getDefaultSkillBuilder().build(), getDefaultCategoryBuilder().build());
+        return new SkillDTO(getDefaultSkillBuilder().build(), getDefaultCategoryBuilder().build(), getDefaultGradeBuilder().build());
     }
 
     public static Skill.SkillBuilder getDefaultSkillBuilder() {
-        return Skill.builder().withId(SKILL_ID_VALUE_1).withTitle(SKILL_TITLE_VALUE_1).withDescription(SKILL_DESCRIPTION_VALUE_1).withCategoryId("1").withGradeId(GRADE_ID_VALUE_1);
+        return Skill.builder()
+                .withId(SKILL_ID_VALUE_1)
+                .withTitle(SKILL_TITLE_VALUE_1)
+                .withDescription(SKILL_DESCRIPTION_VALUE_1)
+                .withCategoryId(CATEGORY_ID_VALUE_1)
+                .withGradeId(GRADE_ID_VALUE_1);
     }
 
     public static Category.CategoryBuilder getDefaultCategoryBuilder() {
-        return Category.builder().withId(CATEGORY_ID_VALUE_1).withTitle(CATEGORY_TITLE_VALUE_1);
+        return Category.builder()
+                .withId(CATEGORY_ID_VALUE_1)
+                .withTitle(CATEGORY_TITLE_VALUE_1);
     }
 
     public static Craft.Builder getDefaultCraftBuilder() {
-        return Craft.builder().withId(CRAFT_ID_VALUE_1).withTitle(CRAFT_TITLE_VALUE_1).withDescription(CRAFT_DESCRIPTION_VALUE_1).withLead(LEAD).withDevServicesPage(PAGE).withSlackChannels(SLACK_CHANNELS);
+        return Craft.builder()
+                .withId(CRAFT_ID_VALUE_1)
+                .withTitle(CRAFT_TITLE_VALUE_1)
+                .withDescription(CRAFT_DESCRIPTION_VALUE_1)
+                .withLead(LEAD)
+                .withDevServicesPage(PAGE)
+                .withSlackChannels(SLACK_CHANNELS);
     }
 
     public static Grade.GradeBuilder getDefaultGradeBuilder() {
-        return Grade.builder().withId(GRADE_ID_VALUE_1).withTitle(GRADE_TITLE_VALUE_1).withDescription(GRADE_DESCRIPTION_VALUE_1).withHrCode(GRADE_HR_CODE_VALUE_1);
+        return Grade.builder()
+                .withId(GRADE_ID_VALUE_1)
+                .withTitle(GRADE_TITLE_VALUE_1)
+                .withDescription(GRADE_DESCRIPTION_VALUE_1)
+                .withHrCode(GRADE_HR_CODE_VALUE_1);
     }
 
 }

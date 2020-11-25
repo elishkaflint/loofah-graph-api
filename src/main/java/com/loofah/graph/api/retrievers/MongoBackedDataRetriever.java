@@ -11,6 +11,7 @@ import com.loofah.graph.api.repositories.CategoryRepository;
 import com.loofah.graph.api.repositories.CraftRepository;
 import com.loofah.graph.api.repositories.GradeRepository;
 import com.loofah.graph.api.repositories.SkillRepository;
+import graphql.GraphQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;

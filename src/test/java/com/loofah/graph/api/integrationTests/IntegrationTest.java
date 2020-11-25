@@ -45,8 +45,8 @@ import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILLS;
 import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertResponseHasErrorMessage;
 import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertResponseHasNullData;
 import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasCategoryWithId;
+import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasGradeWithId;
 import static com.loofah.graph.api.models.DTO.SkillDTO.SkillDTOFields.CRAFT_IDS;
-import static com.loofah.graph.api.models.DTO.SkillDTO.SkillDTOFields.GRADE_ID;
 import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -191,7 +191,7 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForGrade.forEach(skill -> {
-            assertEquals("2", skill.get(GRADE_ID.key()));
+            assertSkillHasGradeWithId(skill, "2");
         });
     }
 
@@ -222,12 +222,23 @@ public class IntegrationTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForCategoryAndGrade.forEach(skill -> {
             assertSkillHasCategoryWithId(skill, "2");
-            assertEquals("2", skill.get(GRADE_ID.key()));
+            assertSkillHasGradeWithId(skill, "2");
             assertThat((List<String>) skill.get(CRAFT_IDS.key()), hasItem(in(Arrays.asList("2", "3"))));
         });
     }
 
+    @Test
+    public void returns_all_seeded_categories() throws IOException {
 
+        final ResponseEntity<String> response = callAPI(categoriesQuery);
+
+        assertNotNull("response body should not be null", response.getBody());
+        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(CATEGORIES);
+        final List<LinkedHashMap> allCategoriesResponse = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(DatabaseSeeder.CATEGORIES.size(), allCategoriesResponse.size());
+    }
 
     @Test
     public void returns_correct_category_when_id_is_valid() throws IOException {
@@ -250,21 +261,8 @@ public class IntegrationTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         assertResponseHasNullData(objectMapper, response);
-        assertResponseHasErrorMessage(objectMapper, response, "Exception while fetching data (/category) : No Category found with id [0]");
+        assertResponseHasErrorMessage(objectMapper, response, "Exception while fetching data (/category) : no category found with id [0]");
 
-    }
-
-    @Test
-    public void returns_all_seeded_categories() throws IOException {
-
-        final ResponseEntity<String> response = callAPI(categoriesQuery);
-
-        assertNotNull("response body should not be null", response.getBody());
-        final JsonNode parsedResponseBody = objectMapper.readTree(response.getBody()).get(DATA).get(CATEGORIES);
-        final List<LinkedHashMap> allCategoriesResponse = objectMapper.convertValue(parsedResponseBody, ArrayList.class);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(DatabaseSeeder.CATEGORIES.size(), allCategoriesResponse.size());
     }
 
     @Test
@@ -337,7 +335,7 @@ public class IntegrationTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         assertResponseHasNullData(objectMapper, response);
-        assertResponseHasErrorMessage(objectMapper, response, "Exception while fetching data (/grade) : No Grade found with id [0]");
+        assertResponseHasErrorMessage(objectMapper, response, "Exception while fetching data (/grade) : no grade found with id [0]");
 
     }
 
