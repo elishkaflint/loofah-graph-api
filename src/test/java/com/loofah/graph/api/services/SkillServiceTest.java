@@ -2,6 +2,7 @@ package com.loofah.graph.api.services;
 
 import com.loofah.graph.api.exceptions.DataNotFoundException;
 import com.loofah.graph.api.models.database.Category;
+import com.loofah.graph.api.models.database.Craft;
 import com.loofah.graph.api.models.database.Grade;
 import com.loofah.graph.api.models.database.Skill;
 import com.loofah.graph.api.models.dto.SkillDTO;
@@ -13,9 +14,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static com.loofah.graph.api.helpers.TestHelpers.*;
@@ -37,6 +40,9 @@ public class SkillServiceTest {
     @Mock
     private GradeService gradeService;
 
+    @Mock
+    private CraftService craftService;
+
     @InjectMocks
     private SkillService skillService;
 
@@ -48,6 +54,7 @@ public class SkillServiceTest {
         final SkillDTO expectedSkillDTO = getDefaultSkillDTO();
         when(categoryService.getByTitle(expectedSkillInDb.getCategoryTitle())).thenReturn(expectedSkillDTO.getCategory());
         when(gradeService.getByTitle(expectedSkillInDb.getGradeTitle())).thenReturn(expectedSkillDTO.getGrade());
+        when(craftService.getByTitle(expectedSkillInDb.getCraftTitles().get(0))).thenReturn(expectedSkillDTO.getCrafts().get(0));
 
         final SkillDTO actualSkill = skillService.getById("id");
 
@@ -74,6 +81,7 @@ public class SkillServiceTest {
         when(dataRetriever.getSkillWithFilter(skillFilter)).thenReturn(expectedSkills);
         when(categoryService.getByTitle(expectedSkillInDb.getCategoryTitle())).thenReturn(expectedSkillDTO.getCategory());
         when(gradeService.getByTitle(expectedSkillInDb.getGradeTitle())).thenReturn(expectedSkillDTO.getGrade());
+        when(craftService.getByTitle(expectedSkillInDb.getCraftTitles().get(0))).thenReturn(expectedSkillDTO.getCrafts().get(0));
 
         final List<SkillDTO> actualSkills = skillService.getWithFilter(skillFilter);
 
@@ -86,12 +94,17 @@ public class SkillServiceTest {
         final SkillFilter skillFilter = mock(SkillFilter.class);
         final Category expectedCategory = getDefaultCategoryBuilder().build();
         final Grade expectedGrade = getDefaultGradeBuilder().build();
+        final Craft expectedCraft = getDefaultCraftBuilder().build();
         final List<Skill> unorderedSkills = asList(getDefaultSkillBuilder().withTitle("Z").build(), getDefaultSkillBuilder().withTitle("A").build());
-        final List<SkillDTO> orderedSkillDTOs = unorderedSkills.stream().map(skill -> new SkillDTO(skill, expectedCategory, expectedGrade)).sorted().collect(Collectors.toList());
+        final List<SkillDTO> orderedSkillDTOs = unorderedSkills.stream()
+                .map(skill -> new SkillDTO(skill, expectedCategory, expectedGrade, Collections.singletonList(expectedCraft)))
+                .sorted()
+                .collect(Collectors.toList());
 
         when(dataRetriever.getSkillWithFilter(skillFilter)).thenReturn(unorderedSkills);
         when(categoryService.getByTitle(any())).thenReturn(expectedCategory);
         when(gradeService.getByTitle(any())).thenReturn(expectedGrade);
+        when(craftService.getByTitle(any())).thenReturn(expectedCraft);
 
         final List<SkillDTO> actualSkillDTOs = skillService.getWithFilter(skillFilter);
 

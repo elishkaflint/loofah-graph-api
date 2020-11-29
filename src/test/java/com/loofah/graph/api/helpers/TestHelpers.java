@@ -42,7 +42,9 @@ public class TestHelpers {
                 .withTitle(SKILL_TITLE_VALUE_1)
                 .withDescription(SKILL_DESCRIPTION_VALUE_1)
                 .withCategory(getDefaultCategoryBuilder().build())
-                .withGrade(getDefaultGradeBuilder().build());
+                .withGrade(getDefaultGradeBuilder().build())
+                .withCrafts(Collections.singletonList(getDefaultCraftBuilder().build())
+        );
     }
 
     public static Skill.SkillBuilder getDefaultSkillBuilder() {
@@ -51,7 +53,8 @@ public class TestHelpers {
                 .withTitle(SKILL_TITLE_VALUE_1)
                 .withDescription(SKILL_DESCRIPTION_VALUE_1)
                 .withCategoryTitle(CATEGORY_TITLE_VALUE_1)
-                .withGradeTitle(GRADE_TITLE_VALUE_1);
+                .withGradeTitle(GRADE_TITLE_VALUE_1)
+                .withCraftTitles(Collections.singletonList(CRAFT_TITLE_VALUE_1));
     }
 
     public static Category.CategoryBuilder getDefaultCategoryBuilder() {

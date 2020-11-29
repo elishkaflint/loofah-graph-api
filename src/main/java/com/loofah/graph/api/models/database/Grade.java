@@ -16,7 +16,7 @@ public class Grade implements Comparable<Grade> {
             "seniorDeveloper",
             "technicalLead",
             "seniorTechnicalLead",
-            "director",
+            "technicalDirector",
             "partner"
     ));
 
