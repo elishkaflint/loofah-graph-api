@@ -32,6 +32,9 @@ public class SkillServiceTest {
     @Mock
     private GradeService gradeService;
 
+    @Mock
+    private CraftService craftService;
+
     @InjectMocks
     private SkillService skillService;
 
@@ -43,6 +46,7 @@ public class SkillServiceTest {
         SkillDTO expectedSkillDTO = getDefaultSkillDTO();
         when(categoryService.getByTitle(expectedSkillInDb.getCategoryTitle())).thenReturn(expectedSkillDTO.getCategory());
         when(gradeService.getByTitle(expectedSkillInDb.getGradeTitle())).thenReturn(expectedSkillDTO.getGrade());
+        when(craftService.getByTitle(expectedSkillInDb.getCraftTitles().get(0))).thenReturn(expectedSkillDTO.getCrafts().get(0));
 
         SkillDTO actualSkill = skillService.getById("id");
 
@@ -69,6 +73,7 @@ public class SkillServiceTest {
         when(dataRetriever.getSkillWithFilter(skillFilter)).thenReturn(expectedSkills);
         when(categoryService.getByTitle(expectedSkillInDb.getCategoryTitle())).thenReturn(expectedSkillDTO.getCategory());
         when(gradeService.getByTitle(expectedSkillInDb.getGradeTitle())).thenReturn(expectedSkillDTO.getGrade());
+        when(craftService.getByTitle(expectedSkillInDb.getCraftTitles().get(0))).thenReturn(expectedSkillDTO.getCrafts().get(0));
 
         List<SkillDTO> actualSkills = skillService.getWithFilter(skillFilter);
 

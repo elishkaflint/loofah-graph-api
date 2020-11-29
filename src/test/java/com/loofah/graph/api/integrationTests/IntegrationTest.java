@@ -47,11 +47,8 @@ import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertResponse
 import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertResponseHasNullData;
 import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasCategoryWithTitle;
 import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasGradeWithTitle;
-import static com.loofah.graph.api.models.dto.SkillDTO.SkillDTOFields.CRAFT_IDS;
+import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasCraftWithTitle;
 import static junit.framework.TestCase.assertNotNull;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.in;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -167,7 +164,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void returns_correct_skills_for_category_id() throws IOException {
+    public void returns_correct_skills_for_category() throws IOException {
 
         final ResponseEntity<String> response = callAPI(skillsQueryCategoryFilter);
 
@@ -182,7 +179,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void returns_correct_skills_for_grade_id() throws IOException {
+    public void returns_correct_skills_for_grade() throws IOException {
 
         final ResponseEntity<String> response = callAPI(skillsQueryGradeFilter);
 
@@ -197,7 +194,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void returns_correct_skills_for_craft_ids() throws IOException {
+    public void returns_correct_skills_for_crafts() throws IOException {
 
         final ResponseEntity<String> response = callAPI(skillsQueryCraftFilter);
 
@@ -207,12 +204,12 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForCraft.forEach(skill -> {
-            assertThat((List<String>) skill.get(CRAFT_IDS.key()), hasItem(in(Arrays.asList("architecture", "mobile"))));
+            assertSkillHasCraftWithTitle(skill, Arrays.asList("architecture","mobile"));
         });
     }
 
     @Test
-    public void returns_correct_skills_for_grade_id_and_category_id_and_craft_ids() throws IOException {
+    public void returns_correct_skills_for_grade_and_category_and_crafts() throws IOException {
 
         final ResponseEntity<String> response = callAPI(skillsQueryAllFilters);
 
@@ -224,7 +221,7 @@ public class IntegrationTest {
         selectedSkillsForCategoryAndGrade.forEach(skill -> {
             assertSkillHasCategoryWithTitle(skill, "technical");
             assertSkillHasGradeWithTitle(skill, "developer");
-            assertThat((List<String>) skill.get(CRAFT_IDS.key()), hasItem(in(Collections.singletonList("mobile"))));
+            assertSkillHasCraftWithTitle(skill, Collections.singletonList("mobile"));
         });
     }
 

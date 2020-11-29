@@ -20,7 +20,7 @@ type SkillDTO {
   examples: String
   category: Category!
   grade: Grade!
-  craftTitles: [CraftTitle!]
+  crafts: [Craft!]
 }
 
 type Category {

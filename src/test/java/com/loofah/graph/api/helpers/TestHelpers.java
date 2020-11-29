@@ -35,7 +35,12 @@ public class TestHelpers {
 
 
     public static SkillDTO getDefaultSkillDTO() {
-        return new SkillDTO(getDefaultSkillBuilder().build(), getDefaultCategoryBuilder().build(), getDefaultGradeBuilder().build());
+        return new SkillDTO(
+                getDefaultSkillBuilder().build(),
+                getDefaultCategoryBuilder().build(),
+                getDefaultGradeBuilder().build(),
+                Collections.singletonList(getDefaultCraftBuilder().build())
+        );
     }
 
     public static Skill.SkillBuilder getDefaultSkillBuilder() {
@@ -44,7 +49,8 @@ public class TestHelpers {
                 .withTitle(SKILL_TITLE_VALUE_1)
                 .withDescription(SKILL_DESCRIPTION_VALUE_1)
                 .withCategoryTitle(CATEGORY_TITLE_VALUE_1)
-                .withGradeTitle(GRADE_TITLE_VALUE_1);
+                .withGradeTitle(GRADE_TITLE_VALUE_1)
+                .withCraftTitles(Collections.singletonList(CRAFT_TITLE_VALUE_1));
     }
 
     public static Category.CategoryBuilder getDefaultCategoryBuilder() {

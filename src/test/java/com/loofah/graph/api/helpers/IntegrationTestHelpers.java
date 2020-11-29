@@ -8,11 +8,15 @@ import com.loofah.graph.api.models.dto.SkillDTO;
 import org.springframework.http.ResponseEntity;
 
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.loofah.graph.api.helpers.IntegrationTestConstants.DATA;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+
 
 public class IntegrationTestHelpers {
 
@@ -43,5 +47,11 @@ public class IntegrationTestHelpers {
     public static void assertSkillHasGradeWithTitle(LinkedHashMap skill, String expectedGradeTitle){
         LinkedHashMap gradeOnSkill = (LinkedHashMap) skill.get(SkillDTO.SkillDTOFields.GRADE.key());
         assertEquals(expectedGradeTitle, gradeOnSkill.get("title"));
+    }
+
+    public static void assertSkillHasCraftWithTitle(LinkedHashMap skill, List<String> expectedCraftTitles){
+        List<LinkedHashMap> craftsOnSkill = (List<LinkedHashMap>) skill.get(SkillDTO.SkillDTOFields.CRAFTS.key());
+        List<String> craftTitlesOnSkill = craftsOnSkill.stream().map(craft -> (String) craft.get("title")).collect(Collectors.toList());
+        assertThat(craftTitlesOnSkill).containsAnyElementsOf(expectedCraftTitles);
     }
 }

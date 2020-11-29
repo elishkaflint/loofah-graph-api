@@ -1,6 +1,7 @@
 package com.loofah.graph.api.services;
 
 import com.loofah.graph.api.exceptions.DataNotFoundException;
+import com.loofah.graph.api.models.database.Craft;
 import com.loofah.graph.api.models.dto.SkillDTO;
 import com.loofah.graph.api.models.database.Category;
 import com.loofah.graph.api.models.database.Grade;
@@ -20,12 +21,14 @@ public class SkillService {
     private final DataRetriever dataRetriever;
     private final CategoryService categoryService;
     private final GradeService gradeService;
+    private final CraftService craftService;
 
     @Autowired
-    public SkillService(DataRetriever dataRetriever, CategoryService categoryService, GradeService gradeService) {
+    public SkillService(DataRetriever dataRetriever, CategoryService categoryService, GradeService gradeService, CraftService craftService) {
         this.dataRetriever = dataRetriever;
         this.categoryService = categoryService;
         this.gradeService = gradeService;
+        this.craftService = craftService;
     }
 
     public SkillDTO getById(String id) {
@@ -34,9 +37,9 @@ public class SkillService {
     }
 
     // This method will return an empty list if no skills match the given filter.
-    // If the filter returns skills without a grade or category id,
+    // If the filter returns skills without a grade / category / craft id,
     // a GraphQlException message will be returned in the response error message.
-    // If the filter returns skills with grade or category ids which do not return grades or categories respectively,
+    // If the filter returns skills with grade / category / craft ids which do not return grades categories or crafts respectively,
     // a DataNotFoundException message will be returned in the response error message.
     public List<SkillDTO> getWithFilter(SkillFilter skillFilter) {
         List<Skill> skills = dataRetriever.getSkillWithFilter(skillFilter);
@@ -46,7 +49,15 @@ public class SkillService {
     private SkillDTO transformToSkillDTO(Skill skill) {
         Category category = retrieveCategoryForSkill(skill);
         Grade grade = retrieveGradeForSkill(skill);
-        return new SkillDTO(skill, category, grade);
+        List<Craft> crafts = retrieveCraftsForSkill(skill);
+        return new SkillDTO(skill, category, grade, crafts);
+    }
+
+    private List<Craft> retrieveCraftsForSkill(Skill skill) {
+        if (skill.getCraftTitles().isEmpty()) {
+            throw new GraphQLException("craftTitle is empty for skill with id ["+skill.getTitle()+"]");
+        }
+        return skill.getCraftTitles().stream().map(craftService::getByTitle).collect(Collectors.toList());
     }
 
     private Category retrieveCategoryForSkill(Skill skill) {

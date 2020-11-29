@@ -92,6 +92,14 @@ public class DatabaseSeeder {
                     .withLead(Collections.singletonList("lead2"))
                     .withDevServicesPage("page2")
                     .withSlackChannels(Collections.emptyList())
+                    .build(),
+            Craft.builder()
+                    .withId("3")
+                    .withTitle("platform")
+                    .withDescription("craftDescription3")
+                    .withLead(Collections.singletonList("lead3"))
+                    .withDevServicesPage("page3")
+                    .withSlackChannels(Collections.emptyList())
                     .build()
     ));
 
