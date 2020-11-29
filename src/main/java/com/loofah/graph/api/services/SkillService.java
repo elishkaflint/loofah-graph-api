@@ -1,7 +1,7 @@
 package com.loofah.graph.api.services;
 
 import com.loofah.graph.api.exceptions.DataNotFoundException;
-import com.loofah.graph.api.models.DTO.SkillDTO;
+import com.loofah.graph.api.models.dto.SkillDTO;
 import com.loofah.graph.api.models.database.Category;
 import com.loofah.graph.api.models.database.Grade;
 import com.loofah.graph.api.models.database.Skill;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -34,8 +33,7 @@ public class SkillService {
         return transformToSkillDTO(skill);
     }
 
-
-    // This method will return an empty list if no skills match the current filter.
+    // This method will return an empty list if no skills match the given filter.
     // If the filter returns skills without a grade or category id,
     // a GraphQlException message will be returned in the response error message.
     // If the filter returns skills with grade or category ids which do not return grades or categories respectively,
@@ -52,17 +50,17 @@ public class SkillService {
     }
 
     private Category retrieveCategoryForSkill(Skill skill) {
-        if (skill.getCategoryId() == null) {
-            throw new GraphQLException("categoryId is null for skill with id ["+skill.getId()+"]");
+        if (skill.getCategoryTitle() == null) {
+            throw new GraphQLException("categoryTitle is null for skill with id ["+skill.getTitle()+"]");
         }
-        return categoryService.getById(skill.getCategoryId());
+        return categoryService.getByTitle(skill.getCategoryTitle());
     }
 
     private Grade retrieveGradeForSkill(Skill skill) {
-        if (skill.getGradeId() == null) {
-            throw new GraphQLException("gradeId is null for skill with id ["+skill.getId()+"]");
+        if (skill.getGradeTitle() == null) {
+            throw new GraphQLException("gradeTitle is null for skill with id ["+skill.getTitle()+"]");
         }
-        return gradeService.getById(skill.getGradeId());
+        return gradeService.getByTitle(skill.getGradeTitle());
     }
 
 }

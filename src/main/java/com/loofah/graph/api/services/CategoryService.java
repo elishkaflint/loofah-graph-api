@@ -22,6 +22,10 @@ public class CategoryService {
         return dataRetriever.getCategoryById(id).orElseThrow(() -> new DataNotFoundException("no category found with id ["+id+"]"));
     }
 
+    public Category getByTitle(String title) {
+        return dataRetriever.getCategoryByTitle(title).orElseThrow(() -> new DataNotFoundException("no category found with title ["+title+"]"));
+    }
+
     public List<Category> getAll() {
         return dataRetriever.getAllCategories();
     }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.TextNode;
-import com.loofah.graph.api.models.DTO.SkillDTO;
+import com.loofah.graph.api.models.dto.SkillDTO;
 import org.springframework.http.ResponseEntity;
 
 import java.util.LinkedHashMap;
@@ -35,13 +35,13 @@ public class IntegrationTestHelpers {
         assertEquals(expectedErrorMessage, responseErrorMessage.asText());
     }
 
-    public static void assertSkillHasCategoryWithId(LinkedHashMap skill, String expectedCategoryId){
+    public static void assertSkillHasCategoryWithTitle(LinkedHashMap skill, String expectedCategoryTitle){
         LinkedHashMap categoryOnSkill = (LinkedHashMap) skill.get(SkillDTO.SkillDTOFields.CATEGORY.key());
-        assertEquals(expectedCategoryId, categoryOnSkill.get("id"));
+        assertEquals(expectedCategoryTitle, categoryOnSkill.get("title"));
     }
 
-    public static void assertSkillHasGradeWithId(LinkedHashMap skill, String expectedGradeId){
+    public static void assertSkillHasGradeWithTitle(LinkedHashMap skill, String expectedGradeTitle){
         LinkedHashMap gradeOnSkill = (LinkedHashMap) skill.get(SkillDTO.SkillDTOFields.GRADE.key());
-        assertEquals(expectedGradeId, gradeOnSkill.get("id"));
+        assertEquals(expectedGradeTitle, gradeOnSkill.get("title"));
     }
 }

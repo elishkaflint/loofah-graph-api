@@ -1,15 +1,13 @@
 package com.loofah.graph.api.helpers;
 
-import com.loofah.graph.api.models.DTO.SkillDTO;
+import com.loofah.graph.api.models.dto.SkillDTO;
 import com.loofah.graph.api.models.database.Category;
 import com.loofah.graph.api.models.database.Craft;
 import com.loofah.graph.api.models.database.Grade;
 import com.loofah.graph.api.models.database.Skill;
 
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
@@ -20,18 +18,19 @@ public class TestHelpers {
     public static final String SKILL_DESCRIPTION_VALUE_1 = "description1";
 
     public static final String CATEGORY_ID_VALUE_1 = "1";
-    public static final String CATEGORY_TITLE_VALUE_1 = "1";
+    public static final String CATEGORY_TITLE_VALUE_1 = "technical";
+    public static final String CATEGORY_TITLE_DESCRIPTION_1 = "technicalDescription";
 
     public static final String CRAFT_ID_VALUE_1 = "1";
-    public static final String CRAFT_TITLE_VALUE_1 = "craftTitle1";
-    public static final String CRAFT_DESCRIPTION_VALUE_1 = "craftDescription1";
-    public static final List<String> LEAD = Collections.singletonList("lead1");
-    public static final String PAGE = "page1";
-    public static final List<String> SLACK_CHANNELS = Collections.emptyList();
+    public static final String CRAFT_TITLE_VALUE_1 = "architecture";
+    public static final String CRAFT_DESCRIPTION_VALUE_1 = "architectureDescription";
+    public static final List<String> LEAD_1 = Collections.singletonList("lead1");
+    public static final String DEV_SERVICES_PAGE_1 = "page1";
+    public static final List<String> SLACK_CHANNELS_1 = Collections.emptyList();
 
     public static final String GRADE_ID_VALUE_1 = "1";
-    public static final String GRADE_TITLE_VALUE_1 = "GradeTitle1";
-    public static final String GRADE_DESCRIPTION_VALUE_1 = "gradeDescription1";
+    public static final String GRADE_TITLE_VALUE_1 = "analystDeveloper";
+    public static final String GRADE_DESCRIPTION_VALUE_1 = "analystDeveloperDescription";
     public static final String GRADE_HR_CODE_VALUE_1 = "M1";
 
 
@@ -44,14 +43,15 @@ public class TestHelpers {
                 .withId(SKILL_ID_VALUE_1)
                 .withTitle(SKILL_TITLE_VALUE_1)
                 .withDescription(SKILL_DESCRIPTION_VALUE_1)
-                .withCategoryId(CATEGORY_ID_VALUE_1)
-                .withGradeId(GRADE_ID_VALUE_1);
+                .withCategoryTitle(CATEGORY_TITLE_VALUE_1)
+                .withGradeTitle(GRADE_TITLE_VALUE_1);
     }
 
     public static Category.CategoryBuilder getDefaultCategoryBuilder() {
         return Category.builder()
                 .withId(CATEGORY_ID_VALUE_1)
-                .withTitle(CATEGORY_TITLE_VALUE_1);
+                .withTitle(CATEGORY_TITLE_VALUE_1)
+                .withDescription(CATEGORY_TITLE_DESCRIPTION_1);
     }
 
     public static Craft.Builder getDefaultCraftBuilder() {
@@ -59,9 +59,9 @@ public class TestHelpers {
                 .withId(CRAFT_ID_VALUE_1)
                 .withTitle(CRAFT_TITLE_VALUE_1)
                 .withDescription(CRAFT_DESCRIPTION_VALUE_1)
-                .withLead(LEAD)
-                .withDevServicesPage(PAGE)
-                .withSlackChannels(SLACK_CHANNELS);
+                .withLead(LEAD_1)
+                .withDevServicesPage(DEV_SERVICES_PAGE_1)
+                .withSlackChannels(SLACK_CHANNELS_1);
     }
 
     public static Grade.GradeBuilder getDefaultGradeBuilder() {

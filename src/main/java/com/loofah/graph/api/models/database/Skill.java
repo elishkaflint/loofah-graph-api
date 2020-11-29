@@ -10,24 +10,24 @@ public class Skill {
     private final String id;
     private final String title;
     private final String description;
-    private final String categoryId;
-    private final String gradeId;
-    private final List<String> craftIds;
+    private final String categoryTitle;
+    private final String gradeTitle;
+    private final List<String> craftTitles;
     private final String examples;
 
     public Skill(final String id,
                  final String title,
                  final String description,
-                 final String categoryId,
-                 final String gradeId,
-                 final List<String> craftIds,
+                 final String categoryTitle,
+                 final String gradeTitle,
+                 final List<String> craftTitles,
                  final String examples) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.categoryId = categoryId;
-        this.gradeId = gradeId;
-        this.craftIds = craftIds;
+        this.categoryTitle = categoryTitle;
+        this.gradeTitle = gradeTitle;
+        this.craftTitles = craftTitles;
         this.examples = examples;
     }
 
@@ -51,16 +51,16 @@ public class Skill {
         return examples;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public String getCategoryTitle() {
+        return categoryTitle;
     }
 
-    public String getGradeId() {
-        return gradeId;
+    public String getGradeTitle() {
+        return gradeTitle;
     }
 
-    public List<String> getCraftIds() {
-        return craftIds;
+    public List<String> getCraftTitles() {
+        return craftTitles;
     }
 
     @Override
@@ -69,9 +69,9 @@ public class Skill {
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", categoryId='" + categoryId + '\'' +
-                ", gradeId='" + gradeId + '\'' +
-                ", craftIds=" + craftIds +
+                ", categoryTitle='" + categoryTitle + '\'' +
+                ", gradeTitle='" + gradeTitle + '\'' +
+                ", craftTitles=" + craftTitles +
                 ", examples='" + examples + '\'' +
                 '}';
     }
@@ -81,9 +81,9 @@ public class Skill {
         private String id;
         private String title;
         private String description;
-        private String categoryId;
-        private String gradeId;
-        private List<String> craftIds;
+        private String categoryTitle;
+        private String gradeTitle;
+        private List<String> craftTitles;
         private String examples;
 
         public SkillBuilder withId(final String id) {
@@ -101,18 +101,18 @@ public class Skill {
             return this;
         }
 
-        public SkillBuilder withCategoryId(final String categoryId) {
-            this.categoryId = categoryId;
+        public SkillBuilder withCategoryTitle(final String categoryTitle) {
+            this.categoryTitle = categoryTitle;
             return this;
         }
 
-        public SkillBuilder withGradeId(final String gradeId) {
-            this.gradeId = gradeId;
+        public SkillBuilder withGradeTitle(final String gradeTitle) {
+            this.gradeTitle = gradeTitle;
             return this;
         }
 
-        public SkillBuilder withCraftIds(final List<String> craftIds) {
-            this.craftIds = craftIds;
+        public SkillBuilder withCraftTitles(final List<String> craftTitles) {
+            this.craftTitles = craftTitles;
             return this;
         }
 
@@ -122,7 +122,7 @@ public class Skill {
         }
 
         public Skill build() {
-            return new Skill(this.id, this.title, this.description, this.categoryId, this.gradeId, this.craftIds, this.examples);
+            return new Skill(this.id, this.title, this.description, this.categoryTitle, this.gradeTitle, this.craftTitles, this.examples);
         }
 
     }
