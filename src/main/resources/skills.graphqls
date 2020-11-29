@@ -5,6 +5,7 @@ schema {
 type Query {
   skill(id: String!): SkillDTO!
   skills(filter: SkillFilter): [SkillDTO!]!
+  groupedSkills(filter: SkillFilter): [GroupedSkillDTO!]!
   category(id: String!): Category!
   categories: [Category!]!
   craft(id: String): Craft!
@@ -21,6 +22,11 @@ type SkillDTO {
   category: Category!
   grade: Grade!
   crafts: [Craft!]
+}
+
+type GroupedSkillDTO {
+  title: String!
+  skills: [SkillDTO]!
 }
 
 type Category {

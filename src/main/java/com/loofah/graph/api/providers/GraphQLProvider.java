@@ -27,6 +27,7 @@ public class GraphQLProvider {
 
     private final SkillsQuery skillsQuery;
     private final SkillQuery skillQuery;
+    private final GroupedSkillsQuery groupedSkillsQuery;
     private final CategoryQuery categoryQuery;
     private final CategoriesQuery categoriesQuery;
     private final CraftsQuery craftsQuery;
@@ -41,6 +42,7 @@ public class GraphQLProvider {
     @Autowired
     public GraphQLProvider(final SkillsQuery skillsQuery,
                            final SkillQuery skillQuery,
+                           final GroupedSkillsQuery groupedSkillsQuery,
                            final CategoryQuery categoryQuery,
                            final CategoriesQuery categoriesQuery,
                            final CraftsQuery craftsQuery,
@@ -49,6 +51,7 @@ public class GraphQLProvider {
                            final GradesQuery gradesQuery) {
         this.skillsQuery = skillsQuery;
         this.skillQuery = skillQuery;
+        this.groupedSkillsQuery = groupedSkillsQuery;
         this.categoryQuery = categoryQuery;
         this.categoriesQuery = categoriesQuery;
         this.craftsQuery = craftsQuery;
@@ -70,6 +73,7 @@ public class GraphQLProvider {
         final Map<String, DataFetcher> dataFetchers = new HashMap<>();
         dataFetchers.put("skill", skillQuery);
         dataFetchers.put("skills", skillsQuery);
+        dataFetchers.put("groupedSkills", groupedSkillsQuery);
         dataFetchers.put("category", categoryQuery);
         dataFetchers.put("categories", categoriesQuery);
         dataFetchers.put("crafts", craftsQuery);
