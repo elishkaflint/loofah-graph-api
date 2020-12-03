@@ -39,4 +39,9 @@ public class IntegrationTestHelpers {
         LinkedHashMap categoryOnSkill = (LinkedHashMap) skill.get(SkillDTO.SkillDTOFields.CATEGORY.key());
         assertEquals(expectedCategoryId, categoryOnSkill.get("id"));
     }
+
+    public static void assertSkillHasGradeWithId(LinkedHashMap skill, String expectedGradeId){
+        LinkedHashMap gradeOnSkill = (LinkedHashMap) skill.get(SkillDTO.SkillDTOFields.GRADE.key());
+        assertEquals(expectedGradeId, gradeOnSkill.get("id"));
+    }
 }

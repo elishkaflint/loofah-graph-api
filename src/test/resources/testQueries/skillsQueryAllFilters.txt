@@ -5,7 +5,7 @@ query {
         description
         examples
         category{id}
-        gradeId
+        grade{id}
         craftIds
     }
 }

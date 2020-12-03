@@ -1,12 +1,12 @@
 package com.loofah.graph.api.models.DTO;
 
 import com.loofah.graph.api.models.database.Category;
+import com.loofah.graph.api.models.database.Grade;
 import com.loofah.graph.api.models.database.Skill;
 import org.springframework.data.annotation.Id;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class SkillDTO {
 
@@ -15,7 +15,7 @@ public class SkillDTO {
     private final String title;
     private final String description;
     private final Category category;
-    private final String gradeId;
+    private final Grade grade;
     private final List<String> craftIds;
     private final String examples;
 
@@ -23,26 +23,26 @@ public class SkillDTO {
                  final String title,
                  final String description,
                  final Category category,
-                 final String gradeId,
+                 final Grade grade,
                  final List<String> craftIds,
                  final String examples) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.category = category;
-        this.gradeId = gradeId;
+        this.grade = grade;
         this.craftIds = craftIds;
         this.examples = examples;
     }
 
-    public SkillDTO(final Skill skill, Category category) {
+    public SkillDTO(final Skill skill, Category category, Grade grade) {
         this.id = skill.getId();
         this.title = skill.getTitle();
         this.description = skill.getDescription();
-        this.gradeId = skill.getGradeId();
+        this.category = category;
+        this.grade = grade;
         this.craftIds = skill.getCraftIds();
         this.examples = skill.getExamples();
-        this.category = category;
     }
 
     /**
@@ -55,7 +55,7 @@ public class SkillDTO {
         TITLE("title"),
         DESCRIPTION("description"),
         CATEGORY("category"),
-        GRADE_ID("gradeId"),
+        GRADE("grade"),
         CRAFT_IDS("craftIds"),
         EXAMPLES("examples");
 
@@ -94,7 +94,7 @@ public class SkillDTO {
         return category;
     }
 
-    public String getGradeId() { return gradeId; }
+    public Grade getGrade() { return grade; }
 
     public List<String> getCraftIds() {
         return craftIds;
@@ -110,7 +110,7 @@ public class SkillDTO {
                 Objects.equals(title, skillDTO.title) &&
                 Objects.equals(description, skillDTO.description) &&
                 Objects.equals(category, skillDTO.category) &&
-                Objects.equals(gradeId, skillDTO.gradeId) &&
+                Objects.equals(grade, skillDTO.grade) &&
                 Objects.equals(craftIds, skillDTO.craftIds) &&
                 Objects.equals(examples, skillDTO.examples);
     }
@@ -122,7 +122,7 @@ public class SkillDTO {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", category=" + category +
-                ", gradeId='" + gradeId + '\'' +
+                ", grade='" + grade + '\'' +
                 ", craftIds=" + craftIds +
                 ", examples='" + examples + '\'' +
                 '}';
@@ -134,7 +134,7 @@ public class SkillDTO {
         private String title;
         private String description;
         private Category category;
-        private String gradeId;
+        private Grade grade;
         private List<String> craftIds;
         private String examples;
 
@@ -158,8 +158,8 @@ public class SkillDTO {
             return this;
         }
 
-        public SkillDTOBuilder withGradeId(final String gradeId) {
-            this.gradeId = gradeId;
+        public SkillDTOBuilder withGrade(final Grade grade) {
+            this.grade = grade;
             return this;
         }
 
@@ -174,7 +174,7 @@ public class SkillDTO {
         }
 
         public SkillDTO build() {
-            return new SkillDTO(this.id, this.title, this.description, this.category, this.gradeId, this.craftIds, this.examples);
+            return new SkillDTO(this.id, this.title, this.description, this.category, this.grade, this.craftIds, this.examples);
         }
 
     }

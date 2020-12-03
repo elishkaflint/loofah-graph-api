@@ -19,7 +19,7 @@ public class GradeService {
     }
 
     public Grade getById(String id) {
-        return dataRetriever.getGradeById(id).orElseThrow(() -> new DataNotFoundException("No Grade found with id ["+id+"]"));
+        return dataRetriever.getGradeById(id).orElseThrow(() -> new DataNotFoundException("no grade found with id ["+id+"]"));
     }
 
     public List<Grade> getAll() {

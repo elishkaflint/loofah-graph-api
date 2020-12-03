@@ -19,7 +19,7 @@ public class CategoryService {
     }
 
     public Category getById(String id) {
-        return dataRetriever.getCategoryById(id).orElseThrow(() -> new DataNotFoundException("No Category found with id ["+id+"]"));
+        return dataRetriever.getCategoryById(id).orElseThrow(() -> new DataNotFoundException("no category found with id ["+id+"]"));
     }
 
     public List<Category> getAll() {

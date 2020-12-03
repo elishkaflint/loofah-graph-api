@@ -18,8 +18,8 @@ type SkillDTO {
   title: String!
   description: String!
   examples: String
-  category: Category
-  gradeId: String!
+  category: Category!
+  grade: Grade!
   craftIds: [String!]
 }
 
