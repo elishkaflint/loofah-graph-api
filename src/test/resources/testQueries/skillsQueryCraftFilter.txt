@@ -1,11 +1,11 @@
 query {
-    skills(filter: {craftIds: ["1", "2"]}) {
+    skills(filter: {craftTitles: [architecture, mobile]}) {
         id
         title
         description
         examples
-        category{id}
-        grade{id}
-        craftIds
+        category{title}
+        grade{title}
+        craftTitles
     }
 }

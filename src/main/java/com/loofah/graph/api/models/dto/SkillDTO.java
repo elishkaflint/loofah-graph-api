@@ -1,4 +1,4 @@
-package com.loofah.graph.api.models.DTO;
+package com.loofah.graph.api.models.dto;
 
 import com.loofah.graph.api.models.database.Category;
 import com.loofah.graph.api.models.database.Grade;
@@ -16,7 +16,7 @@ public class SkillDTO {
     private final String description;
     private final Category category;
     private final Grade grade;
-    private final List<String> craftIds;
+    private final List<String> craftTitles;
     private final String examples;
 
     public SkillDTO(final String id,
@@ -24,14 +24,14 @@ public class SkillDTO {
                  final String description,
                  final Category category,
                  final Grade grade,
-                 final List<String> craftIds,
+                 final List<String> craftTitles,
                  final String examples) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.category = category;
         this.grade = grade;
-        this.craftIds = craftIds;
+        this.craftTitles = craftTitles;
         this.examples = examples;
     }
 
@@ -41,7 +41,7 @@ public class SkillDTO {
         this.description = skill.getDescription();
         this.category = category;
         this.grade = grade;
-        this.craftIds = skill.getCraftIds();
+        this.craftTitles = skill.getCraftTitles();
         this.examples = skill.getExamples();
     }
 
@@ -56,7 +56,7 @@ public class SkillDTO {
         DESCRIPTION("description"),
         CATEGORY("category"),
         GRADE("grade"),
-        CRAFT_IDS("craftIds"),
+        CRAFT_IDS("craftTitles"),
         EXAMPLES("examples");
 
         String key;
@@ -96,8 +96,8 @@ public class SkillDTO {
 
     public Grade getGrade() { return grade; }
 
-    public List<String> getCraftIds() {
-        return craftIds;
+    public List<String> getCraftTitles() {
+        return craftTitles;
     }
 
 
@@ -111,7 +111,7 @@ public class SkillDTO {
                 Objects.equals(description, skillDTO.description) &&
                 Objects.equals(category, skillDTO.category) &&
                 Objects.equals(grade, skillDTO.grade) &&
-                Objects.equals(craftIds, skillDTO.craftIds) &&
+                Objects.equals(craftTitles, skillDTO.craftTitles) &&
                 Objects.equals(examples, skillDTO.examples);
     }
 
@@ -123,7 +123,7 @@ public class SkillDTO {
                 ", description='" + description + '\'' +
                 ", category=" + category +
                 ", grade='" + grade + '\'' +
-                ", craftIds=" + craftIds +
+                ", craftTitles=" + craftTitles +
                 ", examples='" + examples + '\'' +
                 '}';
     }
@@ -135,7 +135,7 @@ public class SkillDTO {
         private String description;
         private Category category;
         private Grade grade;
-        private List<String> craftIds;
+        private List<String> craftTitles;
         private String examples;
 
         public SkillDTOBuilder withId(final String id) {
@@ -163,8 +163,8 @@ public class SkillDTO {
             return this;
         }
 
-        public SkillDTOBuilder withCraftIds(final List<String> craftIds) {
-            this.craftIds = craftIds;
+        public SkillDTOBuilder withCraftTitles(final List<String> craftIds) {
+            this.craftTitles = craftIds;
             return this;
         }
 
@@ -174,7 +174,7 @@ public class SkillDTO {
         }
 
         public SkillDTO build() {
-            return new SkillDTO(this.id, this.title, this.description, this.category, this.grade, this.craftIds, this.examples);
+            return new SkillDTO(this.id, this.title, this.description, this.category, this.grade, this.craftTitles, this.examples);
         }
 
     }

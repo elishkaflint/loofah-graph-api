@@ -1,6 +1,5 @@
 package com.loofah.graph.api.retrievers;
 
-import com.loofah.graph.api.models.DTO.SkillDTO;
 import com.loofah.graph.api.models.database.Category;
 import com.loofah.graph.api.models.database.Craft;
 import com.loofah.graph.api.models.database.Grade;
@@ -11,7 +10,6 @@ import com.loofah.graph.api.repositories.CategoryRepository;
 import com.loofah.graph.api.repositories.CraftRepository;
 import com.loofah.graph.api.repositories.GradeRepository;
 import com.loofah.graph.api.repositories.SkillRepository;
-import graphql.GraphQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -58,6 +56,11 @@ public class MongoBackedDataRetriever implements DataRetriever {
     }
 
     @Override
+    public Optional<Grade> getGradeByTitle(String title) {
+        return gradeRepository.findByTitle(title);
+    }
+
+    @Override
     public List<Grade> getAllGrades() {
         return gradeRepository.findAll();
     }
@@ -68,6 +71,11 @@ public class MongoBackedDataRetriever implements DataRetriever {
     }
 
     @Override
+    public Optional<Craft> getCraftByTitle(String title) {
+        return craftRepository.findByTitle(title);
+    }
+
+    @Override
     public List<Craft> getAllCrafts() {
         return craftRepository.findAll();
     }
@@ -75,6 +83,11 @@ public class MongoBackedDataRetriever implements DataRetriever {
     @Override
     public Optional<Category> getCategoryById(String id) {
         return categoryRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Category> getCategoryByTitle(String title) {
+        return categoryRepository.findByTitle(title);
     }
 
     @Override

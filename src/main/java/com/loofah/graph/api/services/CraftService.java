@@ -19,7 +19,11 @@ public class CraftService {
     }
 
     public Craft getById(String id) {
-        return dataRetriever.getCraftById(id).orElseThrow(() -> new DataNotFoundException("No Craft found with id ["+id+"]"));
+        return dataRetriever.getCraftById(id).orElseThrow(() -> new DataNotFoundException("no craft found with id ["+id+"]"));
+    }
+
+    public Craft getByTitle(String title) {
+        return dataRetriever.getCraftByTitle(title).orElseThrow(() -> new DataNotFoundException("no craft found with title ["+title+"]"));
     }
 
     public List<Craft> getAll() {

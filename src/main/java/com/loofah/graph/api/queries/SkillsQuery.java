@@ -1,8 +1,7 @@
 package com.loofah.graph.api.queries;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.loofah.graph.api.models.DTO.SkillDTO;
-import com.loofah.graph.api.models.database.Skill;
+import com.loofah.graph.api.models.dto.SkillDTO;
 import com.loofah.graph.api.models.filters.SkillFilter;
 import com.loofah.graph.api.services.SkillService;
 import graphql.schema.DataFetcher;

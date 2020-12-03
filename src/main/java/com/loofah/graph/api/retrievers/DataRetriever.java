@@ -1,6 +1,5 @@
 package com.loofah.graph.api.retrievers;
 
-import com.loofah.graph.api.models.DTO.SkillDTO;
 import com.loofah.graph.api.models.database.Category;
 import com.loofah.graph.api.models.database.Craft;
 import com.loofah.graph.api.models.database.Grade;
@@ -18,13 +17,19 @@ public interface DataRetriever {
 
     Optional<Grade> getGradeById(String id);
 
+    Optional<Grade> getGradeByTitle(String title);
+
     List<Grade> getAllGrades();
 
     Optional<Craft> getCraftById(String id);
 
+    Optional<Craft> getCraftByTitle(String title);
+
     List<Craft> getAllCrafts();
 
     Optional<Category> getCategoryById(String id);
+
+    Optional<Category> getCategoryByTitle(String title);
 
     List<Category> getAllCategories();
 

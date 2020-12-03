@@ -1,8 +1,7 @@
 package com.loofah.graph.api.queries;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.loofah.graph.api.models.DTO.SkillDTO;
-import com.loofah.graph.api.models.database.Skill;
+import com.loofah.graph.api.models.dto.SkillDTO;
 import com.loofah.graph.api.models.filters.SkillFilter;
 import com.loofah.graph.api.services.SkillService;
 import graphql.schema.DataFetchingEnvironment;
@@ -17,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.loofah.graph.api.helpers.TestHelpers.getDefaultSkillBuilder;
 import static com.loofah.graph.api.helpers.TestHelpers.getDefaultSkillDTO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
