@@ -16,16 +16,16 @@ public class MongoQueryProvider {
 
         Query query = new Query();
 
-        optionalFilter.map(SkillFilter::getCategoryId).ifPresent(
-                categoryId -> query.addCriteria(Criteria.where("categoryId").is(categoryId))
+        optionalFilter.map(SkillFilter::getCategoryTitle).ifPresent(
+                categoryTitle -> query.addCriteria(Criteria.where("categoryTitle").is(categoryTitle))
         );
 
-        optionalFilter.map(SkillFilter::getGradeId).ifPresent(
-                gradeId -> query.addCriteria(Criteria.where("gradeId").is(gradeId))
+        optionalFilter.map(SkillFilter::getGradeTitle).ifPresent(
+                gradeTitle -> query.addCriteria(Criteria.where("gradeTitle").is(gradeTitle))
         );
 
-        optionalFilter.map(SkillFilter::getCraftIds).ifPresent(
-                craftIds -> query.addCriteria(Criteria.where("craftIds").in(craftIds))
+        optionalFilter.map(SkillFilter::getCraftTitles).ifPresent(
+                craftTitles -> query.addCriteria(Criteria.where("craftTitles").in(craftTitles))
         );
 
         return query;

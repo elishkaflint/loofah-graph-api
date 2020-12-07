@@ -149,7 +149,6 @@ public class MongoBackedDataRetrieverTest {
     @Test
     public void getCraftById_whenCraftRepositoryReturnsEmptyOptional_thenReturnEmptyOptional() {
 
-        Craft expectedCraft = Craft.builder().build();
         when(craftRepository.findById("id")).thenReturn(Optional.empty());
 
         Optional<Craft> actualCraft = mongoBackedDataRetriever.getCraftById("id");

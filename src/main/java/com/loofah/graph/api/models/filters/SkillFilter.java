@@ -4,28 +4,28 @@ import java.util.List;
 
 public class SkillFilter {
 
-    private String categoryId;
-    private String gradeId;
-    private List<String> craftIds;
+    private String categoryTitle;
+    private String gradeTitle;
+    private List<String> craftTitles;
 
     public SkillFilter() {}
 
-    public SkillFilter(String categoryId, String gradeId, List<String> craftIds) {
-        this.categoryId = categoryId;
-        this.gradeId = gradeId;
-        this.craftIds = craftIds;
+    public SkillFilter(String categoryTitle, String gradeTitle, List<String> craftTitles) {
+        this.categoryTitle = categoryTitle;
+        this.gradeTitle = gradeTitle;
+        this.craftTitles = craftTitles;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public String getCategoryTitle() {
+        return categoryTitle;
     }
 
-    public String getGradeId() {
-        return gradeId;
+    public String getGradeTitle() {
+        return gradeTitle;
     }
 
-    public List<String> getCraftIds() {
-        return craftIds;
+    public List<String> getCraftTitles() {
+        return craftTitles;
     }
 
     public static SkillFilterBuilder builder() {
@@ -34,27 +34,27 @@ public class SkillFilter {
 
     public static class SkillFilterBuilder {
 
-        private String categoryId;
-        private String gradeId;
-        private List<String> craftIds;
+        private String categoryTitle;
+        private String gradeTitle;
+        private List<String> craftTitles;
 
-        public SkillFilterBuilder withCategoryId(String categoryId) {
-            this.categoryId = categoryId;
+        public SkillFilterBuilder withCategoryTitle(String categoryTitle) {
+            this.categoryTitle = categoryTitle;
             return this;
         }
 
-        public SkillFilterBuilder withGradeId(String gradeId) {
-            this.gradeId = gradeId;
+        public SkillFilterBuilder withGradeTitle(String gradeTitle) {
+            this.gradeTitle = gradeTitle;
             return this;
         }
 
-        public SkillFilterBuilder withCraftIds(List<String> craftIds) {
-            this.craftIds = craftIds;
+        public SkillFilterBuilder withCraftTitles(List<String> craftTitles) {
+            this.craftTitles = craftTitles;
             return this;
         }
 
         public SkillFilter build() {
-            return new SkillFilter(this.categoryId, this.gradeId, this.craftIds);
+            return new SkillFilter(this.categoryTitle, this.gradeTitle, this.craftTitles);
         }
 
     }

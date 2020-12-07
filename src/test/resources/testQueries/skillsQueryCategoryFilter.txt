@@ -1,10 +1,10 @@
 query {
-    skills(filter: {categoryId: "1"}) {
+    skills(filter: {categoryTitle: technical}) {
         id
         title
         description
         examples
-        category{id}
-        grade{id}
+        category{title}
+        grade{title}
     }
 }

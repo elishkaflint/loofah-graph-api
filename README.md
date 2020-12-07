@@ -20,7 +20,7 @@ Get a list of skills
         title
         description
         examples
-        categoryId
+        categoryTitle
     }
 }
 ```
@@ -36,21 +36,21 @@ Get a list of skills
                 "title": "title1",
                 "description": "description1",
                 "examples": null,
-                "categoryId": "1"
+                "categoryTitle": "1"
             },
             {
                 "id": "2",
                 "title": "title2",
                 "description": "description2",
                 "examples": null,
-                "categoryId": "1"
+                "categoryTitle": "1"
             },
             {
                 "id": "3",
                 "title": "title3",
                 "description": "description3",
                 "examples": null,
-                "categoryId": "2"
+                "categoryTitle": "2"
             }
         ]
     },
@@ -77,9 +77,14 @@ Custom error handling to follow.
 
 Run using the ./runLoofah.sh script in loofah-tooling.
 
+## Playground
+
+When the api is running, you can interact with it directly by visiting http://localhost:8080/playground
+
 ## Contributors
 - Harriet Barsham
 - Chris Cooksley
 - Caitlin Cooling
 - Elishka Flint
 - Victoria James
+- Sophie Brown

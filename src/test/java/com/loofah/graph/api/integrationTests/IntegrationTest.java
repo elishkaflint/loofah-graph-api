@@ -3,7 +3,7 @@ package com.loofah.graph.api.integrationTests;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loofah.graph.api.GraphAPIApplication;
-import com.loofah.graph.api.models.DTO.SkillDTO;
+import com.loofah.graph.api.models.dto.SkillDTO;
 import com.loofah.graph.api.models.Request;
 import com.loofah.graph.api.models.database.Category;
 import com.loofah.graph.api.models.database.Craft;
@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -44,9 +45,9 @@ import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILL;
 import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILLS;
 import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertResponseHasErrorMessage;
 import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertResponseHasNullData;
-import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasCategoryWithId;
-import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasGradeWithId;
-import static com.loofah.graph.api.models.DTO.SkillDTO.SkillDTOFields.CRAFT_IDS;
+import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasCategoryWithTitle;
+import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasGradeWithTitle;
+import static com.loofah.graph.api.models.dto.SkillDTO.SkillDTOFields.CRAFT_IDS;
 import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -176,7 +177,7 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForCategory.forEach(skill -> {
-            assertSkillHasCategoryWithId(skill, "1");
+            assertSkillHasCategoryWithTitle(skill, "technical");
         });
     }
 
@@ -191,7 +192,7 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForGrade.forEach(skill -> {
-            assertSkillHasGradeWithId(skill, "2");
+            assertSkillHasGradeWithTitle(skill, "analystDeveloper");
         });
     }
 
@@ -206,7 +207,7 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForCraft.forEach(skill -> {
-            assertThat((List<String>) skill.get(CRAFT_IDS.key()), hasItem(in(Arrays.asList("1", "2"))));
+            assertThat((List<String>) skill.get(CRAFT_IDS.key()), hasItem(in(Arrays.asList("architecture", "mobile"))));
         });
     }
 
@@ -221,9 +222,9 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForCategoryAndGrade.forEach(skill -> {
-            assertSkillHasCategoryWithId(skill, "2");
-            assertSkillHasGradeWithId(skill, "2");
-            assertThat((List<String>) skill.get(CRAFT_IDS.key()), hasItem(in(Arrays.asList("2", "3"))));
+            assertSkillHasCategoryWithTitle(skill, "technical");
+            assertSkillHasGradeWithTitle(skill, "developer");
+            assertThat((List<String>) skill.get(CRAFT_IDS.key()), hasItem(in(Collections.singletonList("mobile"))));
         });
     }
 
@@ -262,7 +263,6 @@ public class IntegrationTest {
 
         assertResponseHasNullData(objectMapper, response);
         assertResponseHasErrorMessage(objectMapper, response, "Exception while fetching data (/category) : no category found with id [0]");
-
     }
 
     @Test
@@ -299,8 +299,7 @@ public class IntegrationTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         assertResponseHasNullData(objectMapper, response);
-        assertResponseHasErrorMessage(objectMapper, response, "Exception while fetching data (/craft) : No Craft found with id [0]");
-
+        assertResponseHasErrorMessage(objectMapper, response, "Exception while fetching data (/craft) : no craft found with id [0]");
     }
 
     @Test
@@ -336,9 +335,7 @@ public class IntegrationTest {
 
         assertResponseHasNullData(objectMapper, response);
         assertResponseHasErrorMessage(objectMapper, response, "Exception while fetching data (/grade) : no grade found with id [0]");
-
     }
-
 
     private ResponseEntity<String> callAPI(final Resource query) throws IOException {
         final Request request = getRequest(query);

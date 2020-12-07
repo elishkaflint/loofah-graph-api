@@ -18,32 +18,87 @@ import java.util.List;
 @Component
 public class DatabaseSeeder {
 
-    public static final List<Craft> CRAFTS = Collections.unmodifiableList(Arrays.asList(
-            Craft.builder().withId("1").withTitle("craftTitle1").withDescription("craftDescription1").withLead(Collections.singletonList("lead1")).withDevServicesPage("page1").withSlackChannels(Collections.emptyList()).build(),
-            Craft.builder().withId("2").withTitle("craftTitle2").withDescription("craftDescription2").withLead(Collections.singletonList("lead2")).withDevServicesPage("page2").withSlackChannels(Collections.emptyList()).build()
-    ));
     public static final List<Skill> SKILLS = Collections.unmodifiableList(Arrays.asList(
-            Skill.builder().withId("1").withTitle("title1").withDescription("description1").withGradeId("1").withCategoryId("1").withCraftIds(Arrays.asList("1", "2")).withExamples("example").build(),
-            Skill.builder().withId("2").withTitle("title2").withDescription("description2").withGradeId("2").withCategoryId("1").withCraftIds(Collections.singletonList("2")).withExamples("example").build(),
-            Skill.builder().withId("3").withTitle("title3").withDescription("description3").withGradeId("2").withCategoryId("2").withCraftIds(Collections.singletonList("3")).withExamples("example").build()
+            Skill.builder()
+                    .withId("1")
+                    .withTitle("title1")
+                    .withDescription("description1")
+                    .withGradeTitle("analystDeveloper")
+                    .withCategoryTitle("technical")
+                    .withCraftTitles(Arrays.asList("architecture", "mobile"))
+                    .withExamples("example")
+                    .build(),
+            Skill.builder()
+                    .withId("2")
+                    .withTitle("title2")
+                    .withDescription("description2")
+                    .withGradeTitle("developer")
+                    .withCategoryTitle("technical")
+                    .withCraftTitles(Collections.singletonList("mobile"))
+                    .withExamples("example")
+                    .build(),
+            Skill.builder()
+                    .withId("3")
+                    .withTitle("title3")
+                    .withDescription("description3")
+                    .withGradeTitle("developer")
+                    .withCategoryTitle("delivery")
+                    .withCraftTitles(Collections.singletonList("platform"))
+                    .withExamples("example")
+                    .build()
     ));
 
     public static final List<Category> CATEGORIES = Collections.unmodifiableList(Arrays.asList(
-            Category.builder().withId("1").withTitle("categoryTitle1").withDescription("categoryDescription1").build(),
-            Category.builder().withId("2").withTitle("categoryTitle2").withDescription("categoryDescription1").build()
+            Category.builder()
+                    .withId("1")
+                    .withTitle("technical")
+                    .withDescription("categoryDescription1")
+                    .build(),
+            Category.builder()
+                    .withId("2")
+                    .withTitle("delivery")
+                    .withDescription("categoryDescription1")
+                    .build()
     ));
 
     public static final List<Grade> GRADES = Collections.unmodifiableList(Arrays.asList(
-            Grade.builder().withId("1").withTitle("GradeTitle1").withDescription("gradeDescription1").withHrCode("M1").build(),
-            Grade.builder().withId("2").withTitle("GradeTitle2").withDescription("gradeDescription2").withHrCode("M2").build()
+            Grade.builder()
+                    .withId("1")
+                    .withTitle("analystDeveloper")
+                    .withDescription("gradeDescription1")
+                    .withHrCode("M1")
+                    .build(),
+            Grade.builder()
+                    .withId("2")
+                    .withTitle("developer")
+                    .withDescription("gradeDescription2")
+                    .withHrCode("M2")
+                    .build()
     ));
 
+    public static final List<Craft> CRAFTS = Collections.unmodifiableList(Arrays.asList(
+            Craft.builder()
+                    .withId("1")
+                    .withTitle("architecture")
+                    .withDescription("craftDescription1")
+                    .withLead(Collections.singletonList("lead1"))
+                    .withDevServicesPage("page1")
+                    .withSlackChannels(Collections.emptyList())
+                    .build(),
+            Craft.builder()
+                    .withId("2")
+                    .withTitle("mobile")
+                    .withDescription("craftDescription2")
+                    .withLead(Collections.singletonList("lead2"))
+                    .withDevServicesPage("page2")
+                    .withSlackChannels(Collections.emptyList())
+                    .build()
+    ));
 
     private final SkillRepository skillRepository;
     private final CategoryRepository categoryRepository;
     private final CraftRepository craftRepository;
     private final GradeRepository gradeRepository;
-
 
     @Autowired
     public DatabaseSeeder(final SkillRepository skillRepository,

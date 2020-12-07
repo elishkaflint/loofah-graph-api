@@ -20,33 +20,60 @@ type SkillDTO {
   examples: String
   category: Category!
   grade: Grade!
-  craftIds: [String!]
+  craftTitles: [CraftTitle!]
 }
 
 type Category {
   id: ID!
-  title: String!
+  title: CategoryTitle!
   description: String!
+}
+
+enum CategoryTitle {
+  technical,
+  leadership,
+  collaboration,
+  consulting,
+  delivery
 }
 
 type Craft {
   id: ID!
-  title: String!
+  title: CraftTitle!
   description: String!
   leads: [String!]!
   slackChannels: [String!]!
   devServicesPage: String!
 }
 
+enum CraftTitle {
+  core,
+  architecture,
+  backEnd,
+  frontEnd,
+  mobile,
+  platform
+}
+
 type Grade {
   id: ID!
-  title: String!
+  title: GradeTitle!
   description: String!
   hrCode: String!
 }
 
+enum GradeTitle {
+  analystDeveloper,
+  developer,
+  seniorDeveloper,
+  technicalLead,
+  seniorTechnicalLead,
+  director,
+  partner
+}
+
 input SkillFilter {
-  categoryId: String
-  gradeId: String
-  craftIds: [String]
+  categoryTitle: CategoryTitle
+  gradeTitle: GradeTitle
+  craftTitles: [CraftTitle]
 }
