@@ -3,7 +3,6 @@ package com.loofah.graph.api.integrationTests;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loofah.graph.api.GraphAPIApplication;
-import com.loofah.graph.api.models.dto.SkillDTO;
 import com.loofah.graph.api.models.Request;
 import com.loofah.graph.api.models.database.Category;
 import com.loofah.graph.api.models.database.Craft;
@@ -17,37 +16,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.CATEGORIES;
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.CATEGORY;
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.CRAFT;
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.CRAFTS;
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.DATA;
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.GRADE;
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.GRADES;
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILL;
-import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILLS;
-import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertResponseHasErrorMessage;
-import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertResponseHasNullData;
-import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasCategoryWithTitle;
-import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasGradeWithTitle;
-import static com.loofah.graph.api.models.dto.SkillDTO.SkillDTOFields.CRAFT_IDS;
+import static com.loofah.graph.api.helpers.IntegrationTestConstants.*;
+import static com.loofah.graph.api.helpers.IntegrationTestHelpers.*;
+import static com.loofah.graph.api.models.dto.SkillDTO.SkillDTOFields.CRAFT_TITLES;
+import static com.loofah.graph.api.models.dto.SkillDTO.SkillDTOFields.DESCRIPTION;
 import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -139,7 +119,7 @@ public class IntegrationTest {
         final LinkedHashMap selectedSkill = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("description1", selectedSkill.get(SkillDTO.SkillDTOFields.DESCRIPTION.key()));
+        assertEquals("first", selectedSkill.get(DESCRIPTION.key()));
     }
 
     @Test
@@ -154,7 +134,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void returns_all_seeded_skills() throws IOException {
+    public void returns_all_seeded_skills_ordered_by_grade_then_category_then_title() throws IOException {
 
         final ResponseEntity<String> response = callAPI(skillsQueryNoFilter);
 
@@ -164,6 +144,10 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(DatabaseSeeder.SKILLS.size(), allSkills.size());
+        assertEquals("first", allSkills.get(0).get(DESCRIPTION.key()));
+        assertEquals("second", allSkills.get(1).get(DESCRIPTION.key()));
+        assertEquals("third", allSkills.get(2).get(DESCRIPTION.key()));
+        assertEquals("fourth", allSkills.get(3).get(DESCRIPTION.key()));
     }
 
     @Test
@@ -207,7 +191,7 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForCraft.forEach(skill -> {
-            assertThat((List<String>) skill.get(CRAFT_IDS.key()), hasItem(in(Arrays.asList("architecture", "mobile"))));
+            assertThat((List<String>) skill.get(CRAFT_TITLES.key()), hasItem(in(Arrays.asList("architecture", "mobile"))));
         });
     }
 
@@ -224,7 +208,7 @@ public class IntegrationTest {
         selectedSkillsForCategoryAndGrade.forEach(skill -> {
             assertSkillHasCategoryWithTitle(skill, "technical");
             assertSkillHasGradeWithTitle(skill, "developer");
-            assertThat((List<String>) skill.get(CRAFT_IDS.key()), hasItem(in(Collections.singletonList("mobile"))));
+            assertThat((List<String>) skill.get(CRAFT_TITLES.key()), hasItem(in(Collections.singletonList("mobile"))));
         });
     }
 

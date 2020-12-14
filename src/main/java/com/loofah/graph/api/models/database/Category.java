@@ -1,11 +1,15 @@
 package com.loofah.graph.api.models.database;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.annotation.Id;
 
+import java.util.Comparator;
 import java.util.Objects;
 
+import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.nullsLast;
 
-public class Category {
+public class Category implements Comparable<Category> {
 
     @Id
     private final String id;
@@ -16,28 +20,6 @@ public class Category {
         this.id = id;
         this.title = title;
         this.description = description;
-    }
-
-    /**
-     * This enum contains the string representation
-     * of the fields in this class. Therefore it also
-     * represents the fields as they are stored in the database.
-     */
-    public enum CategoryFields {
-
-        ID("id"),
-        TITLE("title"),
-        DESCRIPTION("description");
-
-        String key;
-
-        CategoryFields(String key) {
-            this.key = key;
-        }
-
-        public String key() {
-            return this.key;
-        }
     }
 
     public static CategoryBuilder builder() {
@@ -56,6 +38,61 @@ public class Category {
         return description;
     }
 
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Category category = (Category) o;
+        return Objects.equals(id, category.id) &&
+                Objects.equals(title, category.title) &&
+                Objects.equals(description, category.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description);
+    }
+
+    // Compares two Category objects based on the alphabetical (natural) order of their titles. Categories with null
+    // titles will always be at the end, followed by null Category references.
+    @Override
+    public int compareTo(@NotNull final Category otherCategory) {
+        final Comparator<Category> titleComparator = nullsLast(
+                Comparator.comparing(Category::getTitle, nullsLast(naturalOrder()))
+        );
+        return titleComparator.compare(this, otherCategory);
+    }
+
+    /**
+     * This enum contains the string representation
+     * of the fields in this class. Therefore it also
+     * represents the fields as they are stored in the database.
+     */
+    public enum CategoryFields {
+
+        ID("id"),
+        TITLE("title"),
+        DESCRIPTION("description");
+
+        String key;
+
+        CategoryFields(final String key) {
+            this.key = key;
+        }
+
+        public String key() {
+            return this.key;
+        }
+    }
 
     public static class CategoryBuilder {
 

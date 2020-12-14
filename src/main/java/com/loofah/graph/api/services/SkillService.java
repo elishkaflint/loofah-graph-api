@@ -22,14 +22,14 @@ public class SkillService {
     private final GradeService gradeService;
 
     @Autowired
-    public SkillService(DataRetriever dataRetriever, CategoryService categoryService, GradeService gradeService) {
+    public SkillService(final DataRetriever dataRetriever, final CategoryService categoryService, final GradeService gradeService) {
         this.dataRetriever = dataRetriever;
         this.categoryService = categoryService;
         this.gradeService = gradeService;
     }
 
-    public SkillDTO getById(String id) {
-        Skill skill = dataRetriever.getSkillById(id).orElseThrow(() -> new DataNotFoundException("No skill found with id ["+id+"]"));
+    public SkillDTO getById(final String id) {
+        final Skill skill = dataRetriever.getSkillById(id).orElseThrow(() -> new DataNotFoundException("No skill found with id [" + id + "]"));
         return transformToSkillDTO(skill);
     }
 
@@ -38,25 +38,28 @@ public class SkillService {
     // a GraphQlException message will be returned in the response error message.
     // If the filter returns skills with grade or category ids which do not return grades or categories respectively,
     // a DataNotFoundException message will be returned in the response error message.
-    public List<SkillDTO> getWithFilter(SkillFilter skillFilter) {
-        List<Skill> skills = dataRetriever.getSkillWithFilter(skillFilter);
-        return skills.stream().map(this::transformToSkillDTO).collect(Collectors.toList());
+    public List<SkillDTO> getWithFilter(final SkillFilter skillFilter) {
+        final List<Skill> skills = dataRetriever.getSkillWithFilter(skillFilter);
+        return skills.stream()
+                .map(this::transformToSkillDTO)
+                .sorted()
+                .collect(Collectors.toList());
     }
 
-    private SkillDTO transformToSkillDTO(Skill skill) {
-        Category category = retrieveCategoryForSkill(skill);
-        Grade grade = retrieveGradeForSkill(skill);
+    private SkillDTO transformToSkillDTO(final Skill skill) {
+        final Category category = retrieveCategoryForSkill(skill);
+        final Grade grade = retrieveGradeForSkill(skill);
         return new SkillDTO(skill, category, grade);
     }
 
-    private Category retrieveCategoryForSkill(Skill skill) {
+    private Category retrieveCategoryForSkill(final Skill skill) {
         if (skill.getCategoryTitle() == null) {
             throw new GraphQLException("categoryTitle is null for skill with id ["+skill.getTitle()+"]");
         }
         return categoryService.getByTitle(skill.getCategoryTitle());
     }
 
-    private Grade retrieveGradeForSkill(Skill skill) {
+    private Grade retrieveGradeForSkill(final Skill skill) {
         if (skill.getGradeTitle() == null) {
             throw new GraphQLException("gradeTitle is null for skill with id ["+skill.getTitle()+"]");
         }
