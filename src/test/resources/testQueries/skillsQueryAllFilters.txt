@@ -6,6 +6,6 @@ query {
         examples
         category{title}
         grade{title}
-        craftTitles
+        crafts{title}
     }
 }

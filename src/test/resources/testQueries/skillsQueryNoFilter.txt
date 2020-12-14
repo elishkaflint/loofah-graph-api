@@ -6,5 +6,6 @@ query {
         examples
         category{id}
         grade{id, title}
+        crafts{title}
     }
 }
