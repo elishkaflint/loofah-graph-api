@@ -19,7 +19,7 @@ class GradeTest {
         final Grade seniorDeveloper = getDefaultGradeBuilder().withTitle("seniorDeveloper").build();
         final Grade technicalLead = getDefaultGradeBuilder().withTitle("technicalLead").build();
         final Grade seniorTechnicalLead = getDefaultGradeBuilder().withTitle("seniorTechnicalLead").build();
-        final Grade director = getDefaultGradeBuilder().withTitle("director").build();
+        final Grade director = getDefaultGradeBuilder().withTitle("technicalDirector").build();
         final Grade partner = getDefaultGradeBuilder().withTitle("partner").build();
         final Grade unrecognised1 = getDefaultGradeBuilder().withTitle("unrecognised1").build();
         final Grade unrecognised2 = getDefaultGradeBuilder().withTitle("unrecognised2").build();
