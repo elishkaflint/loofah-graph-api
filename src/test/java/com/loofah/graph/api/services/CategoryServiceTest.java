@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -28,10 +29,10 @@ public class CategoryServiceTest {
     @Test
     public void getById_whenCategoryExists_thenReturnCategory() {
 
-        Category expectedCategory = Category.builder().build();
+        final Category expectedCategory = Category.builder().build();
         when(dataRetriever.getCategoryById("1")).thenReturn(Optional.of(expectedCategory));
 
-        Category actualCategory = categoryService.getById("1");
+        final Category actualCategory = categoryService.getById("1");
 
         assertEquals(expectedCategory, actualCategory);
     }
@@ -46,11 +47,31 @@ public class CategoryServiceTest {
     @Test
     public void getAll() {
 
-        List<Category> expectedCategories = Collections.singletonList(Category.builder().build());
+        final List<Category> expectedCategories = Collections.singletonList(Category.builder().build());
         when(dataRetriever.getAllCategories()).thenReturn(expectedCategories);
 
-        List<Category> actualCategory = categoryService.getAll();
+        final List<Category> actualCategory = categoryService.getAll();
 
         assertEquals(expectedCategories, actualCategory);
+    }
+
+    @Test
+    public void getAll_sortsCategories() {
+
+        final List<Category> sortedCategories = asList(
+                Category.builder().withTitle("aardvark").build(),
+                Category.builder().withTitle("bear").build(),
+                Category.builder().withTitle("butterfly").build()
+        );
+        final List<Category> unsortedCategories = asList(
+                Category.builder().withTitle("butterfly").build(),
+                Category.builder().withTitle("bear").build(),
+                Category.builder().withTitle("aardvark").build()
+        );
+        when(dataRetriever.getAllCategories()).thenReturn(unsortedCategories);
+
+        final List<Category> actualCategory = categoryService.getAll();
+
+        assertEquals(sortedCategories, actualCategory);
     }
 }

@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -28,10 +29,10 @@ public class GradeServiceTest {
     @Test
     public void getById_whenGradeExists_thenReturnGrade() {
 
-        Grade expectedGrade = Grade.builder().build();
+        final Grade expectedGrade = Grade.builder().build();
         when(dataRetriever.getGradeById("id")).thenReturn(Optional.of(expectedGrade));
 
-        Grade actualGrade = gradeService.getById("id");
+        final Grade actualGrade = gradeService.getById("id");
 
         assertEquals(expectedGrade, actualGrade);
     }
@@ -46,11 +47,31 @@ public class GradeServiceTest {
     @Test
     public void getAll() {
 
-        List<Grade> expectedGrades = Collections.singletonList(Grade.builder().build());
+        final List<Grade> expectedGrades = Collections.singletonList(Grade.builder().build());
         when(dataRetriever.getAllGrades()).thenReturn(expectedGrades);
 
-        List<Grade> actualGrades = gradeService.getAll();
+        final List<Grade> actualGrades = gradeService.getAll();
 
         assertEquals(expectedGrades, actualGrades);
+    }
+
+    @Test
+    public void getAll_sortsGrades() {
+
+        final List<Grade> sortedGrades = asList(
+                Grade.builder().withTitle("analystDeveloper").build(),
+                Grade.builder().withTitle("developer").build(),
+                Grade.builder().withTitle("seniorDeveloper").build()
+        );
+        final List<Grade> unsortedGrades = asList(
+                Grade.builder().withTitle("seniorDeveloper").build(),
+                Grade.builder().withTitle("developer").build(),
+                Grade.builder().withTitle("analystDeveloper").build()
+        );
+        when(dataRetriever.getAllGrades()).thenReturn(unsortedGrades);
+
+        final List<Grade> actualGrades = gradeService.getAll();
+
+        assertEquals(sortedGrades, actualGrades);
     }
 }

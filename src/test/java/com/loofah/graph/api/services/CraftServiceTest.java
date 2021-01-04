@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -28,10 +29,10 @@ public class CraftServiceTest {
     @Test
     public void getById_whenCraftExists_thenReturnCraft() {
 
-        Craft expectedCraft = Craft.builder().build();
+        final Craft expectedCraft = Craft.builder().build();
         when(dataRetriever.getCraftById("id")).thenReturn(Optional.of(expectedCraft));
 
-        Craft actualCraft = craftService.getById("id");
+        final Craft actualCraft = craftService.getById("id");
 
         assertEquals(expectedCraft, actualCraft);
     }
@@ -46,12 +47,32 @@ public class CraftServiceTest {
     @Test
     public void getAll() {
 
-        List<Craft> expectedCrafts = Collections.singletonList(Craft.builder().build());
+        final List<Craft> expectedCrafts = Collections.singletonList(Craft.builder().build());
         when(dataRetriever.getAllCrafts()).thenReturn(expectedCrafts);
 
-        List<Craft> actualCrafts = craftService.getAll();
+        final List<Craft> actualCrafts = craftService.getAll();
 
         assertEquals(expectedCrafts, actualCrafts);
+    }
+
+    @Test
+    public void getAll_sortsCrafts() {
+
+        final List<Craft> sortedCrafts = asList(
+                Craft.builder().withTitle("apple").build(),
+                Craft.builder().withTitle("blackberry").build(),
+                Craft.builder().withTitle("blackcurrant").build()
+        );
+        final List<Craft> unsortedCrafts = asList(
+                Craft.builder().withTitle("blackcurrant").build(),
+                Craft.builder().withTitle("blackberry").build(),
+                Craft.builder().withTitle("apple").build()
+        );
+        when(dataRetriever.getAllCrafts()).thenReturn(unsortedCrafts);
+
+        final List<Craft> actualCrafts = craftService.getAll();
+
+        assertEquals(sortedCrafts, actualCrafts);
     }
 
 }
