@@ -8,25 +8,30 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Component
 public class CategoryService {
 
-    private DataRetriever dataRetriever;
+    private final DataRetriever dataRetriever;
 
     @Autowired
-    public CategoryService(DataRetriever dataRetriever) {
+    public CategoryService(final DataRetriever dataRetriever) {
         this.dataRetriever = dataRetriever;
     }
 
-    public Category getById(String id) {
-        return dataRetriever.getCategoryById(id).orElseThrow(() -> new DataNotFoundException("no category found with id ["+id+"]"));
+    public Category getById(final String id) {
+        return dataRetriever.getCategoryById(id).orElseThrow(() -> new DataNotFoundException("no category found with id [" + id + "]"));
     }
 
-    public Category getByTitle(String title) {
-        return dataRetriever.getCategoryByTitle(title).orElseThrow(() -> new DataNotFoundException("no category found with title ["+title+"]"));
+    public Category getByTitle(final String title) {
+        return dataRetriever.getCategoryByTitle(title).orElseThrow(() -> new DataNotFoundException("no category found with title [" + title + "]"));
     }
 
     public List<Category> getAll() {
-        return dataRetriever.getAllCategories();
+        return dataRetriever.getAllCategories()
+                .stream()
+                .sorted()
+                .collect(toList());
     }
 }

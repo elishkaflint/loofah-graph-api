@@ -8,25 +8,30 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Component
 public class GradeService {
 
-    private DataRetriever dataRetriever;
+    private final DataRetriever dataRetriever;
 
     @Autowired
-    public GradeService(DataRetriever dataRetriever) {
+    public GradeService(final DataRetriever dataRetriever) {
         this.dataRetriever = dataRetriever;
     }
 
-    public Grade getById(String id) {
-        return dataRetriever.getGradeById(id).orElseThrow(() -> new DataNotFoundException("no grade found with id ["+id+"]"));
+    public Grade getById(final String id) {
+        return dataRetriever.getGradeById(id).orElseThrow(() -> new DataNotFoundException("no grade found with id [" + id + "]"));
     }
 
-    public Grade getByTitle(String title) {
-        return dataRetriever.getGradeByTitle(title).orElseThrow(() -> new DataNotFoundException("no grade found with title ["+title+"]"));
+    public Grade getByTitle(final String title) {
+        return dataRetriever.getGradeByTitle(title).orElseThrow(() -> new DataNotFoundException("no grade found with title [" + title + "]"));
     }
 
     public List<Grade> getAll() {
-        return dataRetriever.getAllGrades();
+        return dataRetriever.getAllGrades()
+                .stream()
+                .sorted()
+                .collect(toList());
     }
 }

@@ -8,25 +8,30 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Component
 public class CraftService {
 
-    private DataRetriever dataRetriever;
+    private final DataRetriever dataRetriever;
 
     @Autowired
-    public CraftService(DataRetriever dataRetriever) {
+    public CraftService(final DataRetriever dataRetriever) {
         this.dataRetriever = dataRetriever;
     }
 
-    public Craft getById(String id) {
-        return dataRetriever.getCraftById(id).orElseThrow(() -> new DataNotFoundException("no craft found with id ["+id+"]"));
+    public Craft getById(final String id) {
+        return dataRetriever.getCraftById(id).orElseThrow(() -> new DataNotFoundException("no craft found with id [" + id + "]"));
     }
 
-    public Craft getByTitle(String title) {
-        return dataRetriever.getCraftByTitle(title).orElseThrow(() -> new DataNotFoundException("no craft found with title ["+title+"]"));
+    public Craft getByTitle(final String title) {
+        return dataRetriever.getCraftByTitle(title).orElseThrow(() -> new DataNotFoundException("no craft found with title [" + title + "]"));
     }
 
     public List<Craft> getAll() {
-        return dataRetriever.getAllCrafts();
+        return dataRetriever.getAllCrafts()
+                .stream()
+                .sorted()
+                .collect(toList());
     }
 }
