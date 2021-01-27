@@ -1,5 +1,5 @@
 query {
-    skills(filter: {categoryTitle: technical, gradeTitle: developer, craftTitles: [mobile, architecture]}) {
+    skills(filter: {categoryTitle: technical, gradeTitles: developer, craftTitles: [mobile, architecture]}) {
         id
         title
         description

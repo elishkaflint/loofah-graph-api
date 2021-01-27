@@ -20,8 +20,8 @@ public class MongoQueryProvider {
                 categoryTitle -> query.addCriteria(Criteria.where("categoryTitle").is(categoryTitle))
         );
 
-        optionalFilter.map(SkillFilter::getGradeTitle).ifPresent(
-                gradeTitle -> query.addCriteria(Criteria.where("gradeTitle").is(gradeTitle))
+        optionalFilter.map(SkillFilter::getGradeTitles).ifPresent(
+                gradeTitles -> query.addCriteria(Criteria.where("gradeTitle").in(gradeTitles))
         );
 
         optionalFilter.map(SkillFilter::getCraftTitles).ifPresent(

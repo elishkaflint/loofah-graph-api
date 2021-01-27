@@ -74,6 +74,6 @@ enum GradeTitle {
 
 input SkillFilter {
   categoryTitle: CategoryTitle
-  gradeTitle: GradeTitle
+  gradeTitles: [GradeTitle]
   craftTitles: [CraftTitle]
 }

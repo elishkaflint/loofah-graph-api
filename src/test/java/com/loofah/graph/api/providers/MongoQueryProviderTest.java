@@ -7,11 +7,8 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.Collections;
 
-import static com.loofah.graph.api.helpers.TestHelpers.CATEGORY_ID_VALUE_1;
 import static com.loofah.graph.api.helpers.TestHelpers.CATEGORY_TITLE_VALUE_1;
-import static com.loofah.graph.api.helpers.TestHelpers.CRAFT_ID_VALUE_1;
 import static com.loofah.graph.api.helpers.TestHelpers.CRAFT_TITLE_VALUE_1;
-import static com.loofah.graph.api.helpers.TestHelpers.GRADE_ID_VALUE_1;
 import static com.loofah.graph.api.helpers.TestHelpers.GRADE_TITLE_VALUE_1;
 import static org.junit.Assert.*;
 
@@ -34,7 +31,7 @@ public class MongoQueryProviderTest {
 
         SkillFilter skillFilter = SkillFilter.builder()
                 .withCategoryTitle(CATEGORY_TITLE_VALUE_1)
-                .withGradeTitle(GRADE_TITLE_VALUE_1)
+                .withGradeTitles(Collections.singletonList(GRADE_TITLE_VALUE_1))
                 .withCraftTitles(Collections.singletonList(CRAFT_TITLE_VALUE_1))
                 .build();
 
@@ -44,12 +41,14 @@ public class MongoQueryProviderTest {
         assertTrue(query.getQueryObject().containsValue(CATEGORY_TITLE_VALUE_1));
 
         assertTrue(query.getQueryObject().containsKey("gradeTitle"));
-        assertTrue(query.getQueryObject().containsValue(GRADE_TITLE_VALUE_1));
+        Document gradeDoc = (Document) query.getQueryObject().get("gradeTitle");
+        assertTrue(gradeDoc.containsKey("$in"));
+        assertTrue(gradeDoc.containsValue(Collections.singletonList(GRADE_TITLE_VALUE_1)));
 
         assertTrue(query.getQueryObject().containsKey("craftTitles"));
-        Document doc = (Document) query.getQueryObject().get("craftTitles");
-        assertTrue(doc.containsKey("$in"));
-        assertTrue(doc.containsValue(Collections.singletonList(CRAFT_TITLE_VALUE_1)));
+        Document craftDoc = (Document) query.getQueryObject().get("craftTitles");
+        assertTrue(craftDoc.containsKey("$in"));
+        assertTrue(craftDoc.containsValue(Collections.singletonList(CRAFT_TITLE_VALUE_1)));
     }
 
 

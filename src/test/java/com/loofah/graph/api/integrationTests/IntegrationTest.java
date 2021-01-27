@@ -36,7 +36,7 @@ import static com.loofah.graph.api.helpers.IntegrationTestConstants.SKILLS;
 import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertResponseHasErrorMessage;
 import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertResponseHasNullData;
 import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasCategoryWithTitle;
-import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasGradeWithTitle;
+import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasGradeWithTitles;
 import static com.loofah.graph.api.helpers.IntegrationTestHelpers.assertSkillHasCraftsWithTitles;
 import static com.loofah.graph.api.models.dto.SkillDTO.SkillDTOFields.DESCRIPTION;
 import static junit.framework.TestCase.assertNotNull;
@@ -174,7 +174,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void returns_correct_skills_for_grade() throws IOException {
+    public void returns_correct_skills_for_grades() throws IOException {
 
         final ResponseEntity<String> response = callAPI(skillsQueryGradeFilter);
 
@@ -184,7 +184,7 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForGrade.forEach(skill -> {
-            assertSkillHasGradeWithTitle(skill, "analystDeveloper");
+            assertSkillHasGradeWithTitles(skill, Arrays.asList("analystDeveloper", "developer"));
         });
     }
 
@@ -215,7 +215,7 @@ public class IntegrationTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForCategoryAndGrade.forEach(skill -> {
             assertSkillHasCategoryWithTitle(skill, "technical");
-            assertSkillHasGradeWithTitle(skill, "developer");
+            assertSkillHasGradeWithTitles(skill, Collections.singletonList("developer"));
             assertSkillHasCraftsWithTitles(skill, Collections.singletonList("mobile"));
         });
     }

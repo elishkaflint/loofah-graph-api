@@ -44,9 +44,9 @@ public class IntegrationTestHelpers {
         assertEquals(expectedCategoryTitle, categoryOnSkill.get("title"));
     }
 
-    public static void assertSkillHasGradeWithTitle(LinkedHashMap skill, String expectedGradeTitle){
+    public static void assertSkillHasGradeWithTitles(LinkedHashMap skill, List<String> expectedGradeTitles){
         LinkedHashMap gradeOnSkill = (LinkedHashMap) skill.get(SkillDTO.SkillDTOFields.GRADE.key());
-        assertEquals(expectedGradeTitle, gradeOnSkill.get("title"));
+        assertThat(gradeOnSkill.get("title")).isIn(expectedGradeTitles);
     }
 
     public static void assertSkillHasCraftsWithTitles(LinkedHashMap skill, List<String> expectedCraftTitles){
