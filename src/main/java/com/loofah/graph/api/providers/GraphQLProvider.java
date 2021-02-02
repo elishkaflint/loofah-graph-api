@@ -36,6 +36,7 @@ public class GraphQLProvider {
 
     @Value("classpath:skills.graphqls")
     Resource resource;
+
     private GraphQL graphQL;
 
     @Autowired

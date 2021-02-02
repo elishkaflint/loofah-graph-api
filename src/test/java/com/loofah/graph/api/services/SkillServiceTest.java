@@ -14,11 +14,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static com.loofah.graph.api.helpers.TestHelpers.*;
@@ -71,7 +69,7 @@ public class SkillServiceTest {
     @Test
     public void getWithFilter() {
 
-        final SkillFilter skillFilter = SkillFilter.builder().withGradeTitle(GRADE_TITLE_VALUE_1).build();
+        final SkillFilter skillFilter = SkillFilter.builder().withGradeTitles(Collections.singletonList(GRADE_TITLE_VALUE_1)).build();
         final Skill expectedSkillInDb = getDefaultSkillBuilder().build();
         final SkillDTO expectedSkillDTO = getDefaultSkillDTO();
 
@@ -116,7 +114,7 @@ public class SkillServiceTest {
 
         final SkillFilter skillFilter = SkillFilter.builder()
                 .withCategoryTitle(CATEGORY_TITLE_VALUE_1)
-                .withGradeTitle(GRADE_TITLE_VALUE_1)
+                .withGradeTitles(Collections.singletonList(GRADE_TITLE_VALUE_1))
                 .build();
 
         final List<Skill> expectedSkills = Collections.singletonList(getDefaultSkillBuilder().build());
@@ -132,7 +130,7 @@ public class SkillServiceTest {
 
         final SkillFilter skillFilter = SkillFilter.builder()
                 .withCategoryTitle(CATEGORY_ID_VALUE_1)
-                .withGradeTitle(GRADE_TITLE_VALUE_1)
+                .withGradeTitles(Collections.singletonList(GRADE_TITLE_VALUE_1))
                 .build();
 
         final List<Skill> expectedSkills = Collections.singletonList(getDefaultSkillBuilder().build());

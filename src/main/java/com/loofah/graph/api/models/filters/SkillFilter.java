@@ -5,14 +5,14 @@ import java.util.List;
 public class SkillFilter {
 
     private String categoryTitle;
-    private String gradeTitle;
+    private List<String> gradeTitles;
     private List<String> craftTitles;
 
     public SkillFilter() {}
 
-    public SkillFilter(String categoryTitle, String gradeTitle, List<String> craftTitles) {
+    public SkillFilter(String categoryTitle, List<String> gradeTitles, List<String> craftTitles) {
         this.categoryTitle = categoryTitle;
-        this.gradeTitle = gradeTitle;
+        this.gradeTitles = gradeTitles;
         this.craftTitles = craftTitles;
     }
 
@@ -20,8 +20,8 @@ public class SkillFilter {
         return categoryTitle;
     }
 
-    public String getGradeTitle() {
-        return gradeTitle;
+    public List<String> getGradeTitles() {
+        return gradeTitles;
     }
 
     public List<String> getCraftTitles() {
@@ -35,7 +35,7 @@ public class SkillFilter {
     public static class SkillFilterBuilder {
 
         private String categoryTitle;
-        private String gradeTitle;
+        private List<String> gradeTitles;
         private List<String> craftTitles;
 
         public SkillFilterBuilder withCategoryTitle(String categoryTitle) {
@@ -43,8 +43,8 @@ public class SkillFilter {
             return this;
         }
 
-        public SkillFilterBuilder withGradeTitle(String gradeTitle) {
-            this.gradeTitle = gradeTitle;
+        public SkillFilterBuilder withGradeTitles(List<String> gradeTitles) {
+            this.gradeTitles = gradeTitles;
             return this;
         }
 
@@ -54,7 +54,7 @@ public class SkillFilter {
         }
 
         public SkillFilter build() {
-            return new SkillFilter(this.categoryTitle, this.gradeTitle, this.craftTitles);
+            return new SkillFilter(this.categoryTitle, this.gradeTitles, this.craftTitles);
         }
 
     }
