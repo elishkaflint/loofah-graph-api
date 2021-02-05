@@ -1,7 +1,7 @@
 query {
     skills {
         id
-        title
+        topic
         description
         examples
         category{id}

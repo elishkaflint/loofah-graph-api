@@ -15,7 +15,7 @@ type Query {
 
 type SkillDTO {
   id: ID!
-  title: String!
+  topic: String!
   description: String!
   examples: String
   category: Category!

@@ -8,7 +8,7 @@ public class Skill {
 
     @Id
     private final String id;
-    private final String title;
+    private final String topic;
     private final String description;
     private final String categoryTitle;
     private final String gradeTitle;
@@ -16,14 +16,14 @@ public class Skill {
     private final String examples;
 
     public Skill(final String id,
-                 final String title,
+                 final String topic,
                  final String description,
                  final String categoryTitle,
                  final String gradeTitle,
                  final List<String> craftTitles,
                  final String examples) {
         this.id = id;
-        this.title = title;
+        this.topic = topic;
         this.description = description;
         this.categoryTitle = categoryTitle;
         this.gradeTitle = gradeTitle;
@@ -39,8 +39,8 @@ public class Skill {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTopic() {
+        return topic;
     }
 
     public String getDescription() {
@@ -67,7 +67,7 @@ public class Skill {
     public String toString() {
         return "Skill{" +
                 "id='" + id + '\'' +
-                ", title='" + title + '\'' +
+                ", topic='" + topic + '\'' +
                 ", description='" + description + '\'' +
                 ", categoryTitle='" + categoryTitle + '\'' +
                 ", gradeTitle='" + gradeTitle + '\'' +
@@ -79,7 +79,7 @@ public class Skill {
     public static class SkillBuilder {
 
         private String id;
-        private String title;
+        private String topic;
         private String description;
         private String categoryTitle;
         private String gradeTitle;
@@ -91,8 +91,8 @@ public class Skill {
             return this;
         }
 
-        public SkillBuilder withTitle(final String title) {
-            this.title = title;
+        public SkillBuilder withTopic(final String topic) {
+            this.topic = topic;
             return this;
         }
 
@@ -122,7 +122,7 @@ public class Skill {
         }
 
         public Skill build() {
-            return new Skill(this.id, this.title, this.description, this.categoryTitle, this.gradeTitle, this.craftTitles, this.examples);
+            return new Skill(this.id, this.topic, this.description, this.categoryTitle, this.gradeTitle, this.craftTitles, this.examples);
         }
 
     }

@@ -18,7 +18,7 @@ public class SkillDTO implements Comparable<SkillDTO> {
 
     @Id
     private final String id;
-    private final String title;
+    private final String topic;
     private final String description;
     private final Category category;
     private final Grade grade;
@@ -26,14 +26,14 @@ public class SkillDTO implements Comparable<SkillDTO> {
     private final String examples;
 
     public SkillDTO(final String id,
-                    final String title,
+                    final String topic,
                     final String description,
                     final Category category,
                     final Grade grade,
                     final List<Craft> crafts,
                     final String examples) {
         this.id = id;
-        this.title = title;
+        this.topic = topic;
         this.description = description;
         this.category = category;
         this.grade = grade;
@@ -43,7 +43,7 @@ public class SkillDTO implements Comparable<SkillDTO> {
 
     public SkillDTO(final Skill skill, final Category category, final Grade grade, List<Craft> crafts) {
         this.id = skill.getId();
-        this.title = skill.getTitle();
+        this.topic = skill.getTopic();
         this.description = skill.getDescription();
         this.category = category;
         this.grade = grade;
@@ -59,8 +59,8 @@ public class SkillDTO implements Comparable<SkillDTO> {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTopic() {
+        return topic;
     }
 
     public String getDescription() {
@@ -87,7 +87,7 @@ public class SkillDTO implements Comparable<SkillDTO> {
     public String toString() {
         return "SkillDTO{" +
                 "id='" + id + '\'' +
-                ", title='" + title + '\'' +
+                ", topic='" + topic + '\'' +
                 ", description='" + description + '\'' +
                 ", category=" + category +
                 ", grade='" + grade + '\'' +
@@ -102,7 +102,7 @@ public class SkillDTO implements Comparable<SkillDTO> {
         if (o == null || getClass() != o.getClass()) return false;
         final SkillDTO skillDTO = (SkillDTO) o;
         return Objects.equals(id, skillDTO.id) &&
-                Objects.equals(title, skillDTO.title) &&
+                Objects.equals(topic, skillDTO.topic) &&
                 Objects.equals(description, skillDTO.description) &&
                 Objects.equals(category, skillDTO.category) &&
                 Objects.equals(grade, skillDTO.grade) &&
@@ -112,7 +112,7 @@ public class SkillDTO implements Comparable<SkillDTO> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, category, grade, crafts, examples);
+        return Objects.hash(id, topic, description, category, grade, crafts, examples);
     }
 
     // Compares two SkillDTOs first by grade, then by category, then by title (alphabetical order). See the Grade and
@@ -122,7 +122,7 @@ public class SkillDTO implements Comparable<SkillDTO> {
     public int compareTo(@NotNull final SkillDTO otherSkill) {
         return Comparator.comparing(SkillDTO::getGrade, nullsLast(naturalOrder()))
                 .thenComparing(SkillDTO::getCategory, nullsLast(naturalOrder()))
-                .thenComparing(SkillDTO::getTitle, nullsLast(naturalOrder()))
+                .thenComparing(SkillDTO::getTopic, nullsLast(naturalOrder()))
                 .compare(this, otherSkill);
     }
 
@@ -133,7 +133,7 @@ public class SkillDTO implements Comparable<SkillDTO> {
     public enum SkillDTOFields {
 
         ID("id"),
-        TITLE("title"),
+        TOPIC("topic"),
         DESCRIPTION("description"),
         CATEGORY("category"),
         GRADE("grade"),
@@ -154,7 +154,7 @@ public class SkillDTO implements Comparable<SkillDTO> {
     public static class SkillDTOBuilder {
 
         private String id;
-        private String title;
+        private String topic;
         private String description;
         private Category category;
         private Grade grade;
@@ -166,8 +166,8 @@ public class SkillDTO implements Comparable<SkillDTO> {
             return this;
         }
 
-        public SkillDTOBuilder withTitle(final String title) {
-            this.title = title;
+        public SkillDTOBuilder withTopic(final String topic) {
+            this.topic = topic;
             return this;
         }
 
@@ -197,7 +197,7 @@ public class SkillDTO implements Comparable<SkillDTO> {
         }
 
         public SkillDTO build() {
-            return new SkillDTO(this.id, this.title, this.description, this.category, this.grade, this.crafts, this.examples);
+            return new SkillDTO(this.id, this.topic, this.description, this.category, this.grade, this.crafts, this.examples);
         }
 
     }

@@ -12,7 +12,7 @@ import java.util.List;
 public class TestHelpers {
 
     public static final String SKILL_ID_VALUE_1 = "1";
-    public static final String SKILL_TITLE_VALUE_1 = "title1";
+    public static final String SKILL_TOPIC_VALUE_1 = "topic1";
     public static final String SKILL_DESCRIPTION_VALUE_1 = "description1";
 
     public static final String CATEGORY_ID_VALUE_1 = "1";
@@ -39,7 +39,7 @@ public class TestHelpers {
     public static SkillDTO.SkillDTOBuilder getDefaultSkillDTOBuilder() {
         return SkillDTO.builder()
                 .withId(SKILL_ID_VALUE_1)
-                .withTitle(SKILL_TITLE_VALUE_1)
+                .withTopic(SKILL_TOPIC_VALUE_1)
                 .withDescription(SKILL_DESCRIPTION_VALUE_1)
                 .withCategory(getDefaultCategoryBuilder().build())
                 .withGrade(getDefaultGradeBuilder().build())
@@ -50,7 +50,7 @@ public class TestHelpers {
     public static Skill.SkillBuilder getDefaultSkillBuilder() {
         return Skill.builder()
                 .withId(SKILL_ID_VALUE_1)
-                .withTitle(SKILL_TITLE_VALUE_1)
+                .withTopic(SKILL_TOPIC_VALUE_1)
                 .withDescription(SKILL_DESCRIPTION_VALUE_1)
                 .withCategoryTitle(CATEGORY_TITLE_VALUE_1)
                 .withGradeTitle(GRADE_TITLE_VALUE_1)

@@ -1,7 +1,7 @@
 query {
     skills(filter: {categoryTitle: technical}) {
         id
-        title
+        topic
         description
         examples
         category{title}

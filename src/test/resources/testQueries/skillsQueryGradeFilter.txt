@@ -1,7 +1,7 @@
 query {
     skills(filter: {gradeTitles: [analystDeveloper, developer]}) {
         id
-        title
+        topic
         description
         examples
         category{title}
