@@ -1,7 +1,7 @@
 query {
     skills(filter: {craftTitles: [architecture, mobile]}) {
         id
-        title
+        topic
         description
         examples
         category{title}

@@ -17,7 +17,7 @@ Get a list of skills
 {
     skills {
         id
-        title
+        topic
         description
         examples
         categoryTitle
