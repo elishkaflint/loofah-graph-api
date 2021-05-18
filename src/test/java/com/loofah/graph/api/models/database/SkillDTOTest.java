@@ -25,17 +25,17 @@ class SkillDTOTest {
         final String agile = "agile";
         final String bootstrap = "bootstrap";
 
-        final SkillDTO first = SkillDTO.builder().withGrade(analystDeveloper).withCategory(aardvark).withTopic(agile).build();
-        final SkillDTO second = SkillDTO.builder().withGrade(analystDeveloper).withCategory(aardvark).withTopic(bootstrap).build();
-        final SkillDTO third = SkillDTO.builder().withGrade(analystDeveloper).withCategory(aardvark).withTopic(null).build();
-        final SkillDTO fourth = SkillDTO.builder().withGrade(analystDeveloper).withCategory(bear).withTopic(agile).build();
-        final SkillDTO fifth = SkillDTO.builder().withGrade(analystDeveloper).withCategory(bear).withTopic(bootstrap).build();
-        final SkillDTO sixth = SkillDTO.builder().withGrade(analystDeveloper).withCategory(null).withTopic(null).build();
-        final SkillDTO seventh = SkillDTO.builder().withGrade(seniorDeveloper).withCategory(aardvark).withTopic(agile).build();
-        final SkillDTO eighth = SkillDTO.builder().withGrade(seniorDeveloper).withCategory(aardvark).withTopic(bootstrap).build();
-        final SkillDTO ninth = SkillDTO.builder().withGrade(seniorDeveloper).withCategory(bear).withTopic(agile).build();
-        final SkillDTO tenth = SkillDTO.builder().withGrade(seniorDeveloper).withCategory(bear).withTopic(bootstrap).build();
-        final SkillDTO eleventh = SkillDTO.builder().withGrade(null).withCategory(null).withTopic(null).build();
+        final SkillDTO first = SkillDTO.builder().withGrade(analystDeveloper).withCategory(aardvark).build();
+        final SkillDTO second = SkillDTO.builder().withGrade(analystDeveloper).withCategory(aardvark).build();
+        final SkillDTO third = SkillDTO.builder().withGrade(analystDeveloper).withCategory(aardvark).build();
+        final SkillDTO fourth = SkillDTO.builder().withGrade(analystDeveloper).withCategory(bear).build();
+        final SkillDTO fifth = SkillDTO.builder().withGrade(analystDeveloper).withCategory(bear).build();
+        final SkillDTO sixth = SkillDTO.builder().withGrade(analystDeveloper).withCategory(null).build();
+        final SkillDTO seventh = SkillDTO.builder().withGrade(seniorDeveloper).withCategory(aardvark).build();
+        final SkillDTO eighth = SkillDTO.builder().withGrade(seniorDeveloper).withCategory(aardvark).build();
+        final SkillDTO ninth = SkillDTO.builder().withGrade(seniorDeveloper).withCategory(bear).build();
+        final SkillDTO tenth = SkillDTO.builder().withGrade(seniorDeveloper).withCategory(bear).build();
+        final SkillDTO eleventh = SkillDTO.builder().withGrade(null).withCategory(null).build();
 
 
         final List<SkillDTO> skills = Arrays.asList(third, eleventh, seventh, second, fifth, eighth, tenth, first, ninth, fourth, sixth);

@@ -15,9 +15,7 @@ type Query {
 
 type SkillDTO {
   id: ID!
-  topic: String!
   description: String!
-  examples: String
   category: Category!
   grade: Grade!
   crafts: [Craft!]
@@ -30,11 +28,14 @@ type Category {
 }
 
 enum CategoryTitle {
-  technical,
   leadership,
   collaboration,
-  consulting,
-  delivery
+  delivery,
+  developmentPractices,
+  infrastructureAndAutomation,
+  programming,
+  security,
+  softwareDesign
 }
 
 type Craft {

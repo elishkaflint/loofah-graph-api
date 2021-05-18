@@ -1,9 +1,7 @@
 query {
     skills {
         id
-        topic
         description
-        examples
         category{id}
         grade{id, title}
         crafts{title}

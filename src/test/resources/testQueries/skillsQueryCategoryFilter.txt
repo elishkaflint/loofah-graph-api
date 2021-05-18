@@ -1,9 +1,7 @@
 query {
-    skills(filter: {categoryTitle: technical}) {
+    skills(filter: {categoryTitle: leadership}) {
         id
-        topic
         description
-        examples
         category{title}
         grade{title}
         crafts{title}
