@@ -14,15 +14,15 @@ A Graph QL API which returns a list of skills
 
 Get a list of skills
 ```
-{
-    skills {
-        id
-        topic
+	skills {
         description
-        examples
-        categoryTitle
+        category {
+            title
+        }
+        grade {
+            title
+        }
     }
-}
 ```
 
 **Example response:**
@@ -32,25 +32,16 @@ Get a list of skills
     "data": {
         "skills": [
             {
-                "id": "1",
-                "title": "title1",
-                "description": "description1",
-                "examples": null,
-                "categoryTitle": "1"
-            },
+                "description": "You write clear stories, bugs and comments which mean they can be picked up by other engineers",
+                "category": {
+                    "title": "collaboration"
+                },
+                "grade": {
+                    "title": "analystDeveloper"
+                }
+            }
             {
-                "id": "2",
-                "title": "title2",
-                "description": "description2",
-                "examples": null,
-                "categoryTitle": "1"
-            },
-            {
-                "id": "3",
-                "title": "title3",
-                "description": "description3",
-                "examples": null,
-                "categoryTitle": "2"
+                ...
             }
         ]
     },

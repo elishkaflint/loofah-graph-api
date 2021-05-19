@@ -127,7 +127,7 @@ public class IntegrationTest {
         final LinkedHashMap selectedSkill = objectMapper.convertValue(parsedResponseBody, LinkedHashMap.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("first", selectedSkill.get(DESCRIPTION.key()));
+        assertEquals("a description", selectedSkill.get(DESCRIPTION.key()));
     }
 
     @Test
@@ -142,7 +142,7 @@ public class IntegrationTest {
     }
 
     @Test
-    public void returns_all_seeded_skills_ordered_by_grade_then_category_then_title() throws IOException {
+    public void returns_all_seeded_skills_ordered_by_grade_then_category_then_alphabetical_description() throws IOException {
 
         final ResponseEntity<String> response = callAPI(skillsQueryNoFilter);
 
@@ -152,10 +152,10 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(DatabaseSeeder.SKILLS.size(), allSkills.size());
-        assertEquals("first", allSkills.get(0).get(DESCRIPTION.key()));
-        assertEquals("second", allSkills.get(1).get(DESCRIPTION.key()));
-        assertEquals("third", allSkills.get(2).get(DESCRIPTION.key()));
-        assertEquals("fourth", allSkills.get(3).get(DESCRIPTION.key()));
+        assertEquals("a description", allSkills.get(0).get(DESCRIPTION.key()));
+        assertEquals("b description", allSkills.get(1).get(DESCRIPTION.key()));
+        assertEquals("c description", allSkills.get(2).get(DESCRIPTION.key()));
+        assertEquals("d description", allSkills.get(3).get(DESCRIPTION.key()));
     }
 
     @Test
@@ -169,7 +169,7 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForCategory.forEach(skill -> {
-            assertSkillHasCategoryWithTitle(skill, "technical");
+            assertSkillHasCategoryWithTitle(skill, "leadership");
         });
     }
 
@@ -214,7 +214,7 @@ public class IntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         selectedSkillsForCategoryAndGrade.forEach(skill -> {
-            assertSkillHasCategoryWithTitle(skill, "technical");
+            assertSkillHasCategoryWithTitle(skill, "leadership");
             assertSkillHasGradeWithTitles(skill, Collections.singletonList("developer"));
             assertSkillHasCraftsWithTitles(skill, Collections.singletonList("mobile"));
         });

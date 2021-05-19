@@ -93,7 +93,7 @@ public class SkillServiceTest {
         final Category expectedCategory = getDefaultCategoryBuilder().build();
         final Grade expectedGrade = getDefaultGradeBuilder().build();
         final Craft expectedCraft = getDefaultCraftBuilder().build();
-        final List<Skill> unorderedSkills = asList(getDefaultSkillBuilder().withTopic("Z").build(), getDefaultSkillBuilder().withTopic("A").build());
+        final List<Skill> unorderedSkills = asList(getDefaultSkillBuilder().build(), getDefaultSkillBuilder().build());
         final List<SkillDTO> orderedSkillDTOs = unorderedSkills.stream()
                 .map(skill -> new SkillDTO(skill, expectedCategory, expectedGrade, Collections.singletonList(expectedCraft)))
                 .sorted()
