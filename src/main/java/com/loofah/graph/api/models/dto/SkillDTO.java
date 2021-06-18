@@ -18,18 +18,24 @@ public class SkillDTO implements Comparable<SkillDTO> {
 
     @Id
     private final String id;
+    private final String headline;
     private final String description;
+    private final List<String> examples;
     private final Category category;
     private final Grade grade;
     private final List<Craft> crafts;
 
     public SkillDTO(final String id,
+                    final String headline,
                     final String description,
+                    final List<String> examples,
                     final Category category,
                     final Grade grade,
                     final List<Craft> crafts) {
         this.id = id;
+        this.headline = headline;
         this.description = description;
+        this.examples = examples;
         this.category = category;
         this.grade = grade;
         this.crafts = crafts;
@@ -37,7 +43,9 @@ public class SkillDTO implements Comparable<SkillDTO> {
 
     public SkillDTO(final Skill skill, final Category category, final Grade grade, List<Craft> crafts) {
         this.id = skill.getId();
+        this.headline = skill.getHeadline();
         this.description = skill.getDescription();
+        this.examples = skill.getExamples();
         this.category = category;
         this.grade = grade;
         this.crafts = crafts;
@@ -51,8 +59,16 @@ public class SkillDTO implements Comparable<SkillDTO> {
         return id;
     }
 
+    public String getHeadline() {
+        return headline;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public List<String> getExamples() {
+        return examples;
     }
 
     public Category getCategory() {
@@ -71,7 +87,9 @@ public class SkillDTO implements Comparable<SkillDTO> {
     public String toString() {
         return "SkillDTO{" +
                 "id='" + id + '\'' +
+                ", headline='" + headline + '\'' +
                 ", description='" + description + '\'' +
+                ", examples='" + examples + '\'' +
                 ", category=" + category +
                 ", grade='" + grade + '\'' +
                 ", crafts=" + crafts +
@@ -84,7 +102,9 @@ public class SkillDTO implements Comparable<SkillDTO> {
         if (o == null || getClass() != o.getClass()) return false;
         final SkillDTO skillDTO = (SkillDTO) o;
         return Objects.equals(id, skillDTO.id) &&
+                Objects.equals(headline, skillDTO.headline) &&
                 Objects.equals(description, skillDTO.description) &&
+                Objects.equals(examples, skillDTO.examples) &&
                 Objects.equals(category, skillDTO.category) &&
                 Objects.equals(grade, skillDTO.grade) &&
                 Objects.equals(crafts, skillDTO.crafts);
@@ -92,7 +112,7 @@ public class SkillDTO implements Comparable<SkillDTO> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, category, grade, crafts);
+        return Objects.hash(id, headline, description, examples, category, grade, crafts);
     }
 
     // Compares two SkillDTOs first by grade, then by category, then by title (alphabetical order). See the Grade and
@@ -112,7 +132,9 @@ public class SkillDTO implements Comparable<SkillDTO> {
     public enum SkillDTOFields {
 
         ID("id"),
+        HEADLINE("headline"),
         DESCRIPTION("description"),
+        EXAMPLES("examples"),
         CATEGORY("category"),
         GRADE("grade"),
         CRAFTS("crafts");
@@ -131,7 +153,9 @@ public class SkillDTO implements Comparable<SkillDTO> {
     public static class SkillDTOBuilder {
 
         private String id;
+        private String headline;
         private String description;
+        private List<String> examples;
         private Category category;
         private Grade grade;
         private List<Craft> crafts;
@@ -141,8 +165,18 @@ public class SkillDTO implements Comparable<SkillDTO> {
             return this;
         }
 
+        public SkillDTOBuilder withHeadline(final String headline) {
+            this.headline = headline;
+            return this;
+        }
+
         public SkillDTOBuilder withDescription(final String description) {
             this.description = description;
+            return this;
+        }
+
+        public SkillDTOBuilder withExamples(final List<String> examples) {
+            this.examples = examples;
             return this;
         }
 
@@ -162,7 +196,7 @@ public class SkillDTO implements Comparable<SkillDTO> {
         }
 
         public SkillDTO build() {
-            return new SkillDTO(this.id, this.description, this.category, this.grade, this.crafts);
+            return new SkillDTO(this.id, this.headline, this.description, this.examples, this.category, this.grade, this.crafts);
         }
 
     }
