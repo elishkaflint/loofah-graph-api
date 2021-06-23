@@ -8,18 +8,24 @@ public class Skill {
 
     @Id
     private final String id;
+    private final String headline;
     private final String description;
+    private final List<String> examples;
     private final String categoryTitle;
     private final String gradeTitle;
     private final List<String> craftTitles;
 
     public Skill(final String id,
+                 final String headline,
                  final String description,
+                 final List<String> examples,
                  final String categoryTitle,
                  final String gradeTitle,
                  final List<String> craftTitles) {
         this.id = id;
+        this.headline = headline;
         this.description = description;
+        this.examples = examples;
         this.categoryTitle = categoryTitle;
         this.gradeTitle = gradeTitle;
         this.craftTitles = craftTitles;
@@ -31,6 +37,14 @@ public class Skill {
 
     public String getId() {
         return id;
+    }
+
+    public String getHeadline() {
+        return headline;
+    }
+
+    public List<String> getExamples() {
+        return examples;
     }
 
     public String getDescription() {
@@ -53,7 +67,9 @@ public class Skill {
     public String toString() {
         return "Skill{" +
                 "id='" + id + '\'' +
+                ", headline='" + headline + '\'' +
                 ", description='" + description + '\'' +
+                ", examples='" + examples + '\'' +
                 ", categoryTitle='" + categoryTitle + '\'' +
                 ", gradeTitle='" + gradeTitle + '\'' +
                 ", craftTitles=" + craftTitles +
@@ -63,7 +79,9 @@ public class Skill {
     public static class SkillBuilder {
 
         private String id;
+        private String headline;
         private String description;
+        private List<String> examples;
         private String categoryTitle;
         private String gradeTitle;
         private List<String> craftTitles;
@@ -73,8 +91,18 @@ public class Skill {
             return this;
         }
 
+        public SkillBuilder withHeadline(final String headline) {
+            this.headline = headline;
+            return this;
+        }
+
         public SkillBuilder withDescription(final String description) {
             this.description = description;
+            return this;
+        }
+
+        public SkillBuilder withExamples(final List<String> examples) {
+            this.examples = examples;
             return this;
         }
 
@@ -94,7 +122,7 @@ public class Skill {
         }
 
         public Skill build() {
-            return new Skill(this.id, this.description, this.categoryTitle, this.gradeTitle, this.craftTitles);
+            return new Skill(this.id, this.headline, this.description, this.examples, this.categoryTitle, this.gradeTitle, this.craftTitles);
         }
 
     }
